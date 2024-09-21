@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Attack info")]
+    public Vector2[] attackMoveMent;
 
     [Header("Move info")]
     public float moveSpeed = 3.80f;
@@ -26,6 +28,14 @@ public class Player : MonoBehaviour
     public bool facingRight = true;
 
 
+    #region Mutiplier info
+
+    public float airMoveMutiplier = .8f;
+    public float wallSlideMutiplier = .7f;
+    public float wallJumpMutiplier = 1.1f;
+
+    #endregion
+
     #region Component
 
     public Animator anim {get ;private set;}
@@ -35,7 +45,6 @@ public class Player : MonoBehaviour
 
     public PlayerStateMachine stateMachine {  get; private set; }
 
-
     #region State
 
     public PlayerIdleState idleState { get; private set; }
@@ -43,8 +52,12 @@ public class Player : MonoBehaviour
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerDashState dashState { get; private set; }
+    public PlayerWallSlideState wallSlide { get; private set; }
+    public PlayerWallJumpState wallJump { get; private set; }
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
 
     #endregion
+
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -54,6 +67,9 @@ public class Player : MonoBehaviour
         jumpState = new PlayerJumpState(this , stateMachine , "Jump");
         airState = new PlayerAirState(this , stateMachine , "Jump");
         dashState = new PlayerDashState(this , stateMachine , "Dash");
+        wallSlide = new PlayerWallSlideState(this , stateMachine , "WallSlide");
+        wallJump = new PlayerWallJumpState(this , stateMachine , "Jump");
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
     }
 
     private void Start()
@@ -73,11 +89,16 @@ public class Player : MonoBehaviour
         CheckDashInput();
     }
 
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
     private void CheckDashInput()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0)
         {
             dashDir = Input.GetAxisRaw("Horizontal");
+
+            if(dashDir == 0)
+                dashDir = facingDir;
 
             dashTimer = dashCoolDown;
             stateMachine.ChangeState(dashState);
@@ -86,12 +107,12 @@ public class Player : MonoBehaviour
 
 
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position,Vector2.down , groundCheckDistance , whatIsGround);
-    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance , whatIsGround);
+    public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance , whatIsGround);
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
     }
 
     #region Flip

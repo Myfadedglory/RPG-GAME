@@ -22,7 +22,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
-        if(xInput != 0)
+        if(! (xInput == 0 || (xInput == player.facingDir) && player.IsWallDetected()))
             stateMachine.ChangeState(player.moveState);
     }
 }
