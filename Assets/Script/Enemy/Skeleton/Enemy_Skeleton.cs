@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class Enemy_Skeleton : Enemy
 {
-    public SkeletonIdleState skeletonIdleState {  get; private set; }
+    public SkeletonIdleState idleState {  get; private set; }
+    public SkeletonMoveState moveState { get; private set; }
+    public SkeletonBattleState battleState { get; private set; }
+    public SkeletonAttackState attackState { get; private set; }
+
+    [Header("Move info")]
+    public float skeletonMoveSpeed = 2.0f;
+    public float idleTime = 1f;
+    public float speedMutipulier = 1.5f;    //检测到玩家后加速倍率
+
 
     protected override void Awake()
     {
         base.Awake();
-        skeletonIdleState = new SkeletonIdleState(this , stateMachine , "Idle");
+        idleState = new SkeletonIdleState(this , stateMachine , "Idle" , this);
+        moveState = new SkeletonMoveState(this , stateMachine , "Move" , this);
+        battleState = new SkeletonBattleState(this , stateMachine , "Move" , this);
+        attackState = new SkeletonAttackState(this , stateMachine , "Attack" , this);
     }
 
     protected override void Start()
     {
         base.Start();
-        stateMachine.Initialize(skeletonIdleState);
+        stateMachine.Initialize(idleState);
     }
 
     protected override void Update()

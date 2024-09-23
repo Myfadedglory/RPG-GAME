@@ -65,7 +65,10 @@
     <Compile Include="Assets\Script\Player\PlayerState.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallSlideState.cs" />
+    <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonAttackState.cs" />
+    <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonBattleState.cs" />
     <Compile Include="Assets\Script\Player\PlayerMoveState.cs" />
+    <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonMoveState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonIdleState.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
     <Compile Include="Assets\Script\Player\PlayerGroundedState.cs" />
@@ -73,11 +76,13 @@
     <Compile Include="Assets\Script\Player\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Script\Player\PlayerPrimaryAttack.cs" />
     <Compile Include="Assets\Script\Player\PlayerJumpState.cs" />
+    <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonGroundedState.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Player\PlayerStateMachine.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStateMachine.cs" />
     <Compile Include="Assets\Script\Player\PlayerAirState.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
   </ItemGroup>
@@ -990,10 +995,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Flow.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
       <Private>False</Private>
@@ -1002,12 +1003,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.Common.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
+    <Reference Include="Unity.VisualScripting.Flow.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    <Reference Include="Unity.2D.Common.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Extras.Editor">
@@ -1016,6 +1017,10 @@
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
@@ -1070,16 +1075,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">

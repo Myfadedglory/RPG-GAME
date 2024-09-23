@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    [Header("Detected info")]
+    [SerializeField] protected LayerMask whatIsPlayer;
+    [SerializeField] protected float playerDetectedDistance;
+
+    [Header("Attack info")]
+    public float attackDistance;
+
     public EnemyStateMachine stateMachine { get; protected set;}
 
     protected override void Awake()
@@ -23,4 +30,15 @@ public class Enemy : Entity
         stateMachine.currentState.Update();
     }
 
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, playerDetectedDistance, whatIsPlayer);
+
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
+    }
 }
