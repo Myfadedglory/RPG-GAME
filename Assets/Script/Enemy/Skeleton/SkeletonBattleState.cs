@@ -29,21 +29,44 @@ public class SkeletonBattleState : EnemyState
     {
         base.Update();
 
-        if(enemy.IsPlayerDetected())
-        {
-            if(enemy.IsPlayerDetected().distance < enemy.attackDistance )
-            {
-                stateMachine.ChangeState(enemy.attackState);
-                enemy.SetXZeroVerlocity();
-                return;
-            }
-        }
+        AttackLogic();
 
         if (player.position.x > enemy.transform.position.x)
             moveDir = 1;
-        else if(player.position.x < enemy.transform.position.x)
+        else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
 
-        enemy.SetVelocity(enemy.skeletonMoveSpeed * moveDir * enemy.speedMutipulier,rb.velocity . y);
+        enemy.SetVelocity(enemy.skeletonMoveSpeed * moveDir * enemy.speedMutipulier, rb.velocity.y);
+    }
+
+    private void AttackLogic()
+    {
+        if (enemy.IsPlayerDetected())
+        {
+            stateTimer = enemy.battleTime;
+
+            if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
+            {
+                enemy.SetXZeroVerlocity();
+                if (CanAttack())
+                    stateMachine.ChangeState(enemy.attackState);
+                return;
+            }
+        }
+        else
+        {
+            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.hatredDistance)
+                stateMachine.ChangeState(enemy.idleState);
+        }
+    }
+
+    private bool CanAttack()
+    {
+        if(Time.time > enemy.lastTimeAttacked + enemy.attackCoolDown)
+        {
+            enemy.lastTimeAttacked = Time.time;
+            return true;
+        }
+        return false;
     }
 }

@@ -9,10 +9,16 @@ public class Enemy_Skeleton : Enemy
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }
 
-    [Header("Move info")]
+    [Header("Move Info")]
     public float skeletonMoveSpeed = 2.0f;
     public float idleTime = 1f;
     public float speedMutipulier = 1.5f;    //检测到玩家后加速倍率
+
+    [Header("Skeleton Attack Info")]
+    public float battleTime = 6f;
+    public float attackCoolDown;
+    [HideInInspector] public float lastTimeAttacked;
+    public float minDetectedDistance = 2f;
 
 
     protected override void Awake()

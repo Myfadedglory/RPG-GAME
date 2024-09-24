@@ -15,7 +15,7 @@ public class Player : Entity
     public float dashSpeed = 25;
     public float dashDuration = .2f;
     private float dashTimer = 0;
-    public float dashDir {  get; private set; }
+    public float dashDir { get; private set; }
 
     #region Mutiplier info
 
@@ -25,7 +25,7 @@ public class Player : Entity
 
     #endregion
 
-    public PlayerStateMachine stateMachine {  get; private set; }
+    public PlayerStateMachine stateMachine { get; private set; }
 
     #region State
 
@@ -45,13 +45,13 @@ public class Player : Entity
         base.Awake();
         stateMachine = new PlayerStateMachine();
 
-        idleState = new PlayerIdleState(this , stateMachine , "Idle");
-        moveState = new PlayerMoveState(this , stateMachine , "Move");
-        jumpState = new PlayerJumpState(this , stateMachine , "Jump");
-        airState = new PlayerAirState(this , stateMachine , "Jump");
-        dashState = new PlayerDashState(this , stateMachine , "Dash");
-        wallSlide = new PlayerWallSlideState(this , stateMachine , "WallSlide");
-        wallJump = new PlayerWallJumpState(this , stateMachine , "Jump");
+        idleState = new PlayerIdleState(this, stateMachine, "Idle");
+        moveState = new PlayerMoveState(this, stateMachine, "Move");
+        jumpState = new PlayerJumpState(this, stateMachine, "Jump");
+        airState = new PlayerAirState(this, stateMachine, "Jump");
+        dashState = new PlayerDashState(this, stateMachine, "Dash");
+        wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
+        wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
     }
 
@@ -75,11 +75,11 @@ public class Player : Entity
 
     private void CheckDashInput()
     {
-        if(Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0)
         {
             dashDir = Input.GetAxisRaw("Horizontal");
 
-            if(dashDir == 0)
+            if (dashDir == 0)
                 dashDir = facingDir;
 
             dashTimer = dashCoolDown;

@@ -8405,9 +8405,14 @@ MonoBehaviour:
     m_Bits: 64
   playerDetectedDistance: 50
   attackDistance: 1.5
+  hatredDistance: 10
   skeletonMoveSpeed: 2
   idleTime: 1
-  speedMutipulier: 1.5
+  speedMutipulier: 1.2
+  battleTime: 6
+  attackCoolDown: 0.5
+  lastTimeAttacked: 0
+  minDetectedDistance: 2
 --- !u!1 &1874849043
 GameObject:
   m_ObjectHideFlags: 0

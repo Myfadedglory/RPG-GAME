@@ -10,6 +10,7 @@ public class Enemy : Entity
 
     [Header("Attack info")]
     public float attackDistance;
+    public float hatredDistance = 15f;  //³ğºŞ¾àÀë
 
     public EnemyStateMachine stateMachine { get; protected set;}
 
