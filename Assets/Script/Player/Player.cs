@@ -17,6 +17,9 @@ public class Player : Entity
     private float dashTimer = 0;
     public float dashDir { get; private set; }
 
+    [Header("Hit info")]
+    public float hitDuration = 0.2f;
+
     #region Mutiplier info
 
     public float airMoveMutiplier = .8f;
@@ -37,6 +40,7 @@ public class Player : Entity
     public PlayerWallSlideState wallSlide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
+    public PlayerHitState hitState { get; private set; }
 
     #endregion
 
@@ -53,6 +57,7 @@ public class Player : Entity
         wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
+        hitState = new PlayerHitState(this, stateMachine, "Hit");
     }
 
     protected override void Start()
@@ -69,6 +74,12 @@ public class Player : Entity
         dashTimer -= Time.deltaTime;
 
         CheckDashInput();
+    }
+
+    public override void Damage(int attackedDir)
+    {
+        base.Damage(attackedDir);
+        stateMachine.ChangeState(hitState);
     }
 
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();

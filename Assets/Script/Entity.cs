@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    [Header("Collision Check")]
+    [Header("Collision info")]
+    public Transform attackCheck;
+    public float attackCheckDistance;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float wallCheckDistance;
 
+    [Header("Knockback info")]
+    [SerializeField] protected Vector2 knockbackDirection;
+    [SerializeField] protected float knockbackDuration = 0.07f;
+    protected bool isKnocked;
+
     #region Component
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    public EntityFX fx { get; private set; }
 
     #endregion
 
@@ -30,11 +38,32 @@ public class Entity : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        fx = GetComponentInChildren<EntityFX>();
     }
 
     protected virtual void Update()
     {
 
+    }
+
+    public virtual void Damage(int attackDir)
+    {
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine(HitKnockback(attackDir));
+        Debug.Log(gameObject.name + " was damage");
+    }
+
+    protected virtual IEnumerator HitKnockback(int attackDir)
+    {
+        isKnocked = true;
+
+        rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
+
+        yield return new WaitForSeconds(knockbackDuration);
+
+        SetZeroVerlocity();
+
+        isKnocked = false;
     }
 
     #region Collision
@@ -46,6 +75,7 @@ public class Entity : MonoBehaviour
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckDistance);
     }
 
     #endregion
@@ -79,6 +109,9 @@ public class Entity : MonoBehaviour
 
     public virtual void SetVelocity(float _xVelocity, float _yVelocity)
     {
+        if(isKnocked)
+            return;
+
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }

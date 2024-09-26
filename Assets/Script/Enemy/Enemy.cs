@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
+    Enemy_Skeleton enemy;
+
     [Header("Detected info")]
     [SerializeField] protected LayerMask whatIsPlayer;
     [SerializeField] protected float playerDetectedDistance;
@@ -31,9 +33,34 @@ public class Enemy : Entity
         stateMachine.currentState.Update();
     }
 
+    public override void Damage(int attackDir)
+    {
+        base.Damage(attackDir);
+    }
+
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
-    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, playerDetectedDistance, whatIsPlayer);
+    public virtual RaycastHit2D IsPlayerDetected()
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(wallCheck.position, Vector2.right * facingDir, playerDetectedDistance, whatIsPlayer | whatIsGround);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsGround) != 0)
+            {
+                return new RaycastHit2D();
+            }
+
+            if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
+            {
+                return hit;
+            }
+        }
+
+        return new RaycastHit2D();
+    }
+
+
 
 
     protected override void OnDrawGizmos()

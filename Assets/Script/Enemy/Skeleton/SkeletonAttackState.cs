@@ -14,23 +14,22 @@ public class SkeletonAttackState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        enemy.SetXZeroVerlocity();
     }
 
     public override void Exit()
     {
         base.Exit();
-
-       enemy.lastTimeAttacked = Time.time;
+        enemy.lastTimeAttacked = Time.time;
     }
 
     public override void Update()
     {
         base.Update();
-        if(enemy.IsPlayerDetected().distance > enemy.attackDistance)
+        if (enemy.IsPlayerDetected().distance > enemy.attackDistance)
             stateMachine.ChangeState(enemy.battleState);
 
+
         if (triggerCalled)
-            stateMachine.ChangeState(enemy.battleState);
+                stateMachine.ChangeState(enemy.battleState);
     }
 }
