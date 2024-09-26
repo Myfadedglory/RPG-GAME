@@ -14,6 +14,12 @@ public class Enemy : Entity
     public float attackDistance;
     public float hatredDistance = 15f;  //³ðºÞ¾àÀë
 
+    [Header("Stun info")]
+    public float stunDuration;
+    public Vector2 stunDirection;
+    protected bool canBeStun;
+    [SerializeField] protected GameObject counterImage;
+
     public EnemyStateMachine stateMachine { get; protected set;}
 
     protected override void Awake()
@@ -31,6 +37,28 @@ public class Enemy : Entity
     {
         base.Update();
         stateMachine.currentState.Update();
+    }
+
+    public virtual void OpenCounterAttackWindow()
+    {
+        canBeStun = true;
+        counterImage.SetActive(true);
+    }
+
+    public virtual void CloseCounterAttackWindow()
+    {
+        canBeStun = false;
+        counterImage.SetActive(false);
+    }
+
+    public virtual bool CanBeStun()
+    {
+        if (canBeStun)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
     }
 
     public override void Damage(int attackDir)

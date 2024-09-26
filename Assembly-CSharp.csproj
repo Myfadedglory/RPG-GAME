@@ -81,6 +81,7 @@
     <Compile Include="Assets\Script\Player\PlayerJumpState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonGroundedState.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
+    <Compile Include="Assets\Script\Player\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Player\PlayerStateMachine.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStateMachine.cs" />

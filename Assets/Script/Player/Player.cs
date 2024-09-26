@@ -20,6 +20,9 @@ public class Player : Entity
     [Header("Hit info")]
     public float hitDuration = 0.2f;
 
+    [Header("Counter Attack info")]
+    public float counterAttackDuration;
+
     #region Mutiplier info
 
     public float airMoveMutiplier = .8f;
@@ -41,6 +44,7 @@ public class Player : Entity
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerPrimaryAttack primaryAttack { get; private set; }
     public PlayerHitState hitState { get; private set; }
+    public PlayerCounterAttackState counterAttack { get; private set; }
 
     #endregion
 
@@ -58,6 +62,7 @@ public class Player : Entity
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
         hitState = new PlayerHitState(this, stateMachine, "Hit");
+        counterAttack = new PlayerCounterAttackState(this, stateMachine, "Counter");
     }
 
     protected override void Start()

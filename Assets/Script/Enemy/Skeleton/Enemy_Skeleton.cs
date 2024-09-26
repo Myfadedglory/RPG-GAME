@@ -26,10 +26,6 @@ public class Enemy_Skeleton : Enemy
     [Header("Hit info")]
     public float hitDuration = 0.2f;
 
-    [Header("Stun info")]
-    public float stunDuration = 1f;
-    public Vector2 stunDirection;
-
     protected override void Awake()
     {
         base.Awake();
@@ -57,6 +53,16 @@ public class Enemy_Skeleton : Enemy
     {
         base.Damage(attackDir);
         stateMachine.ChangeState(hitState);
+    }
+
+    public override bool CanBeStun()
+    {
+        if(base.CanBeStun())
+        {
+            stateMachine.ChangeState(stunState);
+            return true;
+        }
+        return false;
     }
 
 }
