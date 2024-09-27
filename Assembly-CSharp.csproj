@@ -60,9 +60,9 @@
     <Analyzer Include="D:\unity\2022.3.42f1c1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerDashState.cs" />
     <Compile Include="Assets\Script\Player\PlayerIdleState.cs" />
+    <Compile Include="Assets\Script\Skill\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerState.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallSlideState.cs" />
@@ -72,8 +72,10 @@
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonMoveState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonStunState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
+    <Compile Include="Assets\Script\Skill\SkillManger.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonIdleState.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
+    <Compile Include="Assets\Script\Skill\Skill.cs" />
     <Compile Include="Assets\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Player\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyState.cs" />
@@ -90,9 +92,7 @@
     <Compile Include="Assets\Script\Player\PlayerStateMachine.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyStateMachine.cs" />
-    <Compile Include="Assets\Script\SkillManger.cs" />
     <Compile Include="Assets\Script\Player\PlayerAirState.cs" />
-    <Compile Include="Assets\Script\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerHitState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
