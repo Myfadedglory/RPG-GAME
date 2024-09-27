@@ -91,14 +91,16 @@ public class Player : Entity
 
     private void CheckDashInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0)
+        if(IsWallDetected()) 
+            return;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManger.instance.dash.CanUseSkill())
         {
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
                 dashDir = facingDir;
 
-            dashTimer = dashCoolDown;
             stateMachine.ChangeState(dashState);
         }
     }
