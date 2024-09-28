@@ -20,14 +20,6 @@ public class Enemy : Entity
     protected bool canBeStun;
     [SerializeField] protected GameObject counterImage;
 
-    public EnemyStateMachine stateMachine { get; protected set;}
-
-    protected override void Awake()
-    {
-        base.Awake();
-        stateMachine = new EnemyStateMachine();
-    }
-
     protected override void Start()
     {
         base.Start();
@@ -36,7 +28,7 @@ public class Enemy : Entity
     protected override void Update()
     {
         base.Update();
-        stateMachine.currentState.Update();
+        fsm.currentState.Update();
     }
 
     public virtual void OpenCounterAttackWindow()
@@ -66,7 +58,7 @@ public class Enemy : Entity
         base.Damage(attackDir);
     }
 
-    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected()
     {

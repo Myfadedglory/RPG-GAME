@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class FSM : MonoBehaviour
+public class FSM
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public IState currentState { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchState(IState newState)
     {
-        
+        var lastState = currentState;
+        lastState?.Exit(newState);
+        currentState = newState;
+        newState.Enter(lastState);
     }
 }

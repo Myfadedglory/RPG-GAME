@@ -2,44 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyState 
+public class EnemyState : EntityState<Enemy>
 {
-    protected EnemyStateMachine stateMachine;
     protected Enemy enemyBase;
 
-    protected Rigidbody2D rb;
-
-    private string animBoolName;
-
-    protected float stateTimer;
-    protected bool triggerCalled;
-
-    public EnemyState(Enemy _enemyBase , EnemyStateMachine _stateMachine , string _animBoolName)
+    public EnemyState(Enemy entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
-        this.enemyBase = _enemyBase;
-        this.stateMachine = _stateMachine;
-        this.animBoolName = _animBoolName;
     }
 
-    public virtual void Enter()
+
+    public override void AnimationFinishTrigger()
     {
-        triggerCalled = false;
-        enemyBase.anim.SetBool(animBoolName , true);
-        rb = enemyBase.rb;
+        base.AnimationFinishTrigger();
     }
 
-    public virtual void Update()
+    public override void Enter(IState lastState)
     {
-        stateTimer -= Time.deltaTime;
+        base.Enter(lastState);
     }
 
-    public virtual void Exit()
+    public override void Exit(IState newState)
     {
-        enemyBase.anim.SetBool(animBoolName , false);
+        base.Exit(newState);
     }
 
-    public virtual void AnimationFinishTrigger()
+    public override void Update()
     {
-        triggerCalled = true;
+        base.Update();
     }
 }

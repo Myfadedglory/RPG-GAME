@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerGroundedState
+public class SkeletonState : EnemyState
 {
-    public PlayerMoveState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    protected Enemy_Skeleton enemy;
+    public SkeletonState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName)
     {
+        this.enemy = _enemy;
     }
 
     public override void Enter(IState lastState)
@@ -21,10 +23,5 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-
-        entity.SetVelocity(xInput * entity.moveSpeed, rb.velocity.y);
-
-        if (xInput == 0 || entity.IsWallDetected())
-            fsm.SwitchState(entity.idleState);
     }
 }

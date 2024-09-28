@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
 {
-    public PlayerCounterAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerCounterAttackState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
-        stateTimer = player.counterAttackDuration;
-        player.anim.SetBool("CounterSuccess", false);
+        base.Enter(lastState);
+        stateTimer = entity.counterAttackDuration;
+        entity.anim.SetBool("CounterSuccess", false);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
 
-        player.SetZeroVerlocity();
+        entity.SetZeroVelocity();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckDistance);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
 
         foreach (var hit in colliders)
         {
@@ -34,11 +34,11 @@ public class PlayerCounterAttackState : PlayerState
                 if (hit.GetComponent<Enemy>().CanBeStun())
                 {
                     stateTimer = 10;    //无意义，只是一个比较大的值
-                    player.anim.SetBool("CounterSuccess", true);
+                    entity.anim.SetBool("CounterSuccess", true);
                 }
         }
 
-        if (stateTimer < 0 || triggerCalled)
-            stateMachine.ChangeState(player.idleState);
+        if (stateTimer < 0 || isAnimationFinished)
+            fsm.SwitchState(entity.idleState);
     }
 }

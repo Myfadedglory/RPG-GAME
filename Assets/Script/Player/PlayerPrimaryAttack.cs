@@ -9,27 +9,26 @@ public class PlayerPrimaryAttack : PlayerState
     private float lastTimeAttacked;
     private float comboWindow = 2;
 
-    public PlayerPrimaryAttack(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerPrimaryAttack(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
-
+        base.Enter(lastState);
         stateTimer = .1f;
 
-        if(comboCounter > 2 || Time.time >= lastTimeAttacked +  comboWindow)
+        if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
             comboCounter = 0;
 
-        player.SetVelocity(player.attackMoveMent[comboCounter].x * player.facingDir, player.attackMoveMent[comboCounter].y);
+        entity.SetVelocity(entity.attackMoveMent[comboCounter].x * entity.facingDir, entity.attackMoveMent[comboCounter].y);
 
-        player.anim.SetInteger("ComboCounter" , comboCounter);
+        entity.anim.SetInteger("ComboCounter", comboCounter);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
 
         comboCounter++;
 
@@ -40,9 +39,9 @@ public class PlayerPrimaryAttack : PlayerState
     {
         base.Update();
         if(stateTimer <  0)
-            player.SetZeroVerlocity();
+            entity.SetZeroVelocity();
 
-        if(triggerCalled) 
-            stateMachine.ChangeState(player.idleState);
+        if(isAnimationFinished) 
+            fsm.SwitchState(entity.idleState);
     }
 }

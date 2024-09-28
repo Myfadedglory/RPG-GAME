@@ -2,30 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonHitState : EnemyState
+public class SkeletonHitState : SkeletonState
 {
-    private Enemy_Skeleton enemy;
-
-    public SkeletonHitState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonHitState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
-        this.enemy = _enemy;
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
         stateTimer = enemy.hitDuration;
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
-        if (triggerCalled)
-            stateMachine.ChangeState(enemy.idleState);
+        if (isAnimationFinished)
+            fsm.SwitchState(enemy.idleState);
     }
 }

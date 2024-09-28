@@ -4,35 +4,34 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    public PlayerGroundedState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerGroundedState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if(Input.GetKeyDown(KeyCode.Q))
-            stateMachine.ChangeState(player.counterAttack);
+        if (Input.GetKeyDown(KeyCode.Q))
+            fsm.SwitchState(entity.counterAttack);
 
         if (Input.GetKey(KeyCode.Mouse0))
-            stateMachine.ChangeState(player.primaryAttack);
+            fsm.SwitchState(entity.primaryAttack);
 
-        if(!player.IsGroundDetected())
-            stateMachine.ChangeState(player.airState);
+        if (!entity.IsGroundDetected())
+            fsm.SwitchState(entity.airState);
 
-        if(Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
-            stateMachine.ChangeState(player.jumpState);
-
+        if (Input.GetKeyDown(KeyCode.Space) && entity.IsGroundDetected())
+            fsm.SwitchState(entity.jumpState);
     }
 }

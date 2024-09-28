@@ -73,6 +73,7 @@
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonStunState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
     <Compile Include="Assets\Script\Skill\SkillManger.cs" />
+    <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonIdleState.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
     <Compile Include="Assets\Script\Skill\Skill.cs" />
@@ -89,9 +90,7 @@
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Player\PlayerCounterAttackState.cs" />
-    <Compile Include="Assets\Script\Player\PlayerStateMachine.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
-    <Compile Include="Assets\Script\Enemy\EnemyStateMachine.cs" />
     <Compile Include="Assets\Script\Player\PlayerAirState.cs" />
     <Compile Include="Assets\Script\Player\PlayerHitState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />

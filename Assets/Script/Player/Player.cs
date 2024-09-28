@@ -31,50 +31,41 @@ public class Player : Entity
 
     #endregion
 
-    public PlayerStateMachine stateMachine { get; private set; }
-
     #region State
 
-    public PlayerIdleState idleState { get; private set; }
-    public PlayerMoveState moveState { get; private set; }
-    public PlayerJumpState jumpState { get; private set; }
-    public PlayerAirState airState { get; private set; }
-    public PlayerDashState dashState { get; private set; }
-    public PlayerWallSlideState wallSlide { get; private set; }
-    public PlayerWallJumpState wallJump { get; private set; }
-    public PlayerPrimaryAttack primaryAttack { get; private set; }
-    public PlayerHitState hitState { get; private set; }
-    public PlayerCounterAttackState counterAttack { get; private set; }
+    public IState idleState { get; private set; }
+    public IState moveState { get; private set; }
+    public IState jumpState { get; private set; }
+    public IState airState { get; private set; }
+    public IState dashState { get; private set; }
+    public IState wallSlide { get; private set; }
+    public IState wallJump { get; private set; }
+    public IState primaryAttack { get; private set; }
+    public IState hitState { get; private set; }
+    public IState counterAttack { get; private set; }
 
     #endregion
-
-    protected override void Awake()
-    {
-        base.Awake();
-        stateMachine = new PlayerStateMachine();
-
-        idleState = new PlayerIdleState(this, stateMachine, "Idle");
-        moveState = new PlayerMoveState(this, stateMachine, "Move");
-        jumpState = new PlayerJumpState(this, stateMachine, "Jump");
-        airState = new PlayerAirState(this, stateMachine, "Jump");
-        dashState = new PlayerDashState(this, stateMachine, "Dash");
-        wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
-        wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
-        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
-        hitState = new PlayerHitState(this, stateMachine, "Hit");
-        counterAttack = new PlayerCounterAttackState(this, stateMachine, "Counter");
-    }
 
     protected override void Start()
     {
         base.Start();
-        stateMachine.Initialize(idleState);
+        idleState = new PlayerIdleState(this, fsm, "Idle");
+        moveState = new PlayerMoveState(this, fsm, "Move");
+        jumpState = new PlayerJumpState(this, fsm, "Jump");
+        airState = new PlayerAirState(this, fsm, "Jump");
+        dashState = new PlayerDashState(this, fsm, "Dash");
+        wallSlide = new PlayerWallSlideState(this, fsm, "WallSlide");
+        wallJump = new PlayerWallJumpState(this, fsm, "Jump");
+        primaryAttack = new PlayerPrimaryAttack(this, fsm, "Attack");
+        hitState = new PlayerHitState(this, fsm, "Hit");
+        counterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
+        fsm.SwitchState(idleState);
     }
 
     protected override void Update()
     {
         base.Update();
-        stateMachine.currentState.Update();
+        fsm.currentState.Update();
 
         dashTimer -= Time.deltaTime;
 
@@ -84,10 +75,10 @@ public class Player : Entity
     public override void Damage(int attackedDir)
     {
         base.Damage(attackedDir);
-        stateMachine.ChangeState(hitState);
+        fsm.SwitchState(hitState);
     }
 
-    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();
 
     private void CheckDashInput()
     {
@@ -101,7 +92,7 @@ public class Player : Entity
             if (dashDir == 0)
                 dashDir = facingDir;
 
-            stateMachine.ChangeState(dashState);
+            fsm.SwitchState(dashState);
         }
     }
 }

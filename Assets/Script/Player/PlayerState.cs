@@ -1,50 +1,38 @@
 using UnityEngine;
 
-public class PlayerState
+public class PlayerState : EntityState<Player>
 {
-    protected PlayerStateMachine stateMachine;
-    protected Player player;
-
-    protected Rigidbody2D rb;
-
     protected float xInput;
     protected float yInput;
-    private string animBoolName;
 
-    protected float stateTimer;
-    protected bool triggerCalled;
-
-    public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
+    public PlayerState(Player player, FSM _fsm, string _animBoolName)
+        : base(player, _fsm, _animBoolName)
     {
-        this.player = _player;
-        this.stateMachine = _stateMachine;
-        this.animBoolName = _animBoolName;
     }
 
-    public virtual void Enter()
+    public override void AnimationFinishTrigger()
     {
-        player.anim.SetBool(animBoolName, true);
-        rb = player.rb;
-        triggerCalled = false;
+        base.AnimationFinishTrigger();
     }
 
-    public virtual void Update()
+    public override void Enter(IState lastState)
     {
-        stateTimer -= Time.deltaTime;
+        base.Enter(lastState); 
+    }
+
+    public override void Exit(IState newState)
+    {
+        base.Exit(newState);
+    }
+
+    public override void Update()
+    {
+        base.Update();
 
         xInput = Input.GetAxisRaw("Horizontal");
         yInput = Input.GetAxisRaw("Vertical");
 
-        player.anim.SetFloat("yVelocity",rb.velocity.y);
+        anim.SetFloat("yVelocity", rb.velocity.y);
     }
 
-    public virtual void Exit()
-    {
-        player.anim.SetBool(animBoolName, false);
-    }
-
-    public virtual void AnimationFinishTrigger()
-    {
-        triggerCalled = true;
-    }
 }

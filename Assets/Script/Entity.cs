@@ -23,27 +23,24 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
+    public FSM fsm { get; private set; }
 
     #endregion
 
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
-    protected virtual void Awake()
-    {
-
-    }
-
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         fx = GetComponentInChildren<EntityFX>();
+        fsm = new FSM();
     }
 
     protected virtual void Update()
     {
-
+        fsm.currentState?.Update();
     }
 
     public virtual void Damage(int attackDir)
@@ -61,7 +58,7 @@ public class Entity : MonoBehaviour
 
         yield return new WaitForSeconds(knockbackDuration);
 
-        SetZeroVerlocity();
+        SetZeroVelocity();
 
         isKnocked = false;
     }
@@ -101,11 +98,11 @@ public class Entity : MonoBehaviour
 
     #region Velocity
 
-    public virtual void SetXZeroVerlocity() => rb.velocity = new Vector2(0, rb.velocity.y);
+    public virtual void SetXZeroVelocity() => rb.velocity = new Vector2(0, rb.velocity.y);
 
-    public virtual void SetYZeroVerlocity() => rb.velocity = new Vector2(rb.velocity.x, 0);
+    public virtual void SetYZeroVelocity() => rb.velocity = new Vector2(rb.velocity.x, 0);
 
-    public virtual void SetZeroVerlocity() => rb.velocity = new Vector2(0, 0);
+    public virtual void SetZeroVelocity() => rb.velocity = new Vector2(0, 0);
 
     public virtual void SetVelocity(float _xVelocity, float _yVelocity)
     {

@@ -2,33 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonGroundedState : EnemyState
+public class SkeletonGroundedState : SkeletonState
 {
-
-    protected Enemy_Skeleton enemy;
 
     protected Transform player;
 
-    public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonGroundedState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
-        this.enemy = _enemy;
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
         player = PlayerManger.instance.player.transform;
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
         if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position , player.position) < enemy.minDetectedDistance) 
-            stateMachine.ChangeState(enemy.battleState);
+            fsm.SwitchState(enemy.battleState);
     }
 }

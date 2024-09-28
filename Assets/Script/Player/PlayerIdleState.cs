@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerIdleState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if(! (xInput == 0 || (xInput == player.facingDir) && player.IsWallDetected()))
-            stateMachine.ChangeState(player.moveState);
+        if (!(xInput == 0 || (xInput == entity.facingDir) && entity.IsWallDetected()))
+            fsm.SwitchState(entity.moveState);
     }
 }

@@ -2,23 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonAttackState : EnemyState
+public class SkeletonAttackState : SkeletonState
 {
-    private Enemy_Skeleton enemy;
-
-    public SkeletonAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonAttackState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
-        this.enemy = _enemy;
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
         enemy.lastTimeAttacked = Time.time;
     }
 
@@ -26,10 +23,10 @@ public class SkeletonAttackState : EnemyState
     {
         base.Update();
         if (enemy.IsPlayerDetected().distance > enemy.attackDistance)
-            stateMachine.ChangeState(enemy.battleState);
+            fsm.SwitchState(enemy.battleState);
 
 
-        if (triggerCalled)
-                stateMachine.ChangeState(enemy.battleState);
+        if (isAnimationFinished)
+          fsm.SwitchState(enemy.battleState);
     }
 }

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class SkeletonMoveState : SkeletonGroundedState
 {
-    public SkeletonMoveState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName , _enemy)
+    public SkeletonMoveState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
@@ -25,7 +25,7 @@ public class SkeletonMoveState : SkeletonGroundedState
         if (!enemy.IsGroundDetected() || enemy.IsWallDetected())
         {
             enemy.Flip();
-            stateMachine.ChangeState(enemy.idleState);
+            fsm.SwitchState(enemy.idleState);
         }
     }
 }

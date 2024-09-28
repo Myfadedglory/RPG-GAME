@@ -5,12 +5,12 @@ using UnityEngine;
 public class Enemy_Skeleton : Enemy
 {
 
-    public SkeletonIdleState idleState {  get; private set; }
-    public SkeletonMoveState moveState { get; private set; }
-    public SkeletonBattleState battleState { get; private set; }
-    public SkeletonAttackState attackState { get; private set; }
-    public SkeletonHitState hitState { get; private set; }
-    public SkeletonStunState stunState { get; private set; }
+    public IState idleState {  get; private set; }
+    public IState moveState { get; private set; }
+    public IState battleState { get; private set; }
+    public IState attackState { get; private set; }
+    public IState hitState { get; private set; }
+    public IState stunState { get; private set; }
 
     [Header("Move Info")]
     public float skeletonMoveSpeed = 2.0f;
@@ -26,40 +26,35 @@ public class Enemy_Skeleton : Enemy
     [Header("Hit info")]
     public float hitDuration = 0.2f;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        idleState = new SkeletonIdleState(this , stateMachine , "Idle" , this);
-        moveState = new SkeletonMoveState(this , stateMachine , "Move" , this);
-        battleState = new SkeletonBattleState(this , stateMachine , "Move" , this);
-        attackState = new SkeletonAttackState(this , stateMachine , "Attack" , this);
-        hitState = new SkeletonHitState(this , stateMachine , "Hit" , this);
-        stunState = new SkeletonStunState(this , stateMachine , "Stun" , this);
-    }
-
     protected override void Start()
     {
         base.Start();
-        stateMachine.Initialize(idleState);
+        idleState = new SkeletonIdleState(this, fsm, "Idle", this);
+        moveState = new SkeletonMoveState(this, fsm, "Move", this);
+        battleState = new SkeletonBattleState(this, fsm, "Move", this);
+        attackState = new SkeletonAttackState(this, fsm, "Attack", this);
+        hitState = new SkeletonHitState(this, fsm, "Hit", this);
+        stunState = new SkeletonStunState(this, fsm, "Stun", this);
+        fsm.SwitchState(idleState);
     }
 
     protected override void Update()
     {
         base.Update();
-        stateMachine.currentState.Update();
+        fsm.currentState.Update();
     }
 
     public override void Damage(int attackDir)
     {
         base.Damage(attackDir);
-        stateMachine.ChangeState(hitState);
+        fsm.SwitchState(hitState);
     }
 
     public override bool CanBeStun()
     {
         if(base.CanBeStun())
         {
-            stateMachine.ChangeState(stunState);
+            fsm.SwitchState(stunState);
             return true;
         }
         return false;

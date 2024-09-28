@@ -4,27 +4,26 @@ using UnityEngine;
 
 public class PlayerWallJumpState : PlayerState
 {
-    public PlayerWallJumpState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerWallJumpState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
+        base.Enter(lastState);
         stateTimer = .4f;
-        player.SetVelocity(player.horizonJumpForce * -player.facingDir / player.wallJumpMutiplier, player.verticalJumpForce * player.wallJumpMutiplier);
+        entity.SetVelocity(entity.horizonJumpForce * - entity.facingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
-
-        if (stateTimer < 0) 
-            stateMachine.ChangeState(player.airState);
+        if (stateTimer < 0)
+            fsm.SwitchState(entity.airState);
     }
 }

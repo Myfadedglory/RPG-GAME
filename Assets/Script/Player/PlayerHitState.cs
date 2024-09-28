@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerState
 {
-    public PlayerHitState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerHitState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
-        stateTimer = player.hitDuration;
+        base.Enter(lastState);
+        stateTimer = entity.hitDuration;
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
     {
         base.Update();
-        if (triggerCalled) 
-            stateMachine.ChangeState(player.idleState);
+        if (isAnimationFinished) 
+            fsm.SwitchState(entity.idleState);
     }
 }

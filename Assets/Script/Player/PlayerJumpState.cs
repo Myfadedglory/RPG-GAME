@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerAirState
 {
-    public PlayerJumpState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerJumpState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
-
-        rb.velocity = new Vector2(rb.velocity.x, player.verticalJumpForce);
+        base.Enter(lastState);
+        rb.velocity = new Vector2(rb.velocity.x, entity.verticalJumpForce);
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
@@ -25,6 +24,6 @@ public class PlayerJumpState : PlayerAirState
         base.Update();
 
         if (rb.velocity.y > 0)
-            stateMachine.ChangeState(player.airState);
+            fsm.SwitchState(entity.airState);
     }
 }

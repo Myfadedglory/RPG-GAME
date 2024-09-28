@@ -2,27 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonBattleState : EnemyState
+public class SkeletonBattleState : SkeletonState
 {
     private Transform player;
-    private Enemy_Skeleton enemy;
     private int moveDir;
 
-    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonBattleState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
-        this.enemy = _enemy;
     }
 
-    public override void Enter()
+    public override void Enter(IState lastState)
     {
-        base.Enter();
-
+        base.Enter(lastState);
         player = PlayerManger.instance.player.transform;
     }
 
-    public override void Exit()
+    public override void Exit(IState newState)
     {
-        base.Exit();
+        base.Exit(newState);
     }
 
     public override void Update()
@@ -35,19 +32,19 @@ public class SkeletonBattleState : EnemyState
 
             if (enemy.IsPlayerDetected().distance <= enemy.attackDistance)
             {
-                enemy.SetXZeroVerlocity();
+                enemy.SetXZeroVelocity();
                 if (CanAttack())
-                    stateMachine.ChangeState(enemy.attackState);
+                    fsm.SwitchState(enemy.attackState);
                 return;
             }
         }
         else
         {
             if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.hatredDistance)
-                stateMachine.ChangeState(enemy.idleState);
+                fsm.SwitchState(enemy.idleState);
         }
 
-        if(stateMachine.currentState != enemy.attackState)
+        if(fsm.currentState != enemy.attackState)
         {
             if (player.position.x > enemy.transform.position.x)
                 moveDir = 1;
