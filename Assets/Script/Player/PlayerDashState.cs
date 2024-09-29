@@ -11,6 +11,9 @@ public class PlayerDashState : PlayerState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
+        entity.skill.clone.CreateClone(entity.transform);
+
         stateTimer = entity.dashDuration;
     }
 

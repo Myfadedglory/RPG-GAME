@@ -26,7 +26,9 @@ public class PlayerGroundedState : PlayerState
             fsm.SwitchState(entity.counterAttack);
 
         if (Input.GetKey(KeyCode.Mouse0))
-            fsm.SwitchState(entity.primaryAttack);
+        {
+            fsm.SwitchState(entity.attackState);
+        }
 
         if (!entity.IsGroundDetected())
             fsm.SwitchState(entity.airState);

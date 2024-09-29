@@ -14,6 +14,7 @@ public class SkeletonBattleState : SkeletonState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+        enemy.CloseCounterImage();
         player = PlayerManger.instance.player.transform;
     }
 

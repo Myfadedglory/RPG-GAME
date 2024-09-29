@@ -21,7 +21,6 @@ public class PlayerMoveState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-
         entity.SetVelocity(xInput * entity.moveSpeed, rb.velocity.y);
 
         if (xInput == 0 || entity.IsWallDetected())

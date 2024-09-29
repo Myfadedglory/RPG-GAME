@@ -65,6 +65,7 @@
     <Compile Include="Assets\Script\Skill\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerState.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Script\Player\PlayerAttackState.cs" />
     <Compile Include="Assets\Script\Player\PlayerWallSlideState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonAttackState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonBattleState.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Assets\Script\Player\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonHitState.cs" />
-    <Compile Include="Assets\Script\Player\PlayerPrimaryAttack.cs" />
     <Compile Include="Assets\Script\PlayerManger.cs" />
     <Compile Include="Assets\Script\Player\PlayerJumpState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\SkeletonGroundedState.cs" />
@@ -91,7 +91,9 @@
     <Compile Include="Assets\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Player\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
+    <Compile Include="Assets\Script\Skill\Clone_Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerAirState.cs" />
+    <Compile Include="Assets\Script\Skill\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\PlayerHitState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />

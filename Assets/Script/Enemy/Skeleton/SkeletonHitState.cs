@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SkeletonHitState : SkeletonState
 {
+
+    private IState previousState;
+
     public SkeletonHitState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
     {
     }

@@ -40,5 +40,8 @@ public class PlayerCounterAttackState : PlayerState
 
         if (stateTimer < 0 || isAnimationFinished)
             fsm.SwitchState(entity.idleState);
+
+        if (!isAnimationFinished && Input.GetKeyDown(KeyCode.Q))
+            return;
     }
 }

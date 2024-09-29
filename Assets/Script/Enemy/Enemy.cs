@@ -80,9 +80,6 @@ public class Enemy : Entity
         return new RaycastHit2D();
     }
 
-
-
-
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

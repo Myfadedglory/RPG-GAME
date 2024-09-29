@@ -24,7 +24,7 @@ public class Enemy_Skeleton : Enemy
     public float minDetectedDistance = 2f;
 
     [Header("Hit info")]
-    public float hitDuration = 0.2f;
+    public float hitDuration = 1f;
 
     protected override void Start()
     {
@@ -58,6 +58,11 @@ public class Enemy_Skeleton : Enemy
             return true;
         }
         return false;
+    }
+
+    public void CloseCounterImage()
+    {
+        counterImage.SetActive(false);
     }
 
 }

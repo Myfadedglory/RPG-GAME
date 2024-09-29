@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyState : EntityState<Enemy>
 {
-    protected Enemy enemyBase;
 
     public EnemyState(Enemy entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {

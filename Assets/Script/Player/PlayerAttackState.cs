@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrimaryAttack : PlayerState
+public class PlayerAttackState : PlayerState
 {
     private int comboCounter;
 
     private float lastTimeAttacked;
     private float comboWindow = 2;
 
-    public PlayerPrimaryAttack(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    public PlayerAttackState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
     {
     }
 
@@ -38,10 +38,17 @@ public class PlayerPrimaryAttack : PlayerState
     public override void Update()
     {
         base.Update();
-        if(stateTimer <  0)
+        if(stateTimer < 0)
             entity.SetZeroVelocity();
 
-        if(isAnimationFinished) 
+        if (isAnimationFinished && !Input.GetKey(KeyCode.Mouse0))
+        {
             fsm.SwitchState(entity.idleState);
+        }
+        
+        if (! isAnimationFinished && Input.GetKey(KeyCode.Mouse0))
+        {
+            return;
+        }
     }
 }

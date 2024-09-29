@@ -14,7 +14,6 @@ public class Player : Entity
     [SerializeField] public float dashCoolDown = 1.2f;
     public float dashSpeed = 25;
     public float dashDuration = .2f;
-    private float dashTimer = 0;
     public float dashDir { get; private set; }
 
     [Header("Hit info")]
@@ -22,6 +21,8 @@ public class Player : Entity
 
     [Header("Counter Attack info")]
     public float counterAttackDuration;
+
+    public SkillManger skill {  get; private set; }
 
     #region Mutiplier info
 
@@ -40,7 +41,7 @@ public class Player : Entity
     public IState dashState { get; private set; }
     public IState wallSlide { get; private set; }
     public IState wallJump { get; private set; }
-    public IState primaryAttack { get; private set; }
+    public IState attackState { get; private set; }
     public IState hitState { get; private set; }
     public IState counterAttack { get; private set; }
 
@@ -56,9 +57,11 @@ public class Player : Entity
         dashState = new PlayerDashState(this, fsm, "Dash");
         wallSlide = new PlayerWallSlideState(this, fsm, "WallSlide");
         wallJump = new PlayerWallJumpState(this, fsm, "Jump");
-        primaryAttack = new PlayerPrimaryAttack(this, fsm, "Attack");
+        attackState = new PlayerAttackState(this, fsm, "Attack");
         hitState = new PlayerHitState(this, fsm, "Hit");
         counterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
+
+        skill = SkillManger.instance; 
         fsm.SwitchState(idleState);
     }
 
@@ -66,8 +69,6 @@ public class Player : Entity
     {
         base.Update();
         fsm.currentState.Update();
-
-        dashTimer -= Time.deltaTime;
 
         CheckDashInput();
     }
