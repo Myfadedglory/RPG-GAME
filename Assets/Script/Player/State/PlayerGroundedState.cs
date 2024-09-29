@@ -22,6 +22,9 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+            fsm.SwitchState(entity.aimSword);
+
         if (Input.GetKeyDown(KeyCode.Q))
             fsm.SwitchState(entity.counterAttack);
 

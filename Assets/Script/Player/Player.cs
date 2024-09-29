@@ -44,6 +44,8 @@ public class Player : Entity
     public IState attackState { get; private set; }
     public IState hitState { get; private set; }
     public IState counterAttack { get; private set; }
+    public IState aimSword { get; private set; }
+    public IState catchSword { get; private set; }
 
     #endregion
 
@@ -60,6 +62,8 @@ public class Player : Entity
         attackState = new PlayerAttackState(this, fsm, "Attack");
         hitState = new PlayerHitState(this, fsm, "Hit");
         counterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
+        aimSword = new PlayerAimSwordState(this, fsm, "AimSword");
+        catchSword = new PlayerCatchSwordState(this, fsm, "CatchSword");
 
         skill = SkillManger.instance; 
         fsm.SwitchState(idleState);

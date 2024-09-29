@@ -80,8 +80,7 @@ public class Clone_Skill_Controller : MonoBehaviour
                 }
             }
         }
-        if(closestEnemy != null)
-        {
+        if(closestEnemy != null)        {
             if (closestEnemy.position.x < transform.position.x)
                 transform.Rotate(0, 180, 0);
         }
