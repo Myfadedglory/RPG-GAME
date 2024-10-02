@@ -12,7 +12,7 @@ public class PlayerWallJumpState : PlayerState
     {
         base.Enter(lastState);
         stateTimer = .4f;
-        entity.SetVelocity(entity.horizonJumpForce * - entity.facingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier);
+        entity.SetVelocity(entity.horizonJumpForce * - entity.facingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier ,entity.needFlip);
     }
 
     public override void Exit(IState newState)

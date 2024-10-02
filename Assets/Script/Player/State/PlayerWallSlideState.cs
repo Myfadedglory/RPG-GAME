@@ -31,9 +31,9 @@ public class PlayerWallSlideState : PlayerState
             fsm.SwitchState(entity.idleState);
 
         if (yInput < 0)
-            entity.SetVelocity(0, rb.velocity.y);
+            entity.SetVelocity(0, rb.velocity.y , entity.needFlip);
         else
-            entity.SetVelocity(0, entity.wallSlideMutiplier * rb.velocity.y);
+            entity.SetVelocity(0, entity.wallSlideMutiplier * rb.velocity.y, entity.needFlip);
 
         if (entity.IsGroundDetected())
             fsm.SwitchState(entity.idleState);

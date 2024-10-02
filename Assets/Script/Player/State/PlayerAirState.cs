@@ -27,7 +27,7 @@ public class PlayerAirState : PlayerState
             fsm.SwitchState(entity.wallSlide);
 
         if(xInput != 0)
-            entity.SetVelocity(entity.airMoveMutiplier * xInput * entity.moveSpeed , rb.velocity.y);
+            entity.SetVelocity(entity.airMoveMutiplier * xInput * entity.moveSpeed , rb.velocity.y , entity.needFlip);
 
         if(entity.IsGroundDetected())
             fsm.SwitchState(entity.idleState);

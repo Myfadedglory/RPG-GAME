@@ -5,8 +5,6 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [Header("Collision info")]
-    public Transform attackCheck;
-    public float attackCheckDistance;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
@@ -17,6 +15,12 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Vector2 knockbackDirection;
     [SerializeField] protected float knockbackDuration = 0.07f;
     protected bool isKnocked;
+
+    [Header("Attack info")]
+    public Transform attackCheck;
+    public float attackCheckDistance;
+
+    public bool needFlip = true;
 
     #region Component
 
@@ -104,13 +108,14 @@ public class Entity : MonoBehaviour
 
     public virtual void SetZeroVelocity() => rb.velocity = new Vector2(0, 0);
 
-    public virtual void SetVelocity(float _xVelocity, float _yVelocity)
+    public virtual void SetVelocity(float _xVelocity, float _yVelocity , bool _needFlip)
     {
         if(isKnocked)
             return;
 
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
-        FlipController(_xVelocity);
+        if(_needFlip )
+            FlipController(_xVelocity);
     }
 
     #endregion

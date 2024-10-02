@@ -22,7 +22,10 @@ public class Player : Entity
     [Header("Counter Attack info")]
     public float counterAttackDuration;
 
+    public float swordReturnForce = 12f;
+
     public SkillManger skill {  get; private set; }
+    public GameObject sword { get; private set; }
 
     #region Mutiplier info
 
@@ -72,9 +75,21 @@ public class Player : Entity
     protected override void Update()
     {
         base.Update();
+
         fsm.currentState.Update();
 
         CheckDashInput();
+    }
+
+    public void AssignNewSword(GameObject _newSword)
+    {
+        sword = _newSword;
+    }
+
+    public void CatchTheSword()
+    {
+        fsm.SwitchState(catchSword);
+        Destroy(sword);
     }
 
     public override void Damage(int attackedDir)

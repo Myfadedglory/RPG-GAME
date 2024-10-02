@@ -30,7 +30,7 @@ public class PlayerDashState : PlayerState
         if(!entity.IsGroundDetected() && entity.IsWallDetected())
             fsm.SwitchState(entity.wallSlide);
 
-        entity.SetVelocity(entity.dashSpeed * entity.dashDir , 0);
+        entity.SetVelocity(entity.dashSpeed * entity.dashDir , 0 , entity.needFlip);
 
         if (stateTimer < 0) 
             fsm.SwitchState(entity.idleState);

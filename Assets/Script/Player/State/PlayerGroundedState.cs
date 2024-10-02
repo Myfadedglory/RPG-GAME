@@ -22,21 +22,28 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
             fsm.SwitchState(entity.aimSword);
 
         if (Input.GetKeyDown(KeyCode.Q))
             fsm.SwitchState(entity.counterAttack);
 
         if (Input.GetKey(KeyCode.Mouse0))
-        {
             fsm.SwitchState(entity.attackState);
-        }
 
         if (!entity.IsGroundDetected())
             fsm.SwitchState(entity.airState);
 
         if (Input.GetKeyDown(KeyCode.Space) && entity.IsGroundDetected())
             fsm.SwitchState(entity.jumpState);
+    }
+
+    private bool HasNoSword()
+    {
+        if(!entity.sword)
+            return true;
+
+        entity.sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+        return false;
     }
 }

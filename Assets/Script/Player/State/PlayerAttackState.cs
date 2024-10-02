@@ -21,7 +21,7 @@ public class PlayerAttackState : PlayerState
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
             comboCounter = 0;
 
-        entity.SetVelocity(entity.attackMoveMent[comboCounter].x * entity.facingDir, entity.attackMoveMent[comboCounter].y);
+        entity.SetVelocity(entity.attackMoveMent[comboCounter].x * entity.facingDir, entity.attackMoveMent[comboCounter].y , entity.needFlip);
 
         entity.anim.SetInteger("ComboCounter", comboCounter);
     }
