@@ -1,10 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+
+public enum SwordType
+{
+    Regular,
+    Bounce,
+    Pierce,
+    Spin
+}
 
 public class Sword_Skill : Skill
 {
+    public SwordType swordType = SwordType.Regular;
+
+    [Header("Bounce info")]
+    [SerializeField] private int amountOfBounce;
+    [SerializeField] private float bounceGravity;
+
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
@@ -29,28 +40,42 @@ public class Sword_Skill : Skill
     protected override void Update()
     {
         if (Input.GetKeyUp(KeyCode.Mouse1))
-            finalDir = new Vector2(AimDirection().normalized.x * launchForce.x , AimDirection().normalized.y * launchForce.y);
+            finalDir = new Vector2(AimDirection().normalized.x * launchForce.x, AimDirection().normalized.y * launchForce.y);
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
             for (int i = 0; i < dots.Length; i++)
             {
-                dots[i].transform.position = DotsPosition(i *  spaceBetweenDots);
+                dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
             }
         }
     }
 
     public void CreateSword()
     {
-        GameObject newSword = Instantiate(swordPrefab , player.transform.position , transform.rotation);
+        GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
         Sword_Skill_Controller newSwordSript = newSword.GetComponent<Sword_Skill_Controller>();
 
-        newSwordSript.SetUpSword(finalDir, swordGravity , player);
+        switch (swordType)
+        {
+            case SwordType.Bounce:
+                swordGravity = bounceGravity;
+                newSwordSript.SetUpBounce(true , amountOfBounce);
+                break;
+            case SwordType.Spin:
+                break;
+            case SwordType.Pierce:
+                break;
+        }
+
+        newSwordSript.SetUpSword(finalDir, swordGravity, player);
 
         player.AssignNewSword(newSword);
 
         ActiveDots(false);
     }
+
+    #region Aim 
 
     public Vector2 AimDirection()
     {
@@ -74,7 +99,7 @@ public class Sword_Skill : Skill
         dots = new GameObject[numberOfDots];
         for (int i = 0; i < numberOfDots; i++)
         {
-            dots[i] = Instantiate(dotPrefab , player.transform.position , Quaternion.identity , dotsParent);
+            dots[i] = Instantiate(dotPrefab, player.transform.position, Quaternion.identity, dotsParent);
             dots[i].SetActive(false);
         }
     }
@@ -82,8 +107,9 @@ public class Sword_Skill : Skill
     private Vector2 DotsPosition(float t)
     {
         Vector2 position = (Vector2)player.transform.position + new Vector2(
-            AimDirection().normalized.x * launchForce.x , 
+            AimDirection().normalized.x * launchForce.x,
             AimDirection().normalized.y * launchForce.y) * t + 0.5f * (Physics2D.gravity * swordGravity) * (t * t);
         return position;
     }
+    #endregion
 }

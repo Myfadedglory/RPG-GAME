@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
@@ -14,6 +15,15 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private bool canRotate = true;
     private bool isReturning;
+
+    [Header("Bounce info")]
+    [SerializeField] private float maxBounceDistance = 20;
+    [SerializeField] private float bounceSpeed = 20;
+    [SerializeField] private float bounceAttackDistance = 0.15f;
+    private List<Transform> enemyTarget;
+    private bool isBouncing;
+    private int amountOfBounce;
+    private int targetIndex = 0;
 
     private void Awake()
     {
@@ -32,9 +42,18 @@ public class Sword_Skill_Controller : MonoBehaviour
         anim.SetBool("Rotation" ,true);
     }
 
+    public void SetUpBounce(bool _isBouncing , int _amountOfBounce)
+    {
+        isBouncing= _isBouncing;
+        amountOfBounce = _amountOfBounce;
+
+        enemyTarget = new List<Transform>();
+    }
+
     public void ReturnSword()
     {
-        rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        //rb.isKinematic = false;
         transform.parent = null;
         isReturning = true;
     }
@@ -44,21 +63,75 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (canRotate)
             transform.right = rb.velocity;
 
+        ReturnLogic();
+
+        BounceLogic();
+    }
+
+    private void ReturnLogic()
+    {
         if (isReturning)
         {
-            transform.position = Vector2.MoveTowards(transform.position , player.transform.position , returnSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                player.transform.position,
+                returnSpeed * Time.deltaTime);
 
-            if(Vector2.Distance(transform.position , player.transform.position) < catchSwordDistance)
+            if (Vector2.Distance(transform.position, player.transform.position) < catchSwordDistance)
                 player.CatchTheSword();
+        }
+    }
+
+    private void BounceLogic()
+    {
+        if (isBouncing && enemyTarget.Count > 0)
+        {
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                enemyTarget[targetIndex].position,
+                bounceSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < bounceAttackDistance)
+            {
+                targetIndex++;
+                amountOfBounce--;
+
+                if (amountOfBounce < 0)
+                {
+                    isBouncing = false;
+                    isReturning = true;
+                }
+
+                if (targetIndex >= enemyTarget.Count)
+                    targetIndex = 0;
+            }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(isReturning)
+        if (isReturning)
             return;
 
-        anim.SetBool("Rotation", false);
+        if (collision.GetComponent<Enemy>() != null)
+        {
+            if (isBouncing && enemyTarget.Count <= 0)
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, maxBounceDistance);
+
+                foreach (var hit in colliders)
+                {
+                    if (hit.GetComponent<Enemy>() != null)
+                        enemyTarget.Add(hit.transform);
+                }
+            }
+        }
+
+        StuctInto(collision);
+    }
+
+    private void StuctInto(Collider2D collision)
+    {
 
         canRotate = false;
         cd.enabled = false;
@@ -66,6 +139,10 @@ public class Sword_Skill_Controller : MonoBehaviour
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
+        if(isBouncing && enemyTarget.Count > 0)
+            return;
+
+        anim.SetBool("Rotation", false);
         transform.parent = collision.transform;
     }
 }

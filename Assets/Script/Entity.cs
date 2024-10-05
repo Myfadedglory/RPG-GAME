@@ -79,6 +79,15 @@ public class Entity : MonoBehaviour
         Gizmos.DrawWireSphere(attackCheck.position, attackCheckDistance);
     }
 
+    //protected bool HasEntityInComponent<T>(Collider2D _collider)
+    //{
+    //    if(_collider.GetComponent<T>() != null)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
+    //}
+
     #endregion
 
     #region Flip
