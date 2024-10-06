@@ -4,7 +4,7 @@ public enum SwordType
 {
     Regular,
     Bounce,
-    Pierce,
+    Peirce,
     Spin
 }
 
@@ -13,8 +13,12 @@ public class Sword_Skill : Skill
     public SwordType swordType = SwordType.Regular;
 
     [Header("Bounce info")]
-    [SerializeField] private int amountOfBounce;
+    [SerializeField] private int bounceAmount;
     [SerializeField] private float bounceGravity;
+
+    [Header("Peirce info")]
+    [SerializeField] private int peirceAmount;
+    [SerializeField] private float peirceGravity;
 
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
@@ -35,6 +39,22 @@ public class Sword_Skill : Skill
     {
         base.Start();
         GenerateDots();
+        SetUpGravity();
+    }
+
+    private void SetUpGravity()
+    {
+        switch (swordType)
+        {
+            case SwordType.Bounce:
+                swordGravity = bounceGravity;
+                break;
+            case SwordType.Peirce:
+                swordGravity = peirceGravity;
+                break;
+            case SwordType.Spin:
+                break;
+        }
     }
 
     protected override void Update()
@@ -56,23 +76,30 @@ public class Sword_Skill : Skill
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
         Sword_Skill_Controller newSwordSript = newSword.GetComponent<Sword_Skill_Controller>();
 
-        switch (swordType)
-        {
-            case SwordType.Bounce:
-                swordGravity = bounceGravity;
-                newSwordSript.SetUpBounce(true , amountOfBounce);
-                break;
-            case SwordType.Spin:
-                break;
-            case SwordType.Pierce:
-                break;
-        }
+        SwitchSword(newSwordSript);
 
         newSwordSript.SetUpSword(finalDir, swordGravity, player);
 
         player.AssignNewSword(newSword);
 
         ActiveDots(false);
+    }
+
+    private void SwitchSword(Sword_Skill_Controller newSwordSript)
+    {
+        switch (swordType)
+        {
+            case SwordType.Bounce:
+                swordGravity = bounceGravity;
+                newSwordSript.SetUpBounce(true, bounceAmount);
+                break;
+            case SwordType.Peirce:
+                swordGravity = peirceGravity;
+                newSwordSript.SetUpPeirce(peirceAmount);
+                break;
+            case SwordType.Spin:
+                break;
+        }
     }
 
     #region Aim 

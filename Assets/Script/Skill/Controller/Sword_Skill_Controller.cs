@@ -22,8 +22,13 @@ public class Sword_Skill_Controller : MonoBehaviour
     [SerializeField] private float bounceAttackDistance = 0.15f;
     private List<Transform> enemyTarget;
     private bool isBouncing;
-    private int amountOfBounce;
+    private int bounceAmount;
     private int targetIndex = 0;
+
+    [Header("Peirce info")]
+    [SerializeField] private int peirceAmount;
+
+    private int swordAttackDir;
 
     private void Awake()
     {
@@ -38,16 +43,23 @@ public class Sword_Skill_Controller : MonoBehaviour
 
         rb.velocity = _dir;
         rb.gravityScale = _gravityScale;
-
-        anim.SetBool("Rotation" ,true);
+        if(peirceAmount > 0) 
+            anim.SetBool("Rotation" ,false);
+        else
+            anim.SetBool("Rotation" ,true);
     }
 
-    public void SetUpBounce(bool _isBouncing , int _amountOfBounce)
+    public void SetUpBounce(bool _isBouncing , int _bounceAmount)
     {
         isBouncing= _isBouncing;
-        amountOfBounce = _amountOfBounce;
+        bounceAmount = _bounceAmount;
 
         enemyTarget = new List<Transform>();
+    }
+
+    public void SetUpPeirce(int _peirceAmount)
+    {
+        peirceAmount = _peirceAmount;
     }
 
     public void ReturnSword()
@@ -60,12 +72,16 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void Update()
     {
+        if (rb.velocity.x != 0)
+            swordAttackDir = rb.velocity.x > 0 ? 1 : -1;
+
         if (canRotate)
             transform.right = rb.velocity;
 
         ReturnLogic();
 
         BounceLogic();
+
     }
 
     private void ReturnLogic()
@@ -86,32 +102,72 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         if (isBouncing && enemyTarget.Count > 0)
         {
+            Vector2 targetPosition = enemyTarget[targetIndex].position;
+
+            swordAttackDir = transform.position.x < targetPosition.x ? 1 : -1;
+
             transform.position = Vector2.MoveTowards(
                 transform.position,
-                enemyTarget[targetIndex].position,
+                targetPosition,
                 bounceSpeed * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < bounceAttackDistance)
+            if (Vector2.Distance(transform.position, targetPosition) < bounceAttackDistance)
             {
-                targetIndex++;
-                amountOfBounce--;
+                var enemy = enemyTarget[targetIndex].GetComponent<Enemy>();
+                if (enemy != null)
+                    enemy.Damage(swordAttackDir);
 
-                if (amountOfBounce < 0)
+                bounceAmount--;
+
+                if (bounceAmount < 0)
                 {
                     isBouncing = false;
                     isReturning = true;
+                    return;
                 }
 
-                if (targetIndex >= enemyTarget.Count)
-                    targetIndex = 0;
+                targetIndex = FindClosestEnemyIndex();
+
+                if (targetIndex == -1)
+                {
+                    isBouncing = false;
+                    isReturning = true;
+                    return;
+                }
             }
         }
     }
+
+    private int FindClosestEnemyIndex()
+    {
+        float closestDistance = Mathf.Infinity;
+        int closestIndex = -1;
+
+        for (int i = 0; i < enemyTarget.Count; i++)
+        {
+            if (i == targetIndex)
+                continue;
+
+            float distance = Vector2.Distance(transform.position, enemyTarget[i].position);
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestIndex = i;
+            }
+        }
+
+        return closestIndex;
+    }
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isReturning)
             return;
+
+        collision.GetComponent<Enemy>()?.Damage(swordAttackDir);
 
         if (collision.GetComponent<Enemy>() != null)
         {
@@ -132,6 +188,11 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void StuctInto(Collider2D collision)
     {
+        if (peirceAmount > 0 && collision.GetComponent<Enemy>() != null)
+        {
+            peirceAmount--;
+            return;
+        }
 
         canRotate = false;
         cd.enabled = false;
