@@ -14,12 +14,9 @@ public class Enemy_Skeleton : Enemy
 
     [Header("Move Info")]
     public float skeletonMoveSpeed = 2.0f;
-    public float idleTime = 1f;
     public float speedMutipulier = 1.5f;    //发现玩家后加速倍率
 
     [Header("Skeleton Attack Info")]
-    public float battleTime = 6f;
-    public float attackCoolDown;
     [HideInInspector] public float lastTimeAttacked;
     public float minDetectedDistance = 2f;
 

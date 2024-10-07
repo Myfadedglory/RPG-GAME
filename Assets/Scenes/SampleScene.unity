@@ -8385,7 +8385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10db7f8a9367c6943a41f9838f9a6caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDown: 0
+  coolDown: 5
   clonePrefab: {fileID: 7874165236137370167, guid: 549b8e9259447b143ab665ef6f3a5b9b, type: 3}
   cloneDuration: 1.5
   canAttack: 1
@@ -8404,13 +8404,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coolDown: 0
   swordType: 1
+  regularGravity: 3.5
+  rotationSwordHitDistance: 0.15
+  freezeDuration: 0.7
   bounceAmount: 5
-  bounceGravity: 2.5
-  peirceAmount: 2
-  peirceGravity: 0.1
+  bounceGravity: 3.5
+  maxBounceDistance: 20
+  bounceSpeed: 20
+  pierceAmount: 2
+  pierceGravity: 0.1
+  maxSpinDistance: 7
+  spinDuration: 1.5
+  spinGravity: 0.1
+  spinMoveSpeed: 2
+  hitCoolDown: 0.35
   swordPrefab: {fileID: 741664258607326498, guid: f7d0d4e89e4f84f4d83441df47c25c1c, type: 3}
   launchForce: {x: 15, y: 20}
-  swordGravity: 4
   numberOfDots: 20
   spaceBetweenDots: 0.07
   dotPrefab: {fileID: 4939012568686019492, guid: 8f55a313e642b914b8abf058cd526302, type: 3}
@@ -8945,16 +8954,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerDetectedDistance: 50
+  battleTime: 6
   attackDistance: 1
   hatredDistance: 10
+  attackCoolDown: 0.5
   stunDuration: 1
   stunDirection: {x: 8, y: 10}
   counterImage: {fileID: 1918094738}
-  skeletonMoveSpeed: 2
+  moveSpeed: 2
   idleTime: 1
+  skeletonMoveSpeed: 2
   speedMutipulier: 1.2
-  battleTime: 6
-  attackCoolDown: 0.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2
@@ -9190,16 +9200,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerDetectedDistance: 50
+  battleTime: 6
   attackDistance: 1
   hatredDistance: 10
+  attackCoolDown: 0.5
   stunDuration: 1
   stunDirection: {x: 8, y: 10}
   counterImage: {fileID: 1881544110}
-  skeletonMoveSpeed: 2
+  moveSpeed: 2
   idleTime: 1
+  skeletonMoveSpeed: 2
   speedMutipulier: 1.2
-  battleTime: 6
-  attackCoolDown: 0.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2
@@ -9279,16 +9290,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerDetectedDistance: 50
+  battleTime: 6
   attackDistance: 1
   hatredDistance: 10
+  attackCoolDown: 0.5
   stunDuration: 1
   stunDirection: {x: 8, y: 10}
   counterImage: {fileID: 316723576}
-  skeletonMoveSpeed: 2
+  moveSpeed: 2
   idleTime: 1
+  skeletonMoveSpeed: 2
   speedMutipulier: 1.2
-  battleTime: 6
-  attackCoolDown: 0.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2

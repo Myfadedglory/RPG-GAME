@@ -4,7 +4,7 @@ public enum SwordType
 {
     Regular,
     Bounce,
-    Peirce,
+    Pierce,
     Spin
 }
 
@@ -12,19 +12,33 @@ public class Sword_Skill : Skill
 {
     public SwordType swordType = SwordType.Regular;
 
-    [Header("Bounce info")]
-    [SerializeField] private int bounceAmount;
-    [SerializeField] private float bounceGravity;
+    [Header("Regular Sword info")]
+    [SerializeField] private float regularGravity = 3.5f;
+    [SerializeField] private float rotationSwordHitDistance = 0.15f;
+    [SerializeField] private float freezeDuration = 0.7f;
 
-    [Header("Peirce info")]
-    [SerializeField] private int peirceAmount;
-    [SerializeField] private float peirceGravity;
+    [Header("Bounce Sword info")]
+    [SerializeField] private int bounceAmount;
+    [SerializeField] private float bounceGravity = 3.5f;
+    [SerializeField] private float maxBounceDistance = 20;
+    [SerializeField] private float bounceSpeed = 20;
+
+    [Header("Pierce Sword info")]
+    [SerializeField] private int pierceAmount;
+    [SerializeField] private float pierceGravity = 0.1f;
+
+    [Header("Spin Sword info")]
+    [SerializeField] private float maxSpinDistance = 7f;
+    [SerializeField] private float spinDuration = 1.5f;
+    [SerializeField] private float spinGravity = 0.1f;
+    [SerializeField] private float spinMoveSpeed = 2f;
+    [SerializeField] private float hitCoolDown = 0.35f;
 
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
-    [SerializeField] private float swordGravity;
-
+    
+    private float swordGravity;
     private Vector2 finalDir;
 
     [Header("Aim dots")]
@@ -49,18 +63,25 @@ public class Sword_Skill : Skill
             case SwordType.Bounce:
                 swordGravity = bounceGravity;
                 break;
-            case SwordType.Peirce:
-                swordGravity = peirceGravity;
+            case SwordType.Pierce:
+                swordGravity = pierceGravity;
                 break;
             case SwordType.Spin:
+                swordGravity = spinGravity;
                 break;
+            default:
+                swordGravity = regularGravity;
+                return;
         }
     }
 
     protected override void Update()
     {
         if (Input.GetKeyUp(KeyCode.Mouse1))
-            finalDir = new Vector2(AimDirection().normalized.x * launchForce.x, AimDirection().normalized.y * launchForce.y);
+            finalDir = new Vector2(
+                AimDirection().normalized.x * launchForce.x,
+                AimDirection().normalized.y * launchForce.y
+             );
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -78,7 +99,7 @@ public class Sword_Skill : Skill
 
         SwitchSword(newSwordSript);
 
-        newSwordSript.SetUpSword(finalDir, swordGravity, player);
+        newSwordSript.SetUpSword(finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, player);
 
         player.AssignNewSword(newSword);
 
@@ -91,13 +112,15 @@ public class Sword_Skill : Skill
         {
             case SwordType.Bounce:
                 swordGravity = bounceGravity;
-                newSwordSript.SetUpBounce(true, bounceAmount);
+                newSwordSript.SetUpBounce(true, bounceAmount, maxBounceDistance, bounceSpeed);
                 break;
-            case SwordType.Peirce:
-                swordGravity = peirceGravity;
-                newSwordSript.SetUpPeirce(peirceAmount);
+            case SwordType.Pierce:
+                swordGravity = pierceGravity;
+                newSwordSript.SetUpPeirce(pierceAmount);
                 break;
             case SwordType.Spin:
+                swordGravity = spinGravity;
+                newSwordSript.SetUpSpin(true, maxSpinDistance, spinDuration, hitCoolDown, spinMoveSpeed);
                 break;
         }
     }

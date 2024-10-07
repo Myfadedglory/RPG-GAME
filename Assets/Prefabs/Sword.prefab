@@ -96,7 +96,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.25
 --- !u!114 &2488643999031045909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +113,7 @@ MonoBehaviour:
   maxBounceDistance: 20
   bounceSpeed: 20
   bounceAttackDistance: 0.15
+  peirceAmount: 0
 --- !u!1 &8408593015455481011
 GameObject:
   m_ObjectHideFlags: 0

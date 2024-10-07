@@ -11,8 +11,10 @@ public class Enemy : Entity
     [SerializeField] protected float playerDetectedDistance;
 
     [Header("Attack info")]
-    public float attackDistance;
+    public float battleTime = 6f;
+    public float attackDistance = 1.5f;
     public float hatredDistance = 15f;  //³ðºÞ¾àÀë
+    public float attackCoolDown = 1f;
 
     [Header("Stun info")]
     public float stunDuration;
@@ -20,9 +22,15 @@ public class Enemy : Entity
     protected bool canBeStun;
     [SerializeField] protected GameObject counterImage;
 
+    [Header("Move Info")]
+    public float moveSpeed = 2.0f;
+    public float idleTime = 1f;
+    private float defaultMoveSpeed = 2.0f;
+
     protected override void Start()
     {
         base.Start();
+        defaultMoveSpeed = moveSpeed;
     }
 
     protected override void Update()
@@ -30,6 +38,29 @@ public class Enemy : Entity
         base.Update();
         fsm.currentState.Update();
     }
+
+    public virtual void FreezeTime(bool _timeFrozen)
+    {
+        if (_timeFrozen)
+        {
+            moveSpeed = 0f;
+            anim.speed = 0f;
+        }
+        else
+        {
+            moveSpeed = defaultMoveSpeed;
+            anim.speed = 1f;
+        }
+    }
+
+    protected virtual IEnumerable FreezeTimeFor(float _seconds)
+    {
+        FreezeTime(true);
+        yield return new WaitForSeconds(_seconds);
+        FreezeTime(false);
+    }
+
+    #region Counter Attack Window
 
     public virtual void OpenCounterAttackWindow()
     {
@@ -43,6 +74,8 @@ public class Enemy : Entity
         counterImage.SetActive(false);
     }
 
+    #endregion
+
     public virtual bool CanBeStun()
     {
         if (canBeStun)
@@ -51,11 +84,6 @@ public class Enemy : Entity
             return true;
         }
         return false;
-    }
-
-    public override void Damage(int attackDir)
-    {
-        base.Damage(attackDir);
     }
 
     public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();

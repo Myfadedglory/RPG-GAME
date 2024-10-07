@@ -15,20 +15,33 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private bool canRotate = true;
     private bool isReturning;
+    private int swordAttackDir;
+    private float freezeDuration;
 
     [Header("Bounce info")]
-    [SerializeField] private float maxBounceDistance = 20;
-    [SerializeField] private float bounceSpeed = 20;
-    [SerializeField] private float bounceAttackDistance = 0.15f;
+    private float maxBounceDistance = 20;
+    private float bounceSpeed = 20;
     private List<Transform> enemyTarget;
     private bool isBouncing;
     private int bounceAmount;
     private int targetIndex = 0;
 
     [Header("Peirce info")]
-    [SerializeField] private int peirceAmount;
+    private int peirceAmount;
 
-    private int swordAttackDir;
+    [Header("Spin info")]
+    private float maxSpinDistance;
+    private float spinDuration;
+    private float spinTimer;
+    private bool wasStopped;
+    private bool isSpinning;
+    private float spinMoveSpeed;
+
+    [Header("Hit info")]
+    private float hitDistance = 0.15f;
+    private float hitCoolDown;
+    private float hitTimer;
+
 
     private void Awake()
     {
@@ -37,22 +50,38 @@ public class Sword_Skill_Controller : MonoBehaviour
         cd = GetComponent<CircleCollider2D>();
     }
 
-    public void SetUpSword(Vector2 _dir , float _gravityScale , Player _player)
+    public void SetUpSword(
+        Vector2 _dir ,
+        float _gravityScale ,
+        float _hitDistance,
+        float _freezeDuration,
+        Player _player)
     {
         player = _player;
 
+        hitDistance = _hitDistance;
+        freezeDuration = _freezeDuration;
+
         rb.velocity = _dir;
         rb.gravityScale = _gravityScale;
+
         if(peirceAmount > 0) 
             anim.SetBool("Rotation" ,false);
         else
             anim.SetBool("Rotation" ,true);
     }
 
-    public void SetUpBounce(bool _isBouncing , int _bounceAmount)
+    public void SetUpBounce(
+        bool _isBouncing ,
+        int _bounceAmount ,
+        float _maxBounceDistance ,
+        float _bounceSpeed
+        )
     {
         isBouncing= _isBouncing;
         bounceAmount = _bounceAmount;
+        maxBounceDistance = _maxBounceDistance;
+        bounceSpeed = _bounceSpeed;
 
         enemyTarget = new List<Transform>();
     }
@@ -60,6 +89,22 @@ public class Sword_Skill_Controller : MonoBehaviour
     public void SetUpPeirce(int _peirceAmount)
     {
         peirceAmount = _peirceAmount;
+    }
+
+    public void SetUpSpin(
+        bool _isSpinning ,
+        float _maxSpinDistance , 
+        float _spinDuration , 
+        float _hitCoolDown , 
+        float _spinMoveSpeed
+        )
+    {
+        isSpinning = _isSpinning;
+        maxSpinDistance = _maxSpinDistance;
+        spinDuration = _spinDuration;
+        hitCoolDown = _hitCoolDown;
+        spinMoveSpeed = _spinMoveSpeed;
+
     }
 
     public void ReturnSword()
@@ -81,6 +126,8 @@ public class Sword_Skill_Controller : MonoBehaviour
         ReturnLogic();
 
         BounceLogic();
+
+        SpinLogic();
 
     }
 
@@ -111,11 +158,12 @@ public class Sword_Skill_Controller : MonoBehaviour
                 targetPosition,
                 bounceSpeed * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, targetPosition) < bounceAttackDistance)
+            if (Vector2.Distance(transform.position, targetPosition) < hitDistance)
             {
-                var enemy = enemyTarget[targetIndex].GetComponent<Enemy>();
-                if (enemy != null)
-                    enemy.Damage(swordAttackDir);
+
+                Enemy enemy = enemyTarget[targetIndex].GetComponent<Enemy>();
+                enemy.Damage(swordAttackDir);
+                enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
 
                 bounceAmount--;
 
@@ -136,6 +184,52 @@ public class Sword_Skill_Controller : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SpinLogic()
+    {
+        if(isSpinning)
+        {
+            if(Vector2.Distance(transform.position , player.transform.position) > maxSpinDistance && !wasStopped)
+            {
+                StopWhenSpinning();
+            }
+
+            if (wasStopped)
+            {
+                spinTimer -= Time.deltaTime;
+
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    new Vector2(transform.position.x + swordAttackDir, transform.position.y),
+                    spinMoveSpeed * Time.deltaTime);
+
+                if (spinTimer < 0)
+                {
+                    isReturning = true;
+                    isSpinning = false;
+                }
+
+                hitTimer -= Time.deltaTime;
+
+                if(hitTimer < 0)
+                    hitTimer = hitCoolDown;
+
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hitDistance);
+
+                foreach (var hit in colliders)
+                {
+                    hit.GetComponent<Enemy>()?.Damage();
+                }
+            }
+        }
+    }
+
+    private void StopWhenSpinning()
+    {
+        wasStopped = true;
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        spinTimer = spinDuration;
     }
 
     private int FindClosestEnemyIndex()
@@ -160,15 +254,31 @@ public class Sword_Skill_Controller : MonoBehaviour
         return closestIndex;
     }
 
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isReturning)
             return;
 
-        collision.GetComponent<Enemy>()?.Damage(swordAttackDir);
+        if (!wasStopped)
+        {
+            if(collision.GetComponent<Enemy>() != null)
+            {
+                Enemy enemy = collision.GetComponent<Enemy>();
+                enemy.Damage(swordAttackDir);
+                enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
+            }
 
+        }
+        else
+            collision.GetComponent<Enemy>().Damage();
+
+        SetUpBounceTarget(collision);
+
+        StuctInto(collision);
+    }
+
+    private void SetUpBounceTarget(Collider2D collision)
+    {
         if (collision.GetComponent<Enemy>() != null)
         {
             if (isBouncing && enemyTarget.Count <= 0)
@@ -182,8 +292,6 @@ public class Sword_Skill_Controller : MonoBehaviour
                 }
             }
         }
-
-        StuctInto(collision);
     }
 
     private void StuctInto(Collider2D collision)
@@ -191,6 +299,12 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (peirceAmount > 0 && collision.GetComponent<Enemy>() != null)
         {
             peirceAmount--;
+            return;
+        }
+
+        if( isSpinning && collision.GetComponent<Enemy>()!= null)
+        {
+            StopWhenSpinning();
             return;
         }
 
