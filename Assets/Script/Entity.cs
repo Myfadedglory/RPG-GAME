@@ -51,14 +51,12 @@ public class Entity : MonoBehaviour
     {
         fx.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockback(attackDir));
-        Debug.Log(gameObject.name + " was damage");
     }
 
     public virtual void Damage()
     {
         fx.StartCoroutine("FlashFX");
         StartCoroutine(HitKnockback(-facingDir));
-        Debug.Log(gameObject.name + " was damage");
     }
 
     protected virtual IEnumerator HitKnockback(int attackDir)

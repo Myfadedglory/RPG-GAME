@@ -1,30 +1,25 @@
 using UnityEngine;
 
-public enum SwordType
-{
-    Regular,
-    Bounce,
-    Pierce,
-    Spin
-}
-
 public class Sword_Skill : Skill
 {
-    public SwordType swordType = SwordType.Regular;
+    [Header("Skill info")]
+    [SerializeField] private GameObject swordPrefab;
+    [SerializeField] private Vector2 launchForce;
+    [SerializeField] private SwordType swordType = SwordType.Regular;
 
     [Header("Regular Sword info")]
     [SerializeField] private float regularGravity = 3.5f;
     [SerializeField] private float rotationSwordHitDistance = 0.15f;
-    [SerializeField] private float freezeDuration = 0.7f;
+    [SerializeField] private float freezeDuration = 1f;
 
     [Header("Bounce Sword info")]
-    [SerializeField] private int bounceAmount;
+    [SerializeField] private int bounceAmount = 4;
     [SerializeField] private float bounceGravity = 3.5f;
     [SerializeField] private float maxBounceDistance = 20;
     [SerializeField] private float bounceSpeed = 20;
 
     [Header("Pierce Sword info")]
-    [SerializeField] private int pierceAmount;
+    [SerializeField] private int pierceAmount = 2;
     [SerializeField] private float pierceGravity = 0.1f;
 
     [Header("Spin Sword info")]
@@ -34,13 +29,6 @@ public class Sword_Skill : Skill
     [SerializeField] private float spinMoveSpeed = 2f;
     [SerializeField] private float hitCoolDown = 0.35f;
 
-    [Header("Skill info")]
-    [SerializeField] private GameObject swordPrefab;
-    [SerializeField] private Vector2 launchForce;
-    
-    private float swordGravity;
-    private Vector2 finalDir;
-
     [Header("Aim dots")]
     [SerializeField] private int numberOfDots;
     [SerializeField] private float spaceBetweenDots;
@@ -48,6 +36,8 @@ public class Sword_Skill : Skill
     [SerializeField] private Transform dotsParent;
 
     private GameObject[] dots;
+    private float swordGravity;
+    private Vector2 finalDir;
 
     protected override void Start()
     {
@@ -71,17 +61,19 @@ public class Sword_Skill : Skill
                 break;
             default:
                 swordGravity = regularGravity;
-                return;
+                break;
         }
     }
 
     protected override void Update()
     {
+        SetUpGravity();
+
         if (Input.GetKeyUp(KeyCode.Mouse1))
             finalDir = new Vector2(
                 AimDirection().normalized.x * launchForce.x,
                 AimDirection().normalized.y * launchForce.y
-             );
+            );
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -95,11 +87,12 @@ public class Sword_Skill : Skill
     public void CreateSword()
     {
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
+
         Sword_Skill_Controller newSwordSript = newSword.GetComponent<Sword_Skill_Controller>();
 
         SwitchSword(newSwordSript);
 
-        newSwordSript.SetUpSword(finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, player);
+        newSwordSript.SetUpSword(swordType, finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, player);
 
         player.AssignNewSword(newSword);
 
@@ -111,16 +104,15 @@ public class Sword_Skill : Skill
         switch (swordType)
         {
             case SwordType.Bounce:
-                swordGravity = bounceGravity;
-                newSwordSript.SetUpBounce(true, bounceAmount, maxBounceDistance, bounceSpeed);
+                newSwordSript.BounceAttribute(true, bounceAmount, maxBounceDistance, bounceSpeed);
                 break;
             case SwordType.Pierce:
-                swordGravity = pierceGravity;
-                newSwordSript.SetUpPeirce(pierceAmount);
+                newSwordSript.PeirceAttribute(pierceAmount);
                 break;
             case SwordType.Spin:
-                swordGravity = spinGravity;
-                newSwordSript.SetUpSpin(true, maxSpinDistance, spinDuration, hitCoolDown, spinMoveSpeed);
+                newSwordSript.SpinAttribute(true, maxSpinDistance, spinDuration, hitCoolDown, spinMoveSpeed);
+                break;
+            default:
                 break;
         }
     }

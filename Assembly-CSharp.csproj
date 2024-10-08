@@ -90,6 +90,7 @@
     <Compile Include="Assets\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
+    <Compile Include="Assets\Script\Skill\SwordType.cs" />
     <Compile Include="Assets\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonStunState.cs" />
