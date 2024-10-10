@@ -11,6 +11,7 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         rb.velocity = new Vector2(rb.velocity.x, entity.verticalJumpForce);
     }
 

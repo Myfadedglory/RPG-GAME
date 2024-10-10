@@ -16,6 +16,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = .1f;
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
@@ -38,17 +39,14 @@ public class PlayerAttackState : PlayerState
     public override void Update()
     {
         base.Update();
+
         if(stateTimer < 0)
             entity.SetZeroVelocity();
 
         if (isAnimationFinished && !Input.GetKey(KeyCode.Mouse0))
-        {
             fsm.SwitchState(entity.idleState);
-        }
         
         if (! isAnimationFinished && Input.GetKey(KeyCode.Mouse0))
-        {
             return;
-        }
     }
 }

@@ -14,7 +14,9 @@ public class SkeletonBattleState : SkeletonState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         enemy.CloseCounterImage();
+
         player = PlayerManger.instance.player.transform;
     }
 
@@ -34,8 +36,10 @@ public class SkeletonBattleState : SkeletonState
             if (enemy.IsPlayerDetected().distance <= enemy.attackDistance)
             {
                 enemy.SetXZeroVelocity();
+
                 if (CanAttack())
                     fsm.SwitchState(enemy.attackState);
+
                 return;
             }
         }
@@ -49,10 +53,11 @@ public class SkeletonBattleState : SkeletonState
         {
             if (player.position.x > enemy.transform.position.x)
                 moveDir = 1;
+
             else if (player.position.x < enemy.transform.position.x)
                 moveDir = -1;
 
-            enemy.SetVelocity(enemy.skeletonMoveSpeed * moveDir * enemy.speedMutipulier, rb.velocity.y , enemy.needFlip);
+            enemy.SetVelocity(enemy.moveSpeed * moveDir * enemy.speedMutipulier, rb.velocity.y , enemy.needFlip);
         }
     }
 
@@ -61,8 +66,10 @@ public class SkeletonBattleState : SkeletonState
         if(Time.time > enemy.lastTimeAttacked + enemy.attackCoolDown)
         {
             enemy.lastTimeAttacked = Time.time;
+
             return true;
         }
+
         return false;
     }
 }

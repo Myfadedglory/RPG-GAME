@@ -9,7 +9,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{9ACF5E76-F5FD-E89F-B92F-35CFC761F483}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -71,9 +72,10 @@
     <Compile Include="Assets\Script\Player\State\PlayerWallSlideState.cs" />
     <Compile Include="Assets\Script\Skill\Controller\Sword_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonAttackState.cs" />
+    <Compile Include="Assets\Script\Skill\Controller\BlackHole_HotKey_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerJumpState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonIdleState.cs" />
-    <Compile Include="Assets\Utilities\AnimationTrigger.cs" />
+    <Compile Include="Assets\TextMesh Pro\Utilities\AnimationTrigger.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerMoveState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
@@ -81,17 +83,17 @@
     <Compile Include="Assets\Script\Entity.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonMoveState.cs" />
     <Compile Include="Assets\Script\Skill\Skill.cs" />
-    <Compile Include="Assets\Utilities\EntityState.cs" />
+    <Compile Include="Assets\TextMesh Pro\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyState.cs" />
     <Compile Include="Assets\Script\Skill\Controller\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAimSwordState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerDashState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonState.cs" />
-    <Compile Include="Assets\Utilities\FSM.cs" />
+    <Compile Include="Assets\TextMesh Pro\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Skill\SwordType.cs" />
-    <Compile Include="Assets\Utilities\IState.cs" />
+    <Compile Include="Assets\TextMesh Pro\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonStunState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallJumpState.cs" />
@@ -104,6 +106,30 @@
     <Compile Include="Assets\Script\Player\State\PlayerAttackState.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
+    <Compile Include="Assets\Script\Skill\Controller\BlackHole_Skill_Controller.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

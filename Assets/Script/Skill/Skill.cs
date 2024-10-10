@@ -24,7 +24,9 @@ public class Skill : MonoBehaviour
         if (coolDownTimer < 0)
         {
             UseSkill();
+
             coolDownTimer = coolDown;
+
             return true;
         }
         return false;

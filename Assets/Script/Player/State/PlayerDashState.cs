@@ -20,6 +20,7 @@ public class PlayerDashState : PlayerState
     public override void Exit(IState newState)
     {
         base.Exit(newState);
+
         entity.SetZeroVelocity();
     }
 

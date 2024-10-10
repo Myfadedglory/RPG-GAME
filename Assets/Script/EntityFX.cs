@@ -15,13 +15,16 @@ public class EntityFX : MonoBehaviour
     private void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
+
         originalMat = sr.material;
     }
 
     private IEnumerator FlashFX()
     {
         sr.material = hitMat;
+
         yield return new WaitForSeconds(flashDuration);
+
         sr.material = originalMat;
     }
 
@@ -36,6 +39,7 @@ public class EntityFX : MonoBehaviour
     private void CancelRedColorBlink()
     {
         CancelInvoke();
+
         sr.color = Color.white;
     }
 }

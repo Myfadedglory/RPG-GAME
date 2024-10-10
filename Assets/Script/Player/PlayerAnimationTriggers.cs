@@ -14,6 +14,7 @@ public class PlayerAnimationTriggers : AnimationTriggers<Player>
     protected override void AttackTrigger()
     {
         base.AnimationTrigger();
+
         AttackTriggerLogic(player.facingDir);
     }
 

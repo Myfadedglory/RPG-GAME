@@ -29,6 +29,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         if (cloneTimer < 0)
         {
             sr.color = new Color(1,1,1,sr.color.a - (Time.deltaTime * colorLosingSpeed));
+
             if(sr.color.a <= 0)
                 Destroy(gameObject);
         }
@@ -40,7 +41,9 @@ public class Clone_Skill_Controller : MonoBehaviour
             anim.SetInteger("AttackNumber", Random.Range(1, 4));
 
         transform.position = _newTransform.position;
+
         clonerDetectDistance = _clonerDetectDistance;
+
         cloneTimer = _cloneDuration;
 
         FacingToClosestTarget();
@@ -73,14 +76,17 @@ public class Clone_Skill_Controller : MonoBehaviour
             if(hit.GetComponent<Enemy>() != null)
             {
                 float distanceToPlayer = Vector2.Distance(transform.position, hit.transform.position);
+
                 if (distanceToPlayer < closestDistance)
                 {
                     clonerDetectDistance = distanceToPlayer;
+
                     closestEnemy = hit.transform;
                 }
             }
         }
-        if(closestEnemy != null)        {
+        if(closestEnemy != null)
+        {
             if (closestEnemy.position.x < transform.position.x)
                 transform.Rotate(0, 180, 0);
         }

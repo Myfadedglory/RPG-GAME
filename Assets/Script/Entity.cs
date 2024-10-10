@@ -37,8 +37,11 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
+
         rb = GetComponent<Rigidbody2D>();
+
         fx = GetComponentInChildren<EntityFX>();
+
         fsm = new FSM();
     }
 
@@ -50,12 +53,14 @@ public class Entity : MonoBehaviour
     public virtual void Damage(int attackDir)
     {
         fx.StartCoroutine("FlashFX");
+
         StartCoroutine(HitKnockback(attackDir));
     }
 
     public virtual void Damage()
     {
         fx.StartCoroutine("FlashFX");
+
         StartCoroutine(HitKnockback(-facingDir));
     }
 
@@ -74,24 +79,28 @@ public class Entity : MonoBehaviour
 
     #region Collision
 
-    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
+    public virtual bool IsGroundDetected() => Physics2D.Raycast(
+        groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public virtual bool IsWallDetected() => Physics2D.Raycast(
+        wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
 
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
-        Gizmos.DrawWireSphere(attackCheck.position, attackCheckDistance);
+        Gizmos.DrawLine(
+            groundCheck.position, 
+            new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance)
+            );
+        
+        Gizmos.DrawLine(
+            wallCheck.position,
+            new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y)
+            );
+        
+        Gizmos.DrawWireSphere(
+            attackCheck.position, 
+            attackCheckDistance
+            );
     }
-
-    //protected bool HasEntityInComponent<T>(Collider2D _collider)
-    //{
-    //    if(_collider.GetComponent<T>() != null)
-    //    {
-    //        return true;
-    //    }
-    //    return false;
-    //}
 
     #endregion
 
@@ -100,7 +109,9 @@ public class Entity : MonoBehaviour
     public virtual void Flip()
     {
         facingDir *= -1;
+
         facingRight = !facingRight;
+
         transform.Rotate(0, 180, 0);
     }
 
@@ -128,7 +139,8 @@ public class Entity : MonoBehaviour
             return;
 
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
-        if(_needFlip )
+
+        if(_needFlip)
             FlipController(_xVelocity);
     }
 

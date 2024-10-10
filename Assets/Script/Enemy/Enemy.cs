@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-    Enemy_Skeleton enemy;
-
     [Header("Detected info")]
     [SerializeField] protected LayerMask whatIsPlayer;
     [SerializeField] protected float playerDetectedDistance;
@@ -24,18 +22,20 @@ public class Enemy : Entity
 
     [Header("Move Info")]
     public float moveSpeed = 2.0f;
-    public float idleTime = 1f;
+    public float idleTime = 10f;
     private float defaultMoveSpeed = 2.0f;
 
     protected override void Start()
     {
         base.Start();
+
         defaultMoveSpeed = moveSpeed;
     }
 
     protected override void Update()
     {
         base.Update();
+
         fsm.currentState.Update();
     }
 
@@ -43,20 +43,24 @@ public class Enemy : Entity
     {
         if (_timeFrozen)
         {
-            moveSpeed = 0f;
-            anim.speed = 0f;
+            moveSpeed = 0;
+
+            anim.speed = 0;
         }
         else
         {
             moveSpeed = defaultMoveSpeed;
-            anim.speed = 1f;
+
+            anim.speed = 1;
         }
     }
 
     protected virtual IEnumerable FreezeTimeFor(float _seconds)
     {
         FreezeTime(true);
+
         yield return new WaitForSeconds(_seconds);
+
         FreezeTime(false);
     }
 
@@ -65,12 +69,14 @@ public class Enemy : Entity
     public virtual void OpenCounterAttackWindow()
     {
         canBeStun = true;
+
         counterImage.SetActive(true);
     }
 
     public virtual void CloseCounterAttackWindow()
     {
         canBeStun = false;
+
         counterImage.SetActive(false);
     }
 
@@ -81,8 +87,10 @@ public class Enemy : Entity
         if (canBeStun)
         {
             CloseCounterAttackWindow();
+
             return true;
         }
+
         return false;
     }
 
@@ -111,7 +119,9 @@ public class Enemy : Entity
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+
         Gizmos.color = Color.yellow;
+
         Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
     }
 }

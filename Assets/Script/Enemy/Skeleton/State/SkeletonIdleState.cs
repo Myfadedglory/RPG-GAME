@@ -11,6 +11,7 @@ public class SkeletonIdleState : SkeletonGroundedState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = enemy.idleTime;
     }
 
@@ -22,6 +23,7 @@ public class SkeletonIdleState : SkeletonGroundedState
     public override void Update()
     {
         base.Update();
+
         if(stateTimer < 0) 
             fsm.SwitchState(enemy.moveState);
     }

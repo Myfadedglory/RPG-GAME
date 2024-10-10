@@ -11,7 +11,9 @@ public class PlayerCounterAttackState : PlayerState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = entity.counterAttackDuration;
+
         entity.anim.SetBool("CounterSuccess", false);
     }
 

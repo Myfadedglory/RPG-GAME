@@ -105,7 +105,6 @@ public class Sword_Skill_Controller : MonoBehaviour
         bounceAmount = _bounceAmount;
         maxBounceDistance = _maxBounceDistance;
         bounceSpeed = _bounceSpeed;
-
         enemyTarget = new List<Transform>();
     }
 
@@ -184,6 +183,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     private int FindClosestEnemyIndex()
     {
         float closestDistance = Mathf.Infinity;
+
         int closestIndex = -1;
 
         for (int i = 0; i < enemyTarget.Count; i++)
@@ -196,6 +196,7 @@ public class Sword_Skill_Controller : MonoBehaviour
             if (distance < closestDistance)
             {
                 closestDistance = distance;
+
                 closestIndex = i;
             }
         }
@@ -219,6 +220,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (peirceAmount > 0 && collision.GetComponent<Enemy>() != null)
         {
             peirceAmount--;
+
             return;
         }
 
@@ -245,7 +247,6 @@ public class Sword_Skill_Controller : MonoBehaviour
         spinDuration = _spinDuration;
         hitCoolDown = _hitCoolDown;
         spinMoveSpeed = _spinMoveSpeed;
-
     }
 
 
@@ -291,15 +292,14 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void HandleSpin(Collider2D collision)
     {
         if (!wasStopped)
-        {
             AttackEnemy(collision);
-        }
         else
             collision.GetComponent<Enemy>().Damage();
 
         if (isSpinning && collision.GetComponent<Enemy>() != null)
         {
             StopWhenSpinning();
+
             return;
         }
 
@@ -311,7 +311,9 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void StopWhenSpinning()
     {
         wasStopped = true;
+
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
+
         spinTimer = spinDuration;
     }
 
@@ -322,8 +324,9 @@ public class Sword_Skill_Controller : MonoBehaviour
     public void ReturnSword()
     {
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        //rb.isKinematic = false;
+
         transform.parent = null;
+
         isReturning = true;
     }
 
@@ -372,7 +375,9 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (collision.GetComponent<Enemy>() != null)
         {
             Enemy enemy = collision.GetComponent<Enemy>();
+
             enemy.Damage(swordAttackDir);
+
             enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
         }
     }
@@ -380,15 +385,18 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void PhysicAttribute()
     {
         canRotate = false;
+
         cd.enabled = false;
 
         rb.isKinematic = true;
+
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     private void AnimationAttribute(Collider2D collision)
     {
         anim.SetBool("Rotation", false);
+
         transform.parent = collision.transform;
     }
 }

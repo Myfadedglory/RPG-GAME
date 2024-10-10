@@ -70,6 +70,7 @@ public class Player : Entity
         catchSword = new PlayerCatchSwordState(this, fsm, "CatchSword");
 
         skill = SkillManger.instance; 
+
         fsm.SwitchState(idleState);
     }
 
@@ -90,12 +91,14 @@ public class Player : Entity
     public void CatchTheSword()
     {
         fsm.SwitchState(catchSword);
+
         Destroy(sword);
     }
 
     public override void Damage(int attackedDir)
     {
         base.Damage(attackedDir);
+
         fsm.SwitchState(hitState);
     }
 

@@ -11,6 +11,7 @@ public class PlayerHitState : PlayerState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = entity.hitDuration;
     }
 
@@ -22,6 +23,7 @@ public class PlayerHitState : PlayerState
     public override void Update()
     {
         base.Update();
+
         if (isAnimationFinished) 
             fsm.SwitchState(entity.idleState);
     }

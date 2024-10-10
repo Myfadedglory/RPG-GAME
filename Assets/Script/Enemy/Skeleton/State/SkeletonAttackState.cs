@@ -16,15 +16,16 @@ public class SkeletonAttackState : SkeletonState
     public override void Exit(IState newState)
     {
         base.Exit(newState);
+
         enemy.lastTimeAttacked = Time.time;
     }
 
     public override void Update()
     {
         base.Update();
+
         if (enemy.IsPlayerDetected().distance > enemy.attackDistance)
             fsm.SwitchState(enemy.battleState);
-
 
         if (isAnimationFinished)
           fsm.SwitchState(enemy.battleState);

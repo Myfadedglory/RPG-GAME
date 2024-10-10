@@ -32,6 +32,7 @@ public class PlayerCatchSwordState : PlayerState
     public override void Update()
     {
         base.Update();
+
         if(isAnimationFinished)
             fsm.SwitchState(entity.idleState);
     }

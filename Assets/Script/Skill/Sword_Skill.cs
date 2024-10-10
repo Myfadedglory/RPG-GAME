@@ -122,7 +122,9 @@ public class Sword_Skill : Skill
     public Vector2 AimDirection()
     {
         Vector2 playerPosition = player.transform.position;
+
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         Vector2 direction = mousePosition - playerPosition;
 
         return direction;
@@ -139,6 +141,7 @@ public class Sword_Skill : Skill
     private void GenerateDots()
     {
         dots = new GameObject[numberOfDots];
+
         for (int i = 0; i < numberOfDots; i++)
         {
             dots[i] = Instantiate(dotPrefab, player.transform.position, Quaternion.identity, dotsParent);
@@ -151,6 +154,7 @@ public class Sword_Skill : Skill
         Vector2 position = (Vector2)player.transform.position + new Vector2(
             AimDirection().normalized.x * launchForce.x,
             AimDirection().normalized.y * launchForce.y) * t + 0.5f * (Physics2D.gravity * swordGravity) * (t * t);
+
         return position;
     }
     #endregion

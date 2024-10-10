@@ -14,6 +14,7 @@ public class SkeletonHitState : SkeletonState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = enemy.hitDuration;
     }
 
@@ -25,6 +26,7 @@ public class SkeletonHitState : SkeletonState
     public override void Update()
     {
         base.Update();
+
         if (isAnimationFinished)
             fsm.SwitchState(enemy.idleState);
     }

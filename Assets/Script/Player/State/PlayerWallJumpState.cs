@@ -11,7 +11,9 @@ public class PlayerWallJumpState : PlayerState
     public override void Enter(IState lastState)
     {
         base.Enter(lastState);
+
         stateTimer = .4f;
+
         entity.SetVelocity(entity.horizonJumpForce * - entity.facingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier ,entity.needFlip);
     }
 
@@ -23,6 +25,7 @@ public class PlayerWallJumpState : PlayerState
     public override void Update()
     {
         base.Update();
+
         if (stateTimer < 0)
             fsm.SwitchState(entity.airState);
     }

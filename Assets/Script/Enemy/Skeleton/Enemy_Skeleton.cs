@@ -13,7 +13,6 @@ public class Enemy_Skeleton : Enemy
     public IState stunState { get; private set; }
 
     [Header("Move Info")]
-    public float skeletonMoveSpeed = 2.0f;
     public float speedMutipulier = 1.5f;    //发现玩家后加速倍率
 
     [Header("Skeleton Attack Info")]
@@ -38,12 +37,14 @@ public class Enemy_Skeleton : Enemy
     protected override void Update()
     {
         base.Update();
+
         fsm.currentState.Update();
     }
 
     public override void Damage(int attackDir)
     {
         base.Damage(attackDir);
+
         fsm.SwitchState(hitState);
     }
 
@@ -52,8 +53,10 @@ public class Enemy_Skeleton : Enemy
         if(base.CanBeStun())
         {
             fsm.SwitchState(stunState);
+
             return true;
         }
+
         return false;
     }
 
