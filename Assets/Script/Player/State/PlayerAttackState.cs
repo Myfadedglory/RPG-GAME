@@ -9,7 +9,7 @@ public class PlayerAttackState : PlayerState
     private float lastTimeAttacked;
     private float comboWindow = 2;
 
-    public PlayerAttackState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    public PlayerAttackState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
     {
     }
 

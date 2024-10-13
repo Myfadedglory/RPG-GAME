@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonMoveState : SkeletonGroundedState
 {
-    public SkeletonMoveState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
+    public SkeletonMoveState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 

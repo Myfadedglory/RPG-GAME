@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
-    public PlayerDashState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    public PlayerDashState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
     {
     }
 
@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
     {
         base.Enter(lastState);
 
-        entity.skill.clone.CreateClone(entity.transform);
+        entity.skill.clone.CreateClone(entity.transform, new Vector3());
 
         stateTimer = entity.dashDuration;
     }

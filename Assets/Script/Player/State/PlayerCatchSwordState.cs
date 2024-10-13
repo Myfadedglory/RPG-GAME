@@ -6,7 +6,7 @@ public class PlayerCatchSwordState : PlayerState
 {
     private Transform sword;
 
-    public PlayerCatchSwordState(Player player, FSM _fsm, string _animBoolName) : base(player, _fsm, _animBoolName)
+    public PlayerCatchSwordState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
     {
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAimSwordState : PlayerState
 {
-    public PlayerAimSwordState(Player player, FSM _fsm, string _animBoolName) : base(player, _fsm, _animBoolName)
+    public PlayerAimSwordState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
     {
     }
 

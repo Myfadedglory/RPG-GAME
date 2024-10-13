@@ -10,12 +10,12 @@ public class Clone_Skill : Skill
     [SerializeField] private bool canAttack;
     [SerializeField] private float clonerDetectDistance = 10f;
 
-    public void CreateClone(Transform _newTransform)
+    public void CreateClone(Transform _newTransform , Vector3 _offset)
     {
         GameObject newClone = Instantiate(clonePrefab);
 
         newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(
-            _newTransform , cloneDuration , clonerDetectDistance , canAttack);
+            _newTransform , cloneDuration , clonerDetectDistance , canAttack , _offset);
     }
 
 }

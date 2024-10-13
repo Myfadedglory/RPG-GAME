@@ -6,9 +6,9 @@ public class SkeletonState : EnemyState
 {
     protected Enemy_Skeleton enemy;
 
-    public SkeletonState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName)
+    public SkeletonState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName)
     {
-        this.enemy = _enemy;
+        this.enemy = enemy;
     }
 
     public override void Enter(IState lastState)

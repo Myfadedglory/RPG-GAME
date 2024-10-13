@@ -9,8 +9,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{9ACF5E76-F5FD-E89F-B92F-35CFC761F483}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,52 +60,53 @@
     <Analyzer Include="D:\unity\2022.3.42f1c1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Skill\Sword_Skill.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerIdleState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerHitState.cs" />
-    <Compile Include="Assets\Script\Skill\Dash_Skill.cs" />
+    <Compile Include="Assets\Script\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonBattleState.cs" />
     <Compile Include="Assets\Script\Player\PlayerState.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAirState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallSlideState.cs" />
-    <Compile Include="Assets\Script\Skill\Controller\Sword_Skill_Controller.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonAttackState.cs" />
-    <Compile Include="Assets\Script\Skill\Controller\BlackHole_HotKey_Controller.cs" />
+    <Compile Include="Assets\Script\Utilities\AnimationTrigger.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerJumpState.cs" />
+    <Compile Include="Assets\Script\Skill\Clone\Clone_Skill.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonIdleState.cs" />
-    <Compile Include="Assets\TextMesh Pro\Utilities\AnimationTrigger.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerMoveState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
     <Compile Include="Assets\Script\Skill\SkillManger.cs" />
+    <Compile Include="Assets\Script\Skill\Sword\Sword_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonMoveState.cs" />
     <Compile Include="Assets\Script\Skill\Skill.cs" />
-    <Compile Include="Assets\TextMesh Pro\Utilities\EntityState.cs" />
+    <Compile Include="Assets\Script\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyState.cs" />
-    <Compile Include="Assets\Script\Skill\Controller\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAimSwordState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerDashState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonState.cs" />
-    <Compile Include="Assets\TextMesh Pro\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCatchSwordState.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_Skill.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
-    <Compile Include="Assets\Script\Skill\SwordType.cs" />
-    <Compile Include="Assets\TextMesh Pro\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonStunState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallJumpState.cs" />
+    <Compile Include="Assets\Script\Skill\Sword\SwordType.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Enemy_Skeleton.cs" />
+    <Compile Include="Assets\Script\Utilities\IState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonGroundedState.cs" />
     <Compile Include="Assets\Script\Player\PlayerManger.cs" />
-    <Compile Include="Assets\Script\Skill\Clone_Skill.cs" />
+    <Compile Include="Assets\Script\Skill\Clone\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonHitState.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
+    <Compile Include="Assets\Script\Skill\Clone\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAttackState.cs" />
+    <Compile Include="Assets\Script\Skill\Sword\Sword_Skill.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
-    <Compile Include="Assets\Script\Skill\Controller\BlackHole_Skill_Controller.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_HotKey_Controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

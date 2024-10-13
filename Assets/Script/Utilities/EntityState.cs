@@ -12,11 +12,11 @@ public class EntityState<T> : IState where T : Entity
     protected Animator anim { get; private set; }
     protected Rigidbody2D rb {  get; private set; }
 
-    public EntityState(T entity , FSM _fsm , string _animBoolName)
+    public EntityState(T entity , FSM fsm , string animBoolName)
     {
-        this.animBoolName = _animBoolName;
+        this.animBoolName = animBoolName;
         this.entity = entity;
-        this.fsm = _fsm;
+        this.fsm = fsm;
         anim = entity.anim;
         rb = entity.rb;
     }

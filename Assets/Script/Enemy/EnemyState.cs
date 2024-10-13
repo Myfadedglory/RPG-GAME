@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyState : EntityState<Enemy>
 {
 
-    public EnemyState(Enemy entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    public EnemyState(Enemy entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
     {
     }
 

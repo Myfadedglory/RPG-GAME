@@ -5,8 +5,8 @@ public class PlayerState : EntityState<Player>
     protected float xInput;
     protected float yInput;
 
-    public PlayerState(Player player, FSM _fsm, string _animBoolName)
-        : base(player, _fsm, _animBoolName)
+    public PlayerState(Player player, FSM fsm, string animBoolName)
+        : base(player, fsm, animBoolName)
     {
     }
 

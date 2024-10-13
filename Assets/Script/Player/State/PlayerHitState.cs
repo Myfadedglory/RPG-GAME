@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHitState : PlayerState
 {
-    public PlayerHitState(Player entity, FSM _fsm, string _animBoolName) : base(entity, _fsm, _animBoolName)
+    public PlayerHitState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
     {
     }
 

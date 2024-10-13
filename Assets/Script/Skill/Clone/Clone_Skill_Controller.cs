@@ -35,12 +35,20 @@ public class Clone_Skill_Controller : MonoBehaviour
         }
     }
 
-    public void SetUpClone(Transform _newTransform , float _cloneDuration, float _clonerDetectDistance , bool _canAttack)
+    public void SetUpClone(
+    Transform _newTransform,
+    float _cloneDuration,
+    float _clonerDetectDistance,
+    bool _canAttack,
+    Vector3? _offset = null     //偏移量 使用可空类型
+    )  
     {
+        Vector3 offset = _offset ?? Vector3.zero;  // 如果没有传入，使用 Vector3.zero
+
         if (_canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 4));
 
-        transform.position = _newTransform.position;
+        transform.position = _newTransform.position + offset;
 
         clonerDetectDistance = _clonerDetectDistance;
 
@@ -48,6 +56,7 @@ public class Clone_Skill_Controller : MonoBehaviour
 
         FacingToClosestTarget();
     }
+
 
     private void AnimationTrigger()
     {

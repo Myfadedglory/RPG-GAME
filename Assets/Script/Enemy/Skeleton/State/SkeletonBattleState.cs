@@ -7,7 +7,7 @@ public class SkeletonBattleState : SkeletonState
     private Transform player;
     private int moveDir;
 
-    public SkeletonBattleState(Enemy entity, FSM _fsm, string _animBoolName, Enemy_Skeleton _enemy) : base(entity, _fsm, _animBoolName, _enemy)
+    public SkeletonBattleState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
