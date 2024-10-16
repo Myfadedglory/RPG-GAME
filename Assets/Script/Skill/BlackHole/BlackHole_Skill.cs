@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlackHole_Skill : Skill
+public class Blackhole_Skill : Skill
 {
     [SerializeField] private int amountOfAttack = 4;
     [SerializeField] private float cloneAttackCoolDown = 0.3f;
     [Space]
-    [SerializeField] private GameObject balckHolePrefab;
+    [SerializeField] private GameObject balckholePrefab;
     [SerializeField] private float maxSize = 15;
+    [SerializeField] private float maxDuration = 20;
     [SerializeField] private float growSpeed = 1f;
     [SerializeField] private float shrinkSpeed = 3f;
+
+    private Blackhole_Skill_Controller currentBlackhole;
 
     public override global::System.Boolean CanUseSkill()
     {
@@ -21,11 +24,19 @@ public class BlackHole_Skill : Skill
     {
         base.UseSkill();
 
-        GameObject newBlackHole = Instantiate(balckHolePrefab);
+        GameObject newBlackhole = Instantiate(balckholePrefab, player.transform.position, Quaternion.identity);
 
-        BlackHole_Skill_Controller newBlackHoleScript = newBlackHole.GetComponent<BlackHole_Skill_Controller>();
+        currentBlackhole = newBlackhole.GetComponent<Blackhole_Skill_Controller>();
 
-        newBlackHoleScript.SetUpBlackHole(maxSize, growSpeed, shrinkSpeed,amountOfAttack ,cloneAttackCoolDown);
+        currentBlackhole.SetUpBlackHole(
+            player,
+            maxSize,
+            maxDuration, 
+            growSpeed, 
+            shrinkSpeed,
+            amountOfAttack ,
+            cloneAttackCoolDown
+            );
     }
 
     protected override void Start()
@@ -36,5 +47,11 @@ public class BlackHole_Skill : Skill
     protected override void Update()
     {
         base.Update();
+    }
+
+    public bool BlackholeFinished()
+    {
+        if (!currentBlackhole) return false;
+        return currentBlackhole.PlayerCanExitState;
     }
 }

@@ -24,13 +24,13 @@ public class PlayerWallSlideState : PlayerState
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            fsm.SwitchState(entity.wallJump);
+            fsm.SwitchState(entity.WallJump);
 
             return;
         }
 
-        if (xInput != 0 && entity.facingDir != xInput)
-            fsm.SwitchState(entity.idleState);
+        if (xInput != 0 && entity.FacingDir != xInput)
+            fsm.SwitchState(entity.IdleState);
 
         if (yInput < 0)
             entity.SetVelocity(0, rb.velocity.y , entity.needFlip);
@@ -38,6 +38,6 @@ public class PlayerWallSlideState : PlayerState
             entity.SetVelocity(0, entity.wallSlideMutiplier * rb.velocity.y, entity.needFlip);
 
         if (entity.IsGroundDetected())
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }

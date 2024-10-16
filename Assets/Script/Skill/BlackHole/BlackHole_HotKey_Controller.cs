@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class BlackHole_HotKey_Controller : MonoBehaviour
+public class Blackhole_HotKey_Controller : MonoBehaviour
 {
     private SpriteRenderer sr;
     private KeyCode myHotKey;
     private TextMeshProUGUI myText;
 
     private Transform enemy;
-    private BlackHole_Skill_Controller blackHoleAC;
+    private Blackhole_Skill_Controller blackholeAC;
 
-    public void SetUpHotKey(KeyCode myHotKey, Transform enemy, BlackHole_Skill_Controller blackHoleAC)
+    public void SetUpHotKey(KeyCode myHotKey, Transform enemy, Blackhole_Skill_Controller blackholeAC)
     {
         sr = GetComponent<SpriteRenderer>();
 
@@ -22,14 +22,14 @@ public class BlackHole_HotKey_Controller : MonoBehaviour
 
         this.myHotKey = myHotKey;
         this.enemy = enemy;
-        this.blackHoleAC = blackHoleAC;
+        this.blackholeAC = blackholeAC;
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(myHotKey))
         {
-            blackHoleAC.AddEnemyToTarget(enemy);
+            blackholeAC.AddEnemyToTarget(enemy);
 
             myText.color = Color.clear;
 

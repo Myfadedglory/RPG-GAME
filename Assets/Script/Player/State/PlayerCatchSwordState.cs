@@ -14,14 +14,14 @@ public class PlayerCatchSwordState : PlayerState
     {
         base.Enter(lastState);
 
-        sword = entity.sword.transform;
+        sword = entity.Sword.transform;
 
-        if (sword.position.x < entity.transform.position.x && entity.facingDir == 1)
+        if (sword.position.x < entity.transform.position.x && entity.FacingDir == 1)
             entity.Flip();
-        else if (sword.position.x > entity.transform.position.x && entity.facingDir == -1)
+        else if (sword.position.x > entity.transform.position.x && entity.FacingDir == -1)
             entity.Flip();
 
-        entity.SetVelocity(entity.swordReturnForce * -entity.facingDir ,rb.velocity.y  , !entity.needFlip);
+        entity.SetVelocity(entity.swordReturnForce * -entity.FacingDir ,rb.velocity.y  , !entity.needFlip);
     }
 
     public override void Exit(IState newState)
@@ -34,6 +34,6 @@ public class PlayerCatchSwordState : PlayerState
         base.Update();
 
         if(isAnimationFinished)
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }

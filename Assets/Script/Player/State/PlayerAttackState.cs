@@ -7,7 +7,6 @@ public class PlayerAttackState : PlayerState
     private int comboCounter;
 
     private float lastTimeAttacked;
-    private float comboWindow = 2;
 
     public PlayerAttackState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
     {
@@ -19,34 +18,40 @@ public class PlayerAttackState : PlayerState
 
         stateTimer = .1f;
 
-        if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
+        if (comboCounter > 2 || Time.time >= lastTimeAttacked + entity.comboWindow)
             comboCounter = 0;
 
-        entity.SetVelocity(entity.attackMoveMent[comboCounter].x * entity.facingDir, entity.attackMoveMent[comboCounter].y , entity.needFlip);
+        entity.SetVelocity(
+            entity.attackMoveMent[comboCounter].x * entity.FacingDir, 
+            entity.attackMoveMent[comboCounter].y , entity.needFlip
+        );
 
-        entity.anim.SetInteger("ComboCounter", comboCounter);
+        anim.SetInteger("ComboCounter", comboCounter);
+
+        anim.speed = entity.attackSpeed;
     }
 
     public override void Exit(IState newState)
     {
         base.Exit(newState);
 
-        comboCounter++;
+        BusyFor(0.15f);
+
+        anim.speed = 1;
 
         lastTimeAttacked = Time.time;
+
+        comboCounter++;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if(stateTimer < 0)
+        if (stateTimer < 0)
             entity.SetZeroVelocity();
 
-        if (isAnimationFinished && !Input.GetKey(KeyCode.Mouse0))
-            fsm.SwitchState(entity.idleState);
-        
-        if (! isAnimationFinished && Input.GetKey(KeyCode.Mouse0))
-            return;
+        if (isAnimationFinished)
+            fsm.SwitchState(entity.IdleState);        
     }
 }

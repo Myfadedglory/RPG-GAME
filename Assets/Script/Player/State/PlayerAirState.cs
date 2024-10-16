@@ -25,12 +25,12 @@ public class PlayerAirState : PlayerState
         base.Update();
 
         if(entity.IsWallDetected())
-            fsm.SwitchState(entity.wallSlide);
+            fsm.SwitchState(entity.WallSlide);
 
         if(xInput != 0)
             entity.SetVelocity(entity.airMoveMutiplier * xInput * entity.moveSpeed , rb.velocity.y , entity.needFlip);
 
         if(entity.IsGroundDetected())
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }

@@ -22,7 +22,7 @@ public class SkeletonMoveState : SkeletonGroundedState
     {
         base.Update();
 
-        enemy.SetVelocity(enemy.moveSpeed * enemy.facingDir, rb.velocity.y , enemy.needFlip);
+        enemy.SetVelocity(enemy.moveSpeed * enemy.FacingDir, rb.velocity.y , enemy.needFlip);
 
         if (!enemy.IsGroundDetected() || enemy.IsWallDetected())
         {

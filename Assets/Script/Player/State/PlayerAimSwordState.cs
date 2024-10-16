@@ -12,7 +12,7 @@ public class PlayerAimSwordState : PlayerState
     {
         base.Enter(lastState);
 
-        entity.skill.sword.ActiveDots(true);
+        entity.Skill.sword.ActiveDots(true);
     }
 
     public override void Exit(IState newState)
@@ -27,13 +27,13 @@ public class PlayerAimSwordState : PlayerState
         entity.SetXZeroVelocity();
 
         if (Input.GetKeyUp(KeyCode.Mouse1)) 
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (mousePosition.x < entity.transform.position.x && entity.facingDir == 1)
+        if (mousePosition.x < entity.transform.position.x && entity.FacingDir == 1)
             entity.Flip();
-        else if(mousePosition.x > entity.transform.position.x && entity.facingDir != 1)
+        else if(mousePosition.x > entity.transform.position.x && entity.FacingDir != 1)
             entity.Flip();
     }
 }

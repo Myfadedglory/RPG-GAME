@@ -68,8 +68,8 @@
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAirState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallSlideState.cs" />
-    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonAttackState.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_HotKey_Controller.cs" />
     <Compile Include="Assets\Script\Utilities\AnimationTrigger.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerJumpState.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Clone_Skill.cs" />
@@ -88,9 +88,10 @@
     <Compile Include="Assets\Script\Player\State\PlayerDashState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCatchSwordState.cs" />
-    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_Skill.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
+    <Compile Include="Assets\Script\Player\State\PlayerBlackholeState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonStunState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallJumpState.cs" />
     <Compile Include="Assets\Script\Skill\Sword\SwordType.cs" />
@@ -103,10 +104,10 @@
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAttackState.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_Skill.cs" />
     <Compile Include="Assets\Script\Skill\Sword\Sword_Skill.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
-    <Compile Include="Assets\Script\Skill\BlackHole\BlackHole_HotKey_Controller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

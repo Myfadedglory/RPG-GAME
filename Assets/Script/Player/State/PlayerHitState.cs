@@ -18,6 +18,7 @@ public class PlayerHitState : PlayerState
     public override void Exit(IState newState)
     {
         base.Exit(newState);
+        BusyFor(0.2f);
     }
 
     public override void Update()
@@ -25,6 +26,6 @@ public class PlayerHitState : PlayerState
         base.Update();
 
         if (isAnimationFinished) 
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }

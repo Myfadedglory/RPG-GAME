@@ -246,7 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7057183002023177938}
   - component: {fileID: 3681047417208113730}
-  - component: {fileID: 1741634703511181536}
+  - component: {fileID: 8289413066340307416}
   m_Layer: 0
   m_Name: BlackHole_HotKey
   m_TagString: Untagged
@@ -322,7 +322,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1741634703511181536
+--- !u!114 &8289413066340307416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

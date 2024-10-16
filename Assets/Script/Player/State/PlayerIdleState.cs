@@ -22,7 +22,7 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
-        if (!(xInput == 0 || (xInput == entity.facingDir) && entity.IsWallDetected()))
-            fsm.SwitchState(entity.moveState);
+        if (!(xInput == 0 || (xInput == entity.FacingDir) && entity.IsWallDetected()))
+            fsm.SwitchState(entity.MoveState);
     }
 }

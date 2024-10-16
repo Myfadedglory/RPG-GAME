@@ -28,10 +28,11 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     public EntityFX fx { get; private set; }
     public FSM fsm { get; private set; }
+    public SpriteRenderer sr { get; private set; }
 
     #endregion
 
-    public int facingDir { get; private set; } = 1;
+    public int FacingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
     protected virtual void Start()
@@ -40,9 +41,11 @@ public class Entity : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
 
-        fx = GetComponentInChildren<EntityFX>();
+        fx = GetComponent<EntityFX>();
 
         fsm = new FSM();
+
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     protected virtual void Update()
@@ -61,7 +64,7 @@ public class Entity : MonoBehaviour
     {
         fx.StartCoroutine("FlashFX");
 
-        StartCoroutine("HitKnockback" , -facingDir);
+        StartCoroutine("HitKnockback" , -FacingDir);
     }
 
     protected virtual IEnumerator HitKnockback(int attackDir)
@@ -82,7 +85,7 @@ public class Entity : MonoBehaviour
     public virtual bool IsGroundDetected() => Physics2D.Raycast(
         groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public virtual bool IsWallDetected() => Physics2D.Raycast(
-        wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
+        wallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround);
 
     protected virtual void OnDrawGizmos()
     {
@@ -93,7 +96,7 @@ public class Entity : MonoBehaviour
         
         Gizmos.DrawLine(
             wallCheck.position,
-            new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y)
+            new Vector3(wallCheck.position.x + wallCheckDistance * FacingDir, wallCheck.position.y)
             );
         
         Gizmos.DrawWireSphere(
@@ -108,7 +111,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Flip()
     {
-        facingDir *= -1;
+        FacingDir *= -1;
 
         facingRight = !facingRight;
 
@@ -145,4 +148,12 @@ public class Entity : MonoBehaviour
     }
 
     #endregion
+
+    public void MakeTransprent(bool _transprent)
+    {
+        if (_transprent)
+            sr.color = Color.clear;
+        else
+            sr.color = Color.white;
+    }
 }

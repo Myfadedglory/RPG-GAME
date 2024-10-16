@@ -10,7 +10,7 @@ public class AnimationTriggers<T> : MonoBehaviour where T : Entity
         if (!entity) Debug.LogError($"父物体未找到名为 {typeof(T)} 的组件");
     }
 
-    protected void AnimationTrigger()
+    protected virtual void AnimationTrigger()
     {
         entity.fsm.currentState?.AnimationFinishTrigger();
     }
@@ -21,13 +21,12 @@ public class AnimationTriggers<T> : MonoBehaviour where T : Entity
 
         foreach (var hit in colliders)
         {
-            if (hit.GetComponent<Entity>() != null)
-                hit.GetComponent<Entity>().Damage(attackedDir);
+            hit.GetComponent<Entity>()?.Damage(attackedDir);
         }
     }
 
     protected virtual void AttackTrigger()
     {
-
+        AttackTriggerLogic(entity.FacingDir);
     }
 }

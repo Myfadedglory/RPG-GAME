@@ -14,7 +14,7 @@ public class PlayerWallJumpState : PlayerState
 
         stateTimer = .4f;
 
-        entity.SetVelocity(entity.horizonJumpForce * - entity.facingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier ,entity.needFlip);
+        entity.SetVelocity(entity.horizonJumpForce * - entity.FacingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier ,entity.needFlip);
     }
 
     public override void Exit(IState newState)
@@ -27,6 +27,6 @@ public class PlayerWallJumpState : PlayerState
         base.Update();
 
         if (stateTimer < 0)
-            fsm.SwitchState(entity.airState);
+            fsm.SwitchState(entity.AirState);
     }
 }

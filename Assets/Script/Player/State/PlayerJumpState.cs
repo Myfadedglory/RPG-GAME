@@ -25,6 +25,6 @@ public class PlayerJumpState : PlayerAirState
         base.Update();
 
         if (rb.velocity.y > 0)
-            fsm.SwitchState(entity.airState);
+            fsm.SwitchState(entity.AirState);
     }
 }

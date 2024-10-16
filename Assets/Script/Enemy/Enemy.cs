@@ -98,19 +98,15 @@ public class Enemy : Entity
 
     public virtual RaycastHit2D IsPlayerDetected()
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(wallCheck.position, Vector2.right * facingDir, playerDetectedDistance, whatIsPlayer | whatIsGround);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(wallCheck.position, Vector2.right * FacingDir, playerDetectedDistance, whatIsPlayer | whatIsGround);
 
         foreach (var hit in hits)
         {
             if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsGround) != 0)
-            {
                 return new RaycastHit2D();
-            }
 
             if (hit.collider != null && ((1 << hit.collider.gameObject.layer) & whatIsPlayer) != 0)
-            {
                 return hit;
-            }
         }
 
         return new RaycastHit2D();
@@ -122,6 +118,6 @@ public class Enemy : Entity
 
         Gizmos.color = Color.yellow;
 
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * FacingDir, transform.position.y));
     }
 }

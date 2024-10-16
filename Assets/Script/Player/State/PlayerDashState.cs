@@ -12,7 +12,7 @@ public class PlayerDashState : PlayerState
     {
         base.Enter(lastState);
 
-        entity.skill.clone.CreateClone(entity.transform, new Vector3());
+        entity.Skill.clone.CreateClone(entity.transform, new Vector3());
 
         stateTimer = entity.dashDuration;
     }
@@ -29,11 +29,11 @@ public class PlayerDashState : PlayerState
         base.Update();
 
         if(!entity.IsGroundDetected() && entity.IsWallDetected())
-            fsm.SwitchState(entity.wallSlide);
+            fsm.SwitchState(entity.WallSlide);
 
         entity.SetVelocity(entity.dashSpeed * entity.dashDir , 0 , entity.needFlip);
 
         if (stateTimer < 0) 
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }

@@ -22,28 +22,51 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
+        if(isBusy) return;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            fsm.SwitchState(entity.BlackHole);
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
-            fsm.SwitchState(entity.aimSword);
+        {
+            fsm.SwitchState(entity.AimSword);
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
-            fsm.SwitchState(entity.counterAttack);
+        {
+            fsm.SwitchState(entity.CounterAttack);
+            return;
+        }
 
         if (Input.GetKey(KeyCode.Mouse0))
-            fsm.SwitchState(entity.attackState);
+        {
+            fsm.SwitchState(entity.AttackState);
+            return;
+        }
 
         if (!entity.IsGroundDetected())
-            fsm.SwitchState(entity.airState);
+        {
+            fsm.SwitchState(entity.AirState);
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && entity.IsGroundDetected())
-            fsm.SwitchState(entity.jumpState);
+        {
+            fsm.SwitchState(entity.JumpState);
+            return;
+        }
     }
 
     private bool HasNoSword()
     {
-        if(!entity.sword)
+        if(!entity.Sword)
             return true;
 
-        entity.sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+        entity.Sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
 
         return false;
     }

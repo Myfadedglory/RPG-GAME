@@ -5,6 +5,8 @@ public class Player : Entity
 {
     [Header("Attack info")]
     public Vector2[] attackMoveMent;
+    public float attackSpeed = 1f;
+    public float comboWindow = 1f;
 
     [Header("Move info")]
     public float moveSpeed = 3.80f;
@@ -21,12 +23,12 @@ public class Player : Entity
     public float hitDuration = 0.2f;
 
     [Header("Counter Attack info")]
-    public float counterAttackDuration;
+    public float counterAttackDuration = 0.1f;
 
-    public float swordReturnForce = 12f;
+    public float swordReturnForce = 7f;
 
-    public SkillManger skill {  get; private set; }
-    public GameObject sword { get; private set; }
+    public SkillManger Skill {  get; private set; }
+    public GameObject Sword { get; private set; }
 
     #region Mutiplier info
 
@@ -38,40 +40,43 @@ public class Player : Entity
 
     #region State
 
-    public IState idleState { get; private set; }
-    public IState moveState { get; private set; }
-    public IState jumpState { get; private set; }
-    public IState airState { get; private set; }
-    public IState dashState { get; private set; }
-    public IState wallSlide { get; private set; }
-    public IState wallJump { get; private set; }
-    public IState attackState { get; private set; }
-    public IState hitState { get; private set; }
-    public IState counterAttack { get; private set; }
-    public IState aimSword { get; private set; }
-    public IState catchSword { get; private set; }
+    public IState IdleState { get; private set; }
+    public IState MoveState { get; private set; }
+    public IState JumpState { get; private set; }
+    public IState AirState { get; private set; }
+    public IState DashState { get; private set; }
+    public IState WallSlide { get; private set; }
+    public IState WallJump { get; private set; }
+    public IState AttackState { get; private set; }
+    public IState HitState { get; private set; }
+    public IState CounterAttack { get; private set; }
+    public IState AimSword { get; private set; }
+    public IState CatchSword { get; private set; }
+    public IState BlackHole { get; private set; }
 
     #endregion
 
     protected override void Start()
     {
         base.Start();
-        idleState = new PlayerIdleState(this, fsm, "Idle");
-        moveState = new PlayerMoveState(this, fsm, "Move");
-        jumpState = new PlayerJumpState(this, fsm, "Jump");
-        airState = new PlayerAirState(this, fsm, "Jump");
-        dashState = new PlayerDashState(this, fsm, "Dash");
-        wallSlide = new PlayerWallSlideState(this, fsm, "WallSlide");
-        wallJump = new PlayerWallJumpState(this, fsm, "Jump");
-        attackState = new PlayerAttackState(this, fsm, "Attack");
-        hitState = new PlayerHitState(this, fsm, "Hit");
-        counterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
-        aimSword = new PlayerAimSwordState(this, fsm, "AimSword");
-        catchSword = new PlayerCatchSwordState(this, fsm, "CatchSword");
 
-        skill = SkillManger.instance; 
+        IdleState = new PlayerIdleState(this, fsm, "Idle");
+        MoveState = new PlayerMoveState(this, fsm, "Move");
+        JumpState = new PlayerJumpState(this, fsm, "Jump");
+        AirState = new PlayerAirState(this, fsm, "Jump");
+        DashState = new PlayerDashState(this, fsm, "Dash");
+        WallSlide = new PlayerWallSlideState(this, fsm, "WallSlide");
+        WallJump = new PlayerWallJumpState(this, fsm, "Jump");
+        AttackState = new PlayerAttackState(this, fsm, "Attack");
+        HitState = new PlayerHitState(this, fsm, "Hit");
+        CounterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
+        AimSword = new PlayerAimSwordState(this, fsm, "AimSword");
+        CatchSword = new PlayerCatchSwordState(this, fsm, "CatchSword");
+        BlackHole = new PlayerBlackholeState(this, fsm, "Jump");
 
-        fsm.SwitchState(idleState);
+        Skill = SkillManger.instance; 
+
+        fsm.SwitchState(IdleState);
     }
 
     protected override void Update()
@@ -85,21 +90,21 @@ public class Player : Entity
 
     public void AssignNewSword(GameObject _newSword)
     {
-        sword = _newSword;
+        Sword = _newSword;
     }
 
     public void CatchTheSword()
     {
-        fsm.SwitchState(catchSword);
+        fsm.SwitchState(CatchSword);
 
-        Destroy(sword);
+        Destroy(Sword);
     }
 
     public override void Damage(int attackedDir)
     {
         base.Damage(attackedDir);
 
-        fsm.SwitchState(hitState);
+        fsm.SwitchState(HitState);
     }
 
     public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();
@@ -114,9 +119,9 @@ public class Player : Entity
             dashDir = Input.GetAxisRaw("Horizontal");
 
             if (dashDir == 0)
-                dashDir = facingDir;
+                dashDir = FacingDir;
 
-            fsm.SwitchState(dashState);
+            fsm.SwitchState(DashState);
         }
     }
 }

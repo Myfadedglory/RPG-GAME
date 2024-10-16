@@ -25,6 +25,6 @@ public class PlayerMoveState : PlayerGroundedState
         entity.SetVelocity(xInput * entity.moveSpeed, rb.velocity.y ,entity.needFlip);
 
         if (xInput == 0 || entity.IsWallDetected())
-            fsm.SwitchState(entity.idleState);
+            fsm.SwitchState(entity.IdleState);
     }
 }
