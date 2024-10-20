@@ -17,12 +17,6 @@ public class AnimationTriggers<T> : MonoBehaviour where T : Entity
 
     protected virtual void AttackTriggerLogic(int attackedDir)
     {
-        var colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
-
-        foreach (var hit in colliders)
-        {
-            hit.GetComponent<Entity>()?.Damage(attackedDir);
-        }
     }
 
     protected virtual void AttackTrigger()

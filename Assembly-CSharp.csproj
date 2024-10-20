@@ -78,6 +78,7 @@
     <Compile Include="Assets\Script\Player\State\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
     <Compile Include="Assets\Script\Skill\SkillManger.cs" />
+    <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Skill\Sword\Sword_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonMoveState.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Script\Player\State\PlayerDashState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCatchSwordState.cs" />
+    <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill.cs" />
     <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
