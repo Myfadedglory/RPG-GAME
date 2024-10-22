@@ -52,9 +52,7 @@ public class SkeletonBattleState : SkeletonState
         if(fsm.currentState != enemy.attackState)
         {
             if(player.position.x == enemy.transform.position.x)
-            {
                 return;
-            }
             else if (player.position.x > enemy.transform.position.x)
                 moveDir = 1;               
             else if (player.position.x < enemy.transform.position.x)

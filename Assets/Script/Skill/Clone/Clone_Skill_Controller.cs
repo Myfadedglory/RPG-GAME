@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Clone_Skill_Controller : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class Clone_Skill_Controller : MonoBehaviour
 
     private int cloneFacingDir;
     private Transform closestEnemy;
+    private Func<Transform, float, Transform> findClosestEnemy;
 
     private void Awake()
     {
@@ -40,10 +43,13 @@ public class Clone_Skill_Controller : MonoBehaviour
     float _cloneDuration,
     float _clonerDetectDistance,
     bool _canAttack,
+    Func<Transform, float, Transform> findClosestEnemy,
     Vector3? _offset = null     //偏移量 使用可空类型
     )  
     {
         Vector3 offset = _offset ?? Vector3.zero;  // 如果没有传入，使用 Vector3.zero
+
+        this.findClosestEnemy = findClosestEnemy;
 
         if (_canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 4));

@@ -15,7 +15,7 @@ public class Clone_Skill : Skill
         GameObject newClone = Instantiate(clonePrefab);
 
         newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(
-            _newTransform , cloneDuration , clonerDetectDistance , canAttack , _offset);
+            _newTransform , cloneDuration , clonerDetectDistance , canAttack , FindClosestEnemy, _offset);
     }
 
 }

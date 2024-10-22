@@ -8103,9 +8103,18 @@ MonoBehaviour:
   coolDown: 0
   crystalPrefab: {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
   crystalDuration: 5
+  maxSize: {x: 3, y: 3}
   canExplode: 1
   canMove: 1
   moveSpeed: 5
+  canUseMultiStacks: 1
+  amountOfStacks: 3
+  multiStackCoolDown: 5
+  useTimeWindow: 0
+  crystalLeft:
+  - {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
+  - {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
+  - {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
 --- !u!1 &1035196602
 GameObject:
   m_ObjectHideFlags: 0
@@ -8147,6 +8156,10 @@ MonoBehaviour:
   wallCheckDistance: 0.1
   knockbackDirection: {x: 2, y: 1}
   knockbackDuration: 0.07
+  right: {x: 1, y: 0}
+  left: {x: -1, y: 0}
+  up: {x: 0, y: 1}
+  down: {x: 0, y: -1}
   attackCheck: {fileID: 1969391706}
   attackCheckDistance: 0.8
   needFlip: 1
@@ -8678,6 +8691,10 @@ MonoBehaviour:
   wallCheckDistance: 0.2
   knockbackDirection: {x: 10, y: 8}
   knockbackDuration: 0.07
+  right: {x: 1, y: 0}
+  left: {x: -1, y: 0}
+  up: {x: 0, y: 1}
+  down: {x: 0, y: -1}
   attackCheck: {fileID: 1088857666}
   attackCheckDistance: 0.6
   needFlip: 1

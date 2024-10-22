@@ -16,6 +16,11 @@ public class Entity : MonoBehaviour
     [SerializeField] protected float knockbackDuration = 0.07f;
     protected bool isKnocked;
 
+    public Vector2 right = new Vector2(1,0);
+    public Vector2 left = new Vector2(-1,0);
+    public Vector2 up = new Vector2(0,1);
+    public Vector2 down = new Vector2(0,-1);
+
     [Header("Attack info")]
     public Transform attackCheck;
     public float attackCheckDistance;

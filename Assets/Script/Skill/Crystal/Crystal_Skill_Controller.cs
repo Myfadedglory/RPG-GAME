@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,15 +15,30 @@ public class Crystal_Skill_Controller : MonoBehaviour
     private float moveSpeed;
 
     private bool canGrow;
-    private float growSpeed = 5;
+    private Vector2 maxSize;
+    private float growSpeed;
     private float detectEnemyDistance = 20;
+    private float crystalExplodeDistance = 1;
 
-    public void SetUpCrystal(float crystalDuration ,bool canExplode, bool canMove, float moveSpeed)
+    private Func<Transform, float, Transform> findClosestEnemy;
+
+
+    public void SetUpCrystal(
+        float crystalDuration,
+        bool canExplode, 
+        bool canMove, 
+        float growSpeed,
+        float moveSpeed,
+        Vector2 maxSize,
+        Func<Transform, float, Transform> findClosestEnemy
+    )
     {
         crystalExitTimer = crystalDuration;
         this.canExplode = canExplode;
         this.canMove = canMove;
         this.moveSpeed = moveSpeed;
+        this.maxSize = maxSize;
+        this.findClosestEnemy = findClosestEnemy;
     }
 
     private void Update()
@@ -33,45 +49,23 @@ public class Crystal_Skill_Controller : MonoBehaviour
             CrystalExitTimeOver();
 
         if (canGrow)
-            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3,3), growSpeed* Time.deltaTime);
+            transform.localScale = Vector2.Lerp(transform.localScale, maxSize, growSpeed* Time.deltaTime);
 
         if (canMove)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectEnemyDistance);
+            var closestEnemy = findClosestEnemy(transform, detectEnemyDistance);
 
-            List<Transform> enemyTarget = new List<Transform>();
-
-            foreach (var hit in colliders)
+            if (closestEnemy != null)
             {
-                if (hit.GetComponent<Enemy>() != null)
-                    enemyTarget.Add(hit.transform);
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    closestEnemy.position,
+                    moveSpeed * Time.deltaTime
+                );
+
+                if (Vector2.Distance(transform.position, closestEnemy.position) < crystalExplodeDistance)
+                    CrystalExitTimeOver();
             }
-
-            float closestDistance = Mathf.Infinity;
-
-            int closestIndex = -1;
-            int targetIndex = 0;
-
-            for (int i = 0; i < enemyTarget.Count; i++)
-            {
-                if (i == targetIndex)
-                    continue;
-
-                float distance = Vector2.Distance(transform.position, enemyTarget[i].position);
-
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-
-                    closestIndex = i;
-                }
-            }
-
-            transform.position = Vector2.MoveTowards(
-                transform.position, 
-                enemyTarget[targetIndex].position, 
-                moveSpeed * Time.deltaTime
-            );
         }
     }
 
@@ -81,7 +75,14 @@ public class Crystal_Skill_Controller : MonoBehaviour
 
         foreach(var hit in colliders)
         {
-            hit.GetComponent<Enemy>()?.Damage();
+            if (hit.GetComponent<Enemy>() != null)
+            {
+                var enemy = hit.GetComponent<Enemy>();
+                if (enemy.transform.position.x <= transform.position.x)
+                    enemy.Damage((int)enemy.left.x);
+                else if (enemy.transform.position.x > transform.position.x)
+                    enemy.Damage((int)enemy.right.x);
+            }
         }
     }
 

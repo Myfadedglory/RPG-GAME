@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
-    [SerializeField] protected float coolDown;
-    protected float coolDownTimer;
+    [SerializeField] protected float cooldown;
+    protected float cooldownTimer;
 
     protected Player player;
 
@@ -16,16 +16,16 @@ public class Skill : MonoBehaviour
 
     protected virtual void Update()
     {
-        coolDownTimer -= Time.deltaTime;
+        cooldownTimer -= Time.deltaTime;
     }
 
     public virtual bool CanUseSkill()
     {
-        if (coolDownTimer < 0)
+        if (cooldownTimer < 0)
         {
             UseSkill();
 
-            coolDownTimer = coolDown;
+            cooldownTimer = cooldown;
 
             return true;
         }
@@ -35,5 +35,28 @@ public class Skill : MonoBehaviour
     public virtual void UseSkill()
     {
 
+    }
+
+    protected virtual Transform FindClosestEnemy(Transform detectTransform, float radius)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
+        Transform closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (var hit in colliders)
+        {
+            if (hit.GetComponent<Enemy>() != null)
+            {
+                float distance = Vector2.Distance(detectTransform.position, hit.transform.position);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestEnemy = hit.transform;
+                }
+            }
+        }
+
+        return closestEnemy;
     }
 }
