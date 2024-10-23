@@ -16,6 +16,8 @@ public class SkeletonHitState : SkeletonState
         base.Enter(lastState);
 
         stateTimer = enemy.hitDuration;
+
+        enemy.CloseCounterAttackWindow();
     }
 
     public override void Exit(IState newState)

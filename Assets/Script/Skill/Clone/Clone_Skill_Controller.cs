@@ -8,16 +8,21 @@ public class Clone_Skill_Controller : MonoBehaviour
 {
     private SpriteRenderer sr;
     private Animator anim;
-    private float clonerDetectDistance;
+
     [SerializeField] private float colorLosingSpeed;
 
+    private float clonerDetectDistance;
     private float cloneTimer;
+
     [SerializeField] private Transform attackCheck;
     [SerializeField] private float attackCheckRadious = 0.8f;
 
-    private int cloneFacingDir;
+    private int cloneFacingDir = 1;
     private Transform closestEnemy;
-    private Func<Transform, float, Transform> findClosestEnemy;
+    private Func<Transform, float, Transform> FindClosestEnemy;
+
+    private bool canDuplicateClone;
+    private float chanceToDuplcate;
 
     private void Awake()
     {
@@ -39,26 +44,32 @@ public class Clone_Skill_Controller : MonoBehaviour
     }
 
     public void SetUpClone(
-    Transform _newTransform,
-    float _cloneDuration,
-    float _clonerDetectDistance,
-    bool _canAttack,
-    Func<Transform, float, Transform> findClosestEnemy,
-    Vector3? _offset = null     //偏移量 使用可空类型
+        Transform newTransform,
+        float cloneDuration,
+        float clonerDetectDistance,
+        bool canAttack,
+        Func<Transform, float, Transform> FindClosestEnemy,
+        bool canDuplicateClone,
+        float chanceToDuplcate,
+        Vector3 _offset   
     )  
     {
-        Vector3 offset = _offset ?? Vector3.zero;  // 如果没有传入，使用 Vector3.zero
+        Vector3 offset = _offset;
 
-        this.findClosestEnemy = findClosestEnemy;
+        transform.position = newTransform.position + offset;
 
-        if (_canAttack)
+        cloneTimer = cloneDuration;
+
+        this.FindClosestEnemy = FindClosestEnemy;
+
+        this.canDuplicateClone = canDuplicateClone;
+
+        this.chanceToDuplcate = chanceToDuplcate;
+
+        if (canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 4));
 
-        transform.position = _newTransform.position + offset;
-
-        clonerDetectDistance = _clonerDetectDistance;
-
-        cloneTimer = _cloneDuration;
+        this.clonerDetectDistance = clonerDetectDistance;
 
         FacingToClosestTarget();
     }
@@ -76,34 +87,32 @@ public class Clone_Skill_Controller : MonoBehaviour
         foreach (var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)
+            {
                 hit.GetComponent<Enemy>().Damage(cloneFacingDir);
+
+                if (canDuplicateClone)
+                {
+                    if(Random.Range(0,100) < chanceToDuplcate * 100)
+                    {
+                        SkillManger.instance.clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
+                    }
+                }
+            }
         }
     }
 
     private void FacingToClosestTarget()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, clonerDetectDistance);
+        closestEnemy = FindClosestEnemy(transform, clonerDetectDistance);
 
-        float closestDistance = Mathf.Infinity;
-
-        foreach(var hit in colliders)
-        {
-            if(hit.GetComponent<Enemy>() != null)
-            {
-                float distanceToPlayer = Vector2.Distance(transform.position, hit.transform.position);
-
-                if (distanceToPlayer < closestDistance)
-                {
-                    clonerDetectDistance = distanceToPlayer;
-
-                    closestEnemy = hit.transform;
-                }
-            }
-        }
         if(closestEnemy != null)
         {
             if (closestEnemy.position.x < transform.position.x)
+            {
+                cloneFacingDir = -1;
+
                 transform.Rotate(0, 180, 0);
+            }
         }
     }
 }

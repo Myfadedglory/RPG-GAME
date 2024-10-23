@@ -12,33 +12,40 @@ public class Crystal_Skill_Controller : MonoBehaviour
 
     private bool canExplode;
     private bool canMove;
-    private float moveSpeed;
-
     private bool canGrow;
+
+    private float moveSpeed;
     private Vector2 maxSize;
     private float growSpeed;
-    private float detectEnemyDistance = 20;
-    private float crystalExplodeDistance = 1;
 
-    private Func<Transform, float, Transform> findClosestEnemy;
+    private float crystalExplodeDistance = 0.5f;
 
+    private Transform followTarget;
 
     public void SetUpCrystal(
-        float crystalDuration,
-        bool canExplode, 
         bool canMove, 
+        bool canExplode, 
         float growSpeed,
         float moveSpeed,
         Vector2 maxSize,
-        Func<Transform, float, Transform> findClosestEnemy
+        bool chooseRandomTarget,
+        float crystalDuration,
+        float crystalDetectDistance,
+        Func<Transform, float, Transform> ChooseClosestEnemy,
+        Func<Transform, float, Transform> ChooseRandomEnemy
     )
     {
         crystalExitTimer = crystalDuration;
         this.canExplode = canExplode;
         this.canMove = canMove;
+        this.growSpeed = growSpeed;
         this.moveSpeed = moveSpeed;
         this.maxSize = maxSize;
-        this.findClosestEnemy = findClosestEnemy;
+   
+        if(chooseRandomTarget)
+            followTarget = ChooseRandomEnemy(transform, crystalDetectDistance);
+        else
+            followTarget = ChooseClosestEnemy(transform, crystalDetectDistance);
     }
 
     private void Update()
@@ -49,21 +56,19 @@ public class Crystal_Skill_Controller : MonoBehaviour
             CrystalExitTimeOver();
 
         if (canGrow)
-            transform.localScale = Vector2.Lerp(transform.localScale, maxSize, growSpeed* Time.deltaTime);
+            transform.localScale = Vector2.Lerp(transform.localScale, maxSize, growSpeed * Time.deltaTime);
 
         if (canMove)
         {
-            var closestEnemy = findClosestEnemy(transform, detectEnemyDistance);
-
-            if (closestEnemy != null)
+            if (followTarget != null)
             {
                 transform.position = Vector2.MoveTowards(
                     transform.position,
-                    closestEnemy.position,
+                    followTarget.position,
                     moveSpeed * Time.deltaTime
                 );
 
-                if (Vector2.Distance(transform.position, closestEnemy.position) < crystalExplodeDistance)
+                if (Vector2.Distance(transform.position, followTarget.position) < crystalExplodeDistance)
                     CrystalExitTimeOver();
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Skill : MonoBehaviour
 {
     [SerializeField] protected float cooldown;
+    [SerializeField] protected LayerMask whatIsEnemy;
     protected float cooldownTimer;
 
     protected Player player;
@@ -37,10 +38,12 @@ public class Skill : MonoBehaviour
 
     }
 
-    protected virtual Transform FindClosestEnemy(Transform detectTransform, float radius)
+    protected virtual Transform ChooseClosestEnemy(Transform detectTransform, float radius)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
+
         Transform closestEnemy = null;
+        
         float closestDistance = Mathf.Infinity;
 
         foreach (var hit in colliders)
@@ -58,5 +61,19 @@ public class Skill : MonoBehaviour
         }
 
         return closestEnemy;
+    }
+
+    protected virtual Transform ChooseRandomEnemy(Transform detectTransform, float detectDistance)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectDistance, whatIsEnemy);
+
+        if (colliders.Length > 0)
+        {
+            var randomTarget = colliders[Random.Range(0, colliders.Length)];
+
+            return randomTarget.transform;
+        }
+
+        return null;
     }
 }

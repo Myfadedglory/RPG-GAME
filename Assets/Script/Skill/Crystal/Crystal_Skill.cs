@@ -6,8 +6,11 @@ public class Crystal_Skill : Skill
 {
     [SerializeField] private GameObject crystalPrefab;
     [SerializeField] private float crystalDuration = 5;
-    [SerializeField] private Vector2 maxSize = new(3,3);
+    [SerializeField] private Vector2 maxSize;
     [SerializeField] private float growSpeed = 5;
+
+    [Header("Crystal Mirage")]
+    [SerializeField] private bool cloneInsteadOfCrystal;
 
     [Header("Explosive Crystal")]
     [SerializeField] private bool canExplode;
@@ -15,16 +18,47 @@ public class Crystal_Skill : Skill
     [Header("Moveable Crystal")]
     [SerializeField] private bool canMove;
     [SerializeField] private float moveSpeed = 3;
+    [SerializeField] private float crystalDetectDistance = 25;
 
     [Header("Multi Stacking Crystal")]
     [SerializeField] private bool canUseMultiStacks;
     [SerializeField] private int amountOfStacks = 3;
     [SerializeField] private float multiStackCooldown = 5;
     [SerializeField] private float useTimeWindow;
-    [SerializeField] private List<GameObject> crystalLeft = new();
+    [SerializeField] private List<GameObject> crystalLeft;
 
+    private GameObject currentCrystal;
+    private bool chooseRandomtarget;
 
-    private GameObject currentCrystal = new();
+    public void CreateCrystal()
+    {
+        currentCrystal = CreateCrystal(crystalPrefab);
+    }
+
+    public GameObject CreateCrystal(GameObject prefab)
+    {
+        var newCrystal = Instantiate(prefab, player.transform.position, Quaternion.identity);
+
+        newCrystal.GetComponent<Crystal_Skill_Controller>().SetUpCrystal(
+            canMove,
+            canExplode,
+            growSpeed,
+            moveSpeed,
+            maxSize,
+            chooseRandomtarget,
+            crystalDuration,
+            crystalDetectDistance,
+            ChooseClosestEnemy,
+            ChooseRandomEnemy
+        );
+
+        return newCrystal;
+    }
+
+    public void ChooseRandomTarget()
+    {
+        chooseRandomtarget = true;
+    }
 
     public override void UseSkill()
     {
@@ -35,26 +69,25 @@ public class Crystal_Skill : Skill
 
         if(currentCrystal == null)
         {
-            currentCrystal = Instantiate(crystalPrefab, player.transform.position, Quaternion.identity);  
-            
-            var currentCrystalScript = currentCrystal.GetComponent<Crystal_Skill_Controller>();
-
-            currentCrystalScript.SetUpCrystal(
-                crystalDuration, 
-                canExplode, 
-                canMove, 
-                growSpeed,
-                moveSpeed,
-                maxSize,
-                FindClosestEnemy
-            );
+            CreateCrystal();
         }
         else
         {
+            if(canMove)
+                return;
+
             (currentCrystal.transform.position, player.transform.position) = 
                 (player.transform.position, currentCrystal.transform.position);
 
-            currentCrystal.GetComponent<Crystal_Skill_Controller>()?.CrystalExitTimeOver();
+            if (cloneInsteadOfCrystal)
+            {
+                SkillManger.instance.clone.CreateClone(currentCrystal.transform, Vector3.zero);
+                Destroy(currentCrystal);
+            }
+            else
+            {
+                currentCrystal.GetComponent<Crystal_Skill_Controller>()?.CrystalExitTimeOver();
+            }
         }
     }
 
@@ -65,28 +98,20 @@ public class Crystal_Skill : Skill
             if(crystalLeft.Count > 0)
             {
                 if (crystalLeft.Count == amountOfStacks)
-                {
                     Invoke(nameof(ResetAbility), useTimeWindow);
-                }
 
                 cooldown = 0;
-                var crystalToSpawn = crystalLeft[crystalLeft.Count - 1];
-                var newCrystal = Instantiate(crystalToSpawn, player.transform.position, Quaternion.identity);
-                crystalLeft.Remove(crystalToSpawn);
 
-                newCrystal.GetComponent<Crystal_Skill_Controller>().SetUpCrystal(
-                    crystalDuration,
-                    canExplode, 
-                    canMove,
-                    growSpeed,
-                    moveSpeed, 
-                    maxSize, 
-                    FindClosestEnemy
-                );
+                var crystalToSpawn = crystalLeft[^1];   //get the lasest one
+
+                CreateCrystal(crystalToSpawn);
+
+                crystalLeft.Remove(crystalToSpawn);
 
                 if(crystalLeft.Count <= 0)
                 {
                     cooldown = multiStackCooldown;
+
                     RefilCrystal();
                 }
             }
@@ -105,8 +130,10 @@ public class Crystal_Skill : Skill
 
     private void ResetAbility()
     {
-        if (cooldownTimer > 0) return;
+        if (cooldownTimer >= 0) return;
+
         cooldownTimer = multiStackCooldown;
+        
         RefilCrystal();
     }
 }
