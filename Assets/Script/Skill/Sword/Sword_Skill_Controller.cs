@@ -125,7 +125,7 @@ public class Sword_Skill_Controller : MonoBehaviour
             {
 
                 Enemy enemy = enemyTarget[targetIndex].GetComponent<Enemy>();
-                enemy.Damage(swordAttackDir);
+                enemy.Damage(player.Stats,swordAttackDir);
                 enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
 
                 bounceAmount--;
@@ -283,7 +283,7 @@ public class Sword_Skill_Controller : MonoBehaviour
 
                 foreach (var hit in colliders)
                 {
-                    hit.GetComponent<Enemy>()?.Damage();
+                    hit.GetComponent<Enemy>()?.Damage(player.Stats);
                 }
             }
         }
@@ -294,7 +294,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         if (!wasStopped)
             AttackEnemy(collision);
         else
-            collision.GetComponent<Enemy>().Damage();
+            collision.GetComponent<Enemy>().Damage(player.Stats);
 
         if (isSpinning && collision.GetComponent<Enemy>() != null)
         {
@@ -376,7 +376,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         {
             Enemy enemy = collision.GetComponent<Enemy>();
 
-            enemy.Damage(swordAttackDir);
+            enemy.Damage(player.Stats,swordAttackDir);
 
             enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
         }

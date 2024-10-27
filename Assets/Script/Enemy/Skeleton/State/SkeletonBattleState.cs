@@ -7,7 +7,7 @@ public class SkeletonBattleState : SkeletonState
     private Transform player;
     private int moveDir;
 
-    public SkeletonBattleState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonBattleState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -38,7 +38,7 @@ public class SkeletonBattleState : SkeletonState
                 enemy.SetXZeroVelocity();
 
                 if (CanAttack())
-                    fsm.SwitchState(enemy.attackState);
+                    fsm.SwitchState(enemy.AttackState);
 
                 return;
             }
@@ -46,10 +46,10 @@ public class SkeletonBattleState : SkeletonState
         else
         {
             if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.hatredDistance)
-                fsm.SwitchState(enemy.idleState);
+                fsm.SwitchState(enemy.IdleState);
         }
 
-        if(fsm.currentState != enemy.attackState)
+        if(fsm.currentState != enemy.AttackState)
         {
             if(player.position.x == enemy.transform.position.x)
                 return;

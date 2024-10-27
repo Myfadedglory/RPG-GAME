@@ -7,7 +7,7 @@ public class SkeletonGroundedState : SkeletonState
 
     protected Transform player;
 
-    public SkeletonGroundedState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonGroundedState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -28,6 +28,6 @@ public class SkeletonGroundedState : SkeletonState
         base.Update();
 
         if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position , player.position) < enemy.minDetectedDistance) 
-            fsm.SwitchState(enemy.battleState);
+            fsm.SwitchState(enemy.BattleState);
     }
 }

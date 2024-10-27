@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonIdleState : SkeletonGroundedState
 {
-    public SkeletonIdleState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonIdleState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -25,6 +25,6 @@ public class SkeletonIdleState : SkeletonGroundedState
         base.Update();
 
         if(stateTimer < 0) 
-            fsm.SwitchState(enemy.moveState);
+            fsm.SwitchState(enemy.MoveState);
     }
 }

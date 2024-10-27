@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonMoveState : SkeletonGroundedState
 {
-    public SkeletonMoveState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonMoveState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -28,7 +28,7 @@ public class SkeletonMoveState : SkeletonGroundedState
         {
             enemy.Flip();
 
-            fsm.SwitchState(enemy.idleState);
+            fsm.SwitchState(enemy.IdleState);
         }
     }
 }

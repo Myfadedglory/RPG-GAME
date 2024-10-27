@@ -17,8 +17,8 @@ public class EntityState<T> : IState where T : Entity
         this.animBoolName = animBoolName;
         this.entity = entity;
         this.fsm = fsm;
-        anim = entity.anim;
-        rb = entity.rb;
+        anim = entity.Anim;
+        rb = entity.Rb;
     }
 
     public virtual void Enter(IState lastState)

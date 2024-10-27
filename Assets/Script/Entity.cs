@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
     [Header("Collision info")]
     [SerializeField] protected Transform groundCheck;
@@ -16,10 +16,10 @@ public class Entity : MonoBehaviour
     [SerializeField] protected float knockbackDuration = 0.07f;
     protected bool isKnocked;
 
-    public Vector2 right = new Vector2(1,0);
-    public Vector2 left = new Vector2(-1,0);
-    public Vector2 up = new Vector2(0,1);
-    public Vector2 down = new Vector2(0,-1);
+    public Vector2 right = new(1,0);
+    public Vector2 left = new(-1,0);
+    public Vector2 up = new(0,1);
+    public Vector2 down = new(0,-1);
 
     [Header("Attack info")]
     public Transform attackCheck;
@@ -29,11 +29,13 @@ public class Entity : MonoBehaviour
 
     #region Component
 
-    public Animator anim { get; private set; }
-    public Rigidbody2D rb { get; private set; }
-    public EntityFX fx { get; private set; }
-    public FSM fsm { get; private set; }
-    public SpriteRenderer sr { get; private set; }
+    public Animator Anim { get; private set; }
+    public Rigidbody2D Rb { get; private set; }
+    public EntityFX Fx { get; private set; }
+    public FSM Fsm { get; private set; }
+    public SpriteRenderer Sr { get; private set; }
+    public CharacterStats Stats { get; private set; }
+    public CapsuleCollider2D Cd { get; private set; }
 
     #endregion
 
@@ -42,41 +44,49 @@ public class Entity : MonoBehaviour
 
     protected virtual void Start()
     {
-        anim = GetComponentInChildren<Animator>();
-
-        rb = GetComponent<Rigidbody2D>();
-
-        fx = GetComponent<EntityFX>();
-
-        fsm = new FSM();
-
-        sr = GetComponentInChildren<SpriteRenderer>();
+        Anim = GetComponentInChildren<Animator>();
+        Rb = GetComponent<Rigidbody2D>();
+        Fx = GetComponent<EntityFX>();
+        Fsm = new FSM();
+        Sr = GetComponentInChildren<SpriteRenderer>();
+        Stats = GetComponent<CharacterStats>();
+        Cd = GetComponent<CapsuleCollider2D>();
     }
 
     protected virtual void Update()
     {
-        fsm.currentState?.Update();
+        Fsm.currentState?.Update();
     }
 
-    public virtual void Damage(int attackDir)
-    {
-        fx.StartCoroutine("FlashFX");
+    /*
+     * 存在问题: 伤害来源问题
+     * 目前初步解决: 基础解决伤害逻辑
+     * 后续解决: 考虑将伤害部分组件化，便于维护和升级
+     */
 
-        StartCoroutine("HitKnockback" , attackDir);
+    public virtual void Damage(CharacterStats from, int attackDir)
+    {
+        Fx.StartCoroutine("FlashFX");
+
+        StartCoroutine(nameof(HitKnockback), attackDir);            
+
+        from.DoDamage(Stats);
     }
 
-    public virtual void Damage()
+    public virtual void Damage(CharacterStats from)
     {
-        fx.StartCoroutine("FlashFX");
+        Fx.StartCoroutine("FlashFX");
 
-        StartCoroutine("HitKnockback" , -FacingDir);
+        StartCoroutine(nameof(HitKnockback), -FacingDir);
+
+        from.DoDamage(Stats);
     }
 
     protected virtual IEnumerator HitKnockback(int attackDir)
     {
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
+        Rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
 
         yield return new WaitForSeconds(knockbackDuration);
 
@@ -97,17 +107,17 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(
             groundCheck.position, 
             new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance)
-            );
+        );
         
         Gizmos.DrawLine(
             wallCheck.position,
             new Vector3(wallCheck.position.x + wallCheckDistance * FacingDir, wallCheck.position.y)
-            );
+        );
         
         Gizmos.DrawWireSphere(
             attackCheck.position, 
             attackCheckDistance
-            );
+        );
     }
 
     #endregion
@@ -116,7 +126,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Flip()
     {
-        FacingDir *= -1;
+        FacingDir = - FacingDir;
 
         facingRight = !facingRight;
 
@@ -125,9 +135,9 @@ public class Entity : MonoBehaviour
 
     public virtual void FlipController(float _x)
     {
-        if (rb.velocity.x > 0 && !facingRight)
+        if (Rb.velocity.x > 0 && !facingRight)
             Flip();
-        else if (rb.velocity.x < 0 && facingRight)
+        else if (Rb.velocity.x < 0 && facingRight)
             Flip();
     }
 
@@ -135,30 +145,34 @@ public class Entity : MonoBehaviour
 
     #region Velocity
 
-    public virtual void SetXZeroVelocity() => rb.velocity = new Vector2(0, rb.velocity.y);
+    public virtual void SetXZeroVelocity() => Rb.velocity = new Vector2(0, Rb.velocity.y);
 
-    public virtual void SetYZeroVelocity() => rb.velocity = new Vector2(rb.velocity.x, 0);
+    public virtual void SetYZeroVelocity() => Rb.velocity = new Vector2(Rb.velocity.x, 0);
 
-    public virtual void SetZeroVelocity() => rb.velocity = new Vector2(0, 0);
+    public virtual void SetZeroVelocity() => Rb.velocity = new Vector2(0, 0);
 
-    public virtual void SetVelocity(float _xVelocity, float _yVelocity , bool _needFlip)
+    public virtual void SetVelocity(float xVelocity, float yVelocity , bool needFlip)
     {
         if(isKnocked)
             return;
 
-        rb.velocity = new Vector2(_xVelocity, _yVelocity);
+        Rb.velocity = new Vector2(xVelocity, yVelocity);
 
-        if(_needFlip)
-            FlipController(_xVelocity);
+        if(needFlip)
+            FlipController(xVelocity);
     }
 
     #endregion
 
-    public void MakeTransprent(bool _transprent)
+    public void MakeTransprent(bool transprent)
     {
-        if (_transprent)
-            sr.color = Color.clear;
+        if (transprent)
+            Sr.color = Color.clear;
         else
-            sr.color = Color.white;
+            Sr.color = Color.white;
     }
+
+
+    public abstract void Die();
+
 }

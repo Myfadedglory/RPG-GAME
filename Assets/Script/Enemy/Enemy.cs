@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Entity
+public abstract class Enemy : Entity
 {
     [Header("Detected info")]
     [SerializeField] protected LayerMask whatIsPlayer;
@@ -36,30 +36,30 @@ public class Enemy : Entity
     {
         base.Update();
 
-        fsm.currentState.Update();
+        Fsm.currentState.Update();
     }
 
-    public virtual void FreezeTime(bool _timeFrozen)
+    public virtual void FreezeTime(bool timeFrozen)
     {
-        if (_timeFrozen)
+        if (timeFrozen)
         {
             moveSpeed = 0;
 
-            anim.speed = 0;
+            Anim.speed = 0;
         }
         else
         {
             moveSpeed = defaultMoveSpeed;
 
-            anim.speed = 1;
+            Anim.speed = 1;
         }
     }
 
-    protected virtual IEnumerable FreezeTimeFor(float _seconds)
+    protected virtual IEnumerable FreezeTimeFor(float seconds)
     {
         FreezeTime(true);
 
-        yield return new WaitForSeconds(_seconds);
+        yield return new WaitForSeconds(seconds);
 
         FreezeTime(false);
     }
@@ -94,7 +94,7 @@ public class Enemy : Entity
         return false;
     }
 
-    public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();
+    public void AnimationTrigger() => Fsm.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected()
     {

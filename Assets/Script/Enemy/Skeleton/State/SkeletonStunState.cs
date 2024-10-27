@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonStunState : SkeletonState
 {
-    public SkeletonStunState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonStunState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -12,7 +12,7 @@ public class SkeletonStunState : SkeletonState
     {
         base.Enter(lastState);
 
-        enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
+        enemy.Fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
         stateTimer = enemy.stunDuration;
 
@@ -23,7 +23,7 @@ public class SkeletonStunState : SkeletonState
     {
         base.Exit(newState);
 
-        enemy.fx.Invoke("CancelRedColorBlink", 0);
+        enemy.Fx.Invoke("CancelRedColorBlink", 0);
     }
 
     public override void Update()
@@ -31,6 +31,6 @@ public class SkeletonStunState : SkeletonState
         base.Update();
 
         if( stateTimer < 0 )
-            fsm.SwitchState(enemy.idleState);
+            fsm.SwitchState(enemy.IdleState);
     }
 }

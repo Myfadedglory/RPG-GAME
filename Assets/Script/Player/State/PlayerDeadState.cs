@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonState : EnemyState
+public class PlayerDeadState : PlayerState
 {
-    protected Skeleton enemy;
-
-    public SkeletonState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName)
+    public PlayerDeadState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
     {
-        this.enemy = enemy;
+    }
+
+    public override void AnimationFinishTrigger()
+    {
+        base.AnimationFinishTrigger();
     }
 
     public override void Enter(IState lastState)
@@ -24,5 +26,7 @@ public class SkeletonState : EnemyState
     public override void Update()
     {
         base.Update();
+
+        entity.SetZeroVelocity();
     }
 }

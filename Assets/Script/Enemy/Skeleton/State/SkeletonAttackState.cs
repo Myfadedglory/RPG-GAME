@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkeletonAttackState : SkeletonState
 {
-    public SkeletonAttackState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonAttackState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -25,9 +25,9 @@ public class SkeletonAttackState : SkeletonState
         base.Update();
 
         if (enemy.IsPlayerDetected().distance > enemy.attackDistance)
-            fsm.SwitchState(enemy.battleState);
+            fsm.SwitchState(enemy.BattleState);
 
         if (isAnimationFinished)
-          fsm.SwitchState(enemy.battleState);
+          fsm.SwitchState(enemy.BattleState);
     }
 }

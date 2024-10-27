@@ -84,9 +84,9 @@ public class Crystal_Skill_Controller : MonoBehaviour
             {
                 var enemy = hit.GetComponent<Enemy>();
                 if (enemy.transform.position.x <= transform.position.x)
-                    enemy.Damage((int)enemy.left.x);
+                    enemy.Damage(PlayerManger.instance.player.Stats, (int)enemy.left.x);
                 else if (enemy.transform.position.x > transform.position.x)
-                    enemy.Damage((int)enemy.right.x);
+                    enemy.Damage(PlayerManger.instance.player.Stats, (int)enemy.right.x);
             }
         }
     }

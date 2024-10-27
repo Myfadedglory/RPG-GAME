@@ -7,7 +7,7 @@ public class SkeletonHitState : SkeletonState
 
     private IState previousState;
 
-    public SkeletonHitState(Enemy entity, FSM fsm, string animBoolName, Enemy_Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public SkeletonHitState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
     {
     }
 
@@ -30,6 +30,6 @@ public class SkeletonHitState : SkeletonState
         base.Update();
 
         if (isAnimationFinished)
-            fsm.SwitchState(enemy.idleState);
+            fsm.SwitchState(enemy.IdleState);
     }
 }

@@ -14,7 +14,7 @@ public class PlayerCounterAttackState : PlayerState
 
         stateTimer = entity.counterAttackDuration;
 
-        entity.anim.SetBool("CounterSuccess", false);
+        entity.Anim.SetBool("CounterSuccess", false);
     }
 
     public override void Exit(IState newState)
@@ -36,7 +36,7 @@ public class PlayerCounterAttackState : PlayerState
                 if (hit.GetComponent<Enemy>().CanBeStun())
                 {
                     stateTimer = 10;    //无意义，只是一个比较大的值
-                    entity.anim.SetBool("CounterSuccess", true);
+                    entity.Anim.SetBool("CounterSuccess", true);
                 }
         }
 

@@ -44,6 +44,7 @@ public class Player : Entity
     public IState MoveState { get; private set; }
     public IState JumpState { get; private set; }
     public IState AirState { get; private set; }
+    public IState DeadState { get; private set; }
     public IState DashState { get; private set; }
     public IState WallSlide { get; private set; }
     public IState WallJump { get; private set; }
@@ -60,30 +61,31 @@ public class Player : Entity
     {
         base.Start();
 
-        IdleState = new PlayerIdleState(this, fsm, "Idle");
-        MoveState = new PlayerMoveState(this, fsm, "Move");
-        JumpState = new PlayerJumpState(this, fsm, "Jump");
-        AirState = new PlayerAirState(this, fsm, "Jump");
-        DashState = new PlayerDashState(this, fsm, "Dash");
-        WallSlide = new PlayerWallSlideState(this, fsm, "WallSlide");
-        WallJump = new PlayerWallJumpState(this, fsm, "Jump");
-        AttackState = new PlayerAttackState(this, fsm, "Attack");
-        HitState = new PlayerHitState(this, fsm, "Hit");
-        CounterAttack = new PlayerCounterAttackState(this, fsm, "Counter");
-        AimSword = new PlayerAimSwordState(this, fsm, "AimSword");
-        CatchSword = new PlayerCatchSwordState(this, fsm, "CatchSword");
-        BlackHole = new PlayerBlackholeState(this, fsm, "Jump");
+        IdleState = new PlayerIdleState(this, Fsm, "Idle");
+        MoveState = new PlayerMoveState(this, Fsm, "Move");
+        JumpState = new PlayerJumpState(this, Fsm, "Jump");
+        AirState = new PlayerAirState(this, Fsm, "Jump");
+        DeadState = new PlayerDeadState(this, Fsm, "Dead");
+        DashState = new PlayerDashState(this, Fsm, "Dash");
+        WallSlide = new PlayerWallSlideState(this, Fsm, "WallSlide");
+        WallJump = new PlayerWallJumpState(this, Fsm, "Jump");
+        AttackState = new PlayerAttackState(this, Fsm, "Attack");
+        HitState = new PlayerHitState(this, Fsm, "Hit");
+        CounterAttack = new PlayerCounterAttackState(this, Fsm, "Counter");
+        AimSword = new PlayerAimSwordState(this, Fsm, "AimSword");
+        CatchSword = new PlayerCatchSwordState(this, Fsm, "CatchSword");
+        BlackHole = new PlayerBlackholeState(this, Fsm, "Jump");
 
         Skill = SkillManger.instance; 
 
-        fsm.SwitchState(IdleState);
+        Fsm.SwitchState(IdleState);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        fsm.currentState.Update();
+        Fsm.currentState.Update();
 
         CheckDashInput();
 
@@ -98,19 +100,19 @@ public class Player : Entity
 
     public void CatchTheSword()
     {
-        fsm.SwitchState(CatchSword);
+        Fsm.SwitchState(CatchSword);
 
         Destroy(Sword);
     }
 
-    public override void Damage(int attackedDir)
+    public override void Damage(CharacterStats from, int attackedDir)
     {
-        base.Damage(attackedDir);
+        Fsm.SwitchState(HitState);
 
-        fsm.SwitchState(HitState);
+        base.Damage(from, attackedDir);
     }
 
-    public void AnimationTrigger() => fsm.currentState.AnimationFinishTrigger();
+    public void AnimationTrigger() => Fsm.currentState.AnimationFinishTrigger();
 
     private void CheckDashInput()
     {
@@ -124,7 +126,12 @@ public class Player : Entity
             if (dashDir == 0)
                 dashDir = FacingDir;
 
-            fsm.SwitchState(DashState);
+            Fsm.SwitchState(DashState);
         }
+    }
+
+    public override void Die()
+    {
+        Fsm.SwitchState(DeadState);
     }
 }
