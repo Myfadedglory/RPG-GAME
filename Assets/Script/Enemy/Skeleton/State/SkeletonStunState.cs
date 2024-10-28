@@ -1,36 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class SkeletonStunState : SkeletonState
+namespace Script.Enemy.Skeleton.State
 {
-    public SkeletonStunState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonStunState : SkeletonState
     {
-    }
+        public SkeletonStunState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+        {
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        enemy.Fx.InvokeRepeating("RedColorBlink", 0, .1f);
+            Enemy.Fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
-        stateTimer = enemy.stunDuration;
+            StateTimer = Enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.FacingDir * enemy.stunDirection.x, enemy.stunDirection.y);
-    }
+            Rb.velocity = new Vector2(-Enemy.FacingDir * Enemy.stunDirection.x, Enemy.stunDirection.y);
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
 
-        enemy.Fx.Invoke("CancelRedColorBlink", 0);
-    }
+            Enemy.Fx.Invoke("CancelRedColorBlink", 0);
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        if( stateTimer < 0 )
-            fsm.SwitchState(enemy.IdleState);
+            if( StateTimer < 0 )
+                Fsm.SwitchState(Enemy.IdleState);
+        }
     }
 }

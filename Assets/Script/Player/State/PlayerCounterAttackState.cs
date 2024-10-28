@@ -1,49 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerCounterAttackState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerCounterAttackState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerCounterAttackState : PlayerState
     {
-    }
+        private static readonly int CounterSuccess = Animator.StringToHash("CounterSuccess");
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-
-        stateTimer = entity.counterAttackDuration;
-
-        entity.Anim.SetBool("CounterSuccess", false);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        entity.SetZeroVelocity();
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
-
-        foreach (var hit in colliders)
+        public PlayerCounterAttackState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
-            if (hit.GetComponent<Enemy>() != null)
-                if (hit.GetComponent<Enemy>().CanBeStun())
-                {
-                    stateTimer = 10;    //ÎÞÒâÒå£¬Ö»ÊÇÒ»¸ö±È½Ï´óµÄÖµ
-                    entity.Anim.SetBool("CounterSuccess", true);
-                }
         }
 
-        if (stateTimer < 0 || isAnimationFinished)
-            fsm.SwitchState(entity.IdleState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        if (!isAnimationFinished && Input.GetKeyDown(KeyCode.Q))
-            return;
+            StateTimer = Entity.counterAttackDuration;
+
+            Entity.Anim.SetBool(CounterSuccess, false);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            Entity.SetZeroVelocity();
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(Entity.attackCheck.position, Entity.attackCheckDistance);
+
+            foreach (var hit in colliders)
+            {
+                if (hit.GetComponent<Enemy.Enemy>() != null)
+                    if (hit.GetComponent<Enemy.Enemy>().CanBeStun())
+                    {
+                        StateTimer = 10;    //ï¿½ï¿½ï¿½ï¿½ï¿½å£¬Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½È½Ï´ï¿½ï¿½Öµ
+                        Entity.Anim.SetBool(CounterSuccess, true);
+                    }
+            }
+
+            if (StateTimer < 0 || IsAnimationFinished)
+                Fsm.SwitchState(Entity.IdleState);
+
+            if (!IsAnimationFinished && Input.GetKeyDown(KeyCode.Q))
+                return;
+        }
     }
 }

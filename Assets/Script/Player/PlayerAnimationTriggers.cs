@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerAnimationTriggers : AnimationTriggers<Player> 
+namespace Script.Player
 {
-    private void ThrowSword()
+    public class PlayerAnimationTriggers : AnimationTriggers<Player> 
     {
-        SkillManger.instance.sword.CreateSword();
+        private void ThrowSword()
+        {
+            SkillManger.instance.Sword.CreateSword();
+        }
     }
 }

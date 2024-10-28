@@ -1,36 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerAirState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerAirState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerAirState : PlayerState
     {
-    }
+        public PlayerAirState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        {
+        }
+        
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
+            Entity.SetXZeroVelocity();
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
+        public override void Update()
+        {
+            base.Update();
 
-        entity.SetXZeroVelocity();
-    }
+            if(Entity.IsWallDetected())
+                Fsm.SwitchState(Entity.WallSlide);
 
-    public override void Update()
-    {
-        base.Update();
+            if(XInput != 0)
+                Entity.SetVelocity(Entity.airMoveMutiplier * XInput * Entity.moveSpeed , Rb.velocity.y , Entity.needFlip);
 
-        if(entity.IsWallDetected())
-            fsm.SwitchState(entity.WallSlide);
-
-        if(xInput != 0)
-            entity.SetVelocity(entity.airMoveMutiplier * xInput * entity.moveSpeed , rb.velocity.y , entity.needFlip);
-
-        if(entity.IsGroundDetected())
-            fsm.SwitchState(entity.IdleState);
+            if(Entity.IsGroundDetected())
+                Fsm.SwitchState(Entity.IdleState);
+        }
     }
 }

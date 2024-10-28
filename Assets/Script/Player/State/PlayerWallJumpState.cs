@@ -1,32 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerWallJumpState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerWallJumpState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerWallJumpState : PlayerState
     {
-    }
+        public PlayerWallJumpState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        {
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        stateTimer = .4f;
+            StateTimer = .4f;
 
-        entity.SetVelocity(entity.horizonJumpForce * - entity.FacingDir / entity.wallJumpMutiplier, entity.verticalJumpForce * entity.wallJumpMutiplier ,entity.needFlip);
-    }
+            Entity.SetVelocity(Entity.horizonJumpForce * - Entity.FacingDir / Entity.wallJumpMutiplier, Entity.verticalJumpForce * Entity.wallJumpMutiplier ,Entity.needFlip);
+        }
+        
+        public override void Update()
+        {
+            base.Update();
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (stateTimer < 0)
-            fsm.SwitchState(entity.AirState);
+            if (StateTimer < 0)
+                Fsm.SwitchState(Entity.AirState);
+        }
     }
 }

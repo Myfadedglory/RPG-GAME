@@ -1,178 +1,177 @@
 using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+namespace Script
 {
-    [Header("Collision info")]
-    [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
-    [SerializeField] protected LayerMask whatIsGround;
-    [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
-
-    [Header("Knockback info")]
-    [SerializeField] protected Vector2 knockbackDirection;
-    [SerializeField] protected float knockbackDuration = 0.07f;
-    protected bool isKnocked;
-
-    public Vector2 right = new(1,0);
-    public Vector2 left = new(-1,0);
-    public Vector2 up = new(0,1);
-    public Vector2 down = new(0,-1);
-
-    [Header("Attack info")]
-    public Transform attackCheck;
-    public float attackCheckDistance;
-
-    public bool needFlip = true;
-
-    #region Component
-
-    public Animator Anim { get; private set; }
-    public Rigidbody2D Rb { get; private set; }
-    public EntityFX Fx { get; private set; }
-    public FSM Fsm { get; private set; }
-    public SpriteRenderer Sr { get; private set; }
-    public CharacterStats Stats { get; private set; }
-    public CapsuleCollider2D Cd { get; private set; }
-
-    #endregion
-
-    public int FacingDir { get; private set; } = 1;
-    protected bool facingRight = true;
-
-    protected virtual void Start()
+    public abstract class Entity : MonoBehaviour
     {
-        Anim = GetComponentInChildren<Animator>();
-        Rb = GetComponent<Rigidbody2D>();
-        Fx = GetComponent<EntityFX>();
-        Fsm = new FSM();
-        Sr = GetComponentInChildren<SpriteRenderer>();
-        Stats = GetComponent<CharacterStats>();
-        Cd = GetComponent<CapsuleCollider2D>();
-    }
+        [Header("Collision info")]
+        [SerializeField] protected Transform groundCheck;
+        [SerializeField] protected float groundCheckDistance;
+        [SerializeField] protected LayerMask whatIsGround;
+        [SerializeField] protected Transform wallCheck;
+        [SerializeField] protected float wallCheckDistance;
 
-    protected virtual void Update()
-    {
-        Fsm.currentState?.Update();
-    }
+        [Header("Knockback info")]
+        [SerializeField] protected Vector2 knockbackDirection;
+        [SerializeField] protected float knockbackDuration = 0.07f;
+        private bool isKnocked;
 
-    /*
-     * ´æÔÚÎÊÌâ: ÉËº¦À´Ô´ÎÊÌâ
-     * Ä¿Ç°³õ²½½â¾ö: »ù´¡½â¾öÉËº¦Âß¼­
-     * ºóÐø½â¾ö: ¿¼ÂÇ½«ÉËº¦²¿·Ö×é¼þ»¯£¬±ãÓÚÎ¬»¤ºÍÉý¼¶
-     */
+        public Vector2 right = new(1,0);
+        public Vector2 left = new(-1,0);
+        public Vector2 up = new(0,1);
+        public Vector2 down = new(0,-1);
 
-    public virtual void Damage(CharacterStats from, int attackDir)
-    {
-        Fx.StartCoroutine("FlashFX");
+        [Header("Attack info")]
+        public Transform attackCheck;
+        public float attackCheckDistance;
 
-        StartCoroutine(nameof(HitKnockback), attackDir);            
+        public bool needFlip = true;
 
-        from.DoDamage(Stats);
-    }
+        #region Component
 
-    public virtual void Damage(CharacterStats from)
-    {
-        Fx.StartCoroutine("FlashFX");
+        public Animator Anim { get; private set; }
+        public Rigidbody2D Rb { get; private set; }
+        public EntityFX Fx { get; private set; }
+        public Fsm Fsm { get; private set; }
+        public SpriteRenderer Sr { get; private set; }
+        public CharacterStats Stats { get; private set; }
+        public CapsuleCollider2D Cd { get; private set; }
 
-        StartCoroutine(nameof(HitKnockback), -FacingDir);
+        #endregion
 
-        from.DoDamage(Stats);
-    }
+        public int FacingDir { get; private set; } = 1;
+        private bool facingRight = true;
 
-    protected virtual IEnumerator HitKnockback(int attackDir)
-    {
-        isKnocked = true;
+        protected virtual void Start()
+        {
+            Anim = GetComponentInChildren<Animator>();
+            Rb = GetComponent<Rigidbody2D>();
+            Fx = GetComponent<EntityFX>();
+            Fsm = new Fsm();
+            Sr = GetComponentInChildren<SpriteRenderer>();
+            Stats = GetComponent<CharacterStats>();
+            Cd = GetComponent<CapsuleCollider2D>();
+        }
 
-        Rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
+        protected virtual void Update()
+        {
+            Fsm.CurrentState?.Update();
+        }
 
-        yield return new WaitForSeconds(knockbackDuration);
+        /*
+         * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½Ëºï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½
+         * Ä¿Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ß¼ï¿½
+         * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½Ç½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+         */
 
-        SetZeroVelocity();
+        public virtual void Damage(CharacterStats from, int attackDir)
+        {
+            Fx.StartCoroutine("FlashFX");
 
-        isKnocked = false;
-    }
+            StartCoroutine(nameof(HitKnockback), attackDir);            
 
-    #region Collision
+            from.DoDamage(Stats);
+        }
 
-    public virtual bool IsGroundDetected() => Physics2D.Raycast(
-        groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public virtual bool IsWallDetected() => Physics2D.Raycast(
-        wallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround);
+        public virtual void Damage(CharacterStats from)
+        {
+            Fx.StartCoroutine("FlashFX");
 
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(
-            groundCheck.position, 
-            new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance)
-        );
+            StartCoroutine(nameof(HitKnockback), -FacingDir);
+
+            from.DoDamage(Stats);
+        }
+
+        protected virtual IEnumerator HitKnockback(int attackDir)
+        {
+            isKnocked = true;
+
+            Rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
+
+            yield return new WaitForSeconds(knockbackDuration);
+
+            SetZeroVelocity();
+
+            isKnocked = false;
+        }
+
+        #region Collision
+
+        public virtual bool IsGroundDetected() => Physics2D.Raycast(
+            groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+        public virtual bool IsWallDetected() => Physics2D.Raycast(
+            wallCheck.position, Vector2.right * FacingDir, wallCheckDistance, whatIsGround);
+
+        protected virtual void OnDrawGizmos()
+        {
+            Gizmos.DrawLine(
+                groundCheck.position, 
+                new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance)
+            );
         
-        Gizmos.DrawLine(
-            wallCheck.position,
-            new Vector3(wallCheck.position.x + wallCheckDistance * FacingDir, wallCheck.position.y)
-        );
+            Gizmos.DrawLine(
+                wallCheck.position,
+                new Vector3(wallCheck.position.x + wallCheckDistance * FacingDir, wallCheck.position.y)
+            );
         
-        Gizmos.DrawWireSphere(
-            attackCheck.position, 
-            attackCheckDistance
-        );
+            Gizmos.DrawWireSphere(
+                attackCheck.position, 
+                attackCheckDistance
+            );
+        }
+
+        #endregion
+
+        #region Flip
+
+        public virtual void Flip()
+        {
+            FacingDir = - FacingDir;
+
+            facingRight = !facingRight;
+
+            transform.Rotate(0, 180, 0);
+        }
+
+        protected virtual void FlipController(float _x)
+        {
+            if (Rb.velocity.x > 0 && !facingRight)
+                Flip();
+            else if (Rb.velocity.x < 0 && facingRight)
+                Flip();
+        }
+
+        #endregion
+
+        #region Velocity
+
+        public virtual void SetXZeroVelocity() => Rb.velocity = new Vector2(0, Rb.velocity.y);
+
+        public virtual void SetYZeroVelocity() => Rb.velocity = new Vector2(Rb.velocity.x, 0);
+
+        public virtual void SetZeroVelocity() => Rb.velocity = new Vector2(0, 0);
+
+        public virtual void SetVelocity(float xVelocity, float yVelocity , bool needFlip)
+        {
+            if(isKnocked)
+                return;
+
+            Rb.velocity = new Vector2(xVelocity, yVelocity);
+
+            if(needFlip)
+                FlipController(xVelocity);
+        }
+
+        #endregion
+
+        public void MakeTransprent(bool transprent)
+        {
+            Sr.color = transprent ? Color.clear : Color.white;
+        }
+        
+        public abstract void Die();
+
     }
-
-    #endregion
-
-    #region Flip
-
-    public virtual void Flip()
-    {
-        FacingDir = - FacingDir;
-
-        facingRight = !facingRight;
-
-        transform.Rotate(0, 180, 0);
-    }
-
-    public virtual void FlipController(float _x)
-    {
-        if (Rb.velocity.x > 0 && !facingRight)
-            Flip();
-        else if (Rb.velocity.x < 0 && facingRight)
-            Flip();
-    }
-
-    #endregion
-
-    #region Velocity
-
-    public virtual void SetXZeroVelocity() => Rb.velocity = new Vector2(0, Rb.velocity.y);
-
-    public virtual void SetYZeroVelocity() => Rb.velocity = new Vector2(Rb.velocity.x, 0);
-
-    public virtual void SetZeroVelocity() => Rb.velocity = new Vector2(0, 0);
-
-    public virtual void SetVelocity(float xVelocity, float yVelocity , bool needFlip)
-    {
-        if(isKnocked)
-            return;
-
-        Rb.velocity = new Vector2(xVelocity, yVelocity);
-
-        if(needFlip)
-            FlipController(xVelocity);
-    }
-
-    #endregion
-
-    public void MakeTransprent(bool transprent)
-    {
-        if (transprent)
-            Sr.color = Color.clear;
-        else
-            Sr.color = Color.white;
-    }
-
-
-    public abstract void Die();
-
 }

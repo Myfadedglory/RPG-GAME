@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManger : MonoBehaviour
+namespace Script.Player
 {
-    public static PlayerManger instance;
-    public Player player;
-
-    private void Awake()
+    public class PlayerManger : MonoBehaviour
     {
-        if (instance != null)
-            Destroy(instance);
-        else
-            instance = this;
+        public static PlayerManger instance;
+        public Player player;
+
+        private void Awake()
+        {
+            if (instance != null)
+                Destroy(instance);
+            else
+                instance = this;
+        }
     }
 }

@@ -1,15 +1,18 @@
-public class FSM
+namespace Script.Utilities
 {
-    public IState currentState { get; private set; }
-
-    public void SwitchState(IState newState)
+    public class Fsm
     {
-        var lastState = currentState;
+        public IState CurrentState { get; private set; }
 
-        lastState?.Exit(newState);
+        public void SwitchState(IState newState)
+        {
+            var lastState = CurrentState;
 
-        currentState = newState;
+            lastState?.Exit(newState);
 
-        newState.Enter(lastState);
+            CurrentState = newState;
+
+            newState.Enter(lastState);
+        }
     }
 }

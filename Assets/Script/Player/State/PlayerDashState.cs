@@ -1,41 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerDashState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerDashState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerDashState : PlayerState
     {
-    }
+        public PlayerDashState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        {
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        entity.Skill.clone.CreateCloneOnDashStart();
+            Entity.Skill.Clone.CreateCloneOnDashStart();
 
-        stateTimer = entity.dashDuration;
-    }
+            StateTimer = Entity.dashDuration;
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
 
-        entity.Skill.clone.CreateCloneOnDashOver();
+            Entity.Skill.Clone.CreateCloneOnDashOver();
 
-        entity.SetZeroVelocity();
-    }
+            Entity.SetZeroVelocity();
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        if(!entity.IsGroundDetected() && entity.IsWallDetected())
-            fsm.SwitchState(entity.WallSlide);
+            if(!Entity.IsGroundDetected() && Entity.IsWallDetected())
+                Fsm.SwitchState(Entity.WallSlide);
 
-        entity.SetVelocity(entity.dashSpeed * entity.dashDir , 0 , entity.needFlip);
+            Entity.SetVelocity(Entity.dashSpeed * Entity.DashDir , 0 , Entity.needFlip);
 
-        if (stateTimer < 0) 
-            fsm.SwitchState(entity.IdleState);
+            if (StateTimer < 0) 
+                Fsm.SwitchState(Entity.IdleState);
+        }
     }
 }

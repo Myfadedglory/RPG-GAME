@@ -1,32 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerDeadState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerDeadState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
+    public class PlayerDeadState : PlayerState
     {
-    }
+        public PlayerDeadState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        {
+        }
 
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
+        public override void AnimationFinishTrigger()
+        {
+            base.AnimationFinishTrigger();
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        entity.SetZeroVelocity();
+            Entity.SetZeroVelocity();
+        }
     }
 }

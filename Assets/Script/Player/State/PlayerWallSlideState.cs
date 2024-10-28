@@ -1,43 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerWallSlideState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerWallSlideState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerWallSlideState : PlayerState
     {
-    }
-
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        public PlayerWallSlideState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
-            fsm.SwitchState(entity.WallJump);
-
-            return;
         }
 
-        if (xInput != 0 && entity.FacingDir != xInput)
-            fsm.SwitchState(entity.IdleState);
+        public override void Update()
+        {
+            base.Update();
 
-        if (yInput < 0)
-            entity.SetVelocity(0, rb.velocity.y , entity.needFlip);
-        else
-            entity.SetVelocity(0, entity.wallSlideMutiplier * rb.velocity.y, entity.needFlip);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Fsm.SwitchState(Entity.WallJump);
 
-        if (entity.IsGroundDetected())
-            fsm.SwitchState(entity.IdleState);
+                return;
+            }
+
+            if (XInput != 0 && !Mathf.Approximately(Entity.FacingDir, XInput))
+                Fsm.SwitchState(Entity.IdleState);
+
+            if (YInput < 0)
+                Entity.SetVelocity(0, Rb.velocity.y , Entity.needFlip);
+            else
+                Entity.SetVelocity(0, Entity.wallSlideMutiplier * Rb.velocity.y, Entity.needFlip);
+
+            if (Entity.IsGroundDetected())
+                Fsm.SwitchState(Entity.IdleState);
+        }
     }
 }

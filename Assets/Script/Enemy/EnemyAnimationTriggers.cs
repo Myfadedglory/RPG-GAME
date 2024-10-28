@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class EnemyAnimationTriggers : AnimationTriggers<Enemy>
+namespace Script.Enemy
 {
-    protected void OpenCounterWindow() => entity.OpenCounterAttackWindow();
+    public class EnemyAnimationTriggers : AnimationTriggers<Enemy>
+    {
+        protected void OpenCounterWindow() => entity.OpenCounterAttackWindow();
 
-    protected void CloseCounterWindow() => entity.CloseCounterAttackWindow();
+        protected void CloseCounterWindow() => entity.CloseCounterAttackWindow();
+    }
 }

@@ -1,33 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class SkeletonAttackState : SkeletonState
+namespace Script.Enemy.Skeleton.State
 {
-    public SkeletonAttackState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonAttackState : SkeletonState
     {
-    }
+        public SkeletonAttackState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+        {
+        }
+        
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
+            Enemy.lastTimeAttacked = Time.time;
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
+        public override void Update()
+        {
+            base.Update();
 
-        enemy.lastTimeAttacked = Time.time;
-    }
+            if (Enemy.IsPlayerDetected().distance > Enemy.attackDistance)
+                Fsm.SwitchState(Enemy.BattleState);
 
-    public override void Update()
-    {
-        base.Update();
-
-        if (enemy.IsPlayerDetected().distance > enemy.attackDistance)
-            fsm.SwitchState(enemy.BattleState);
-
-        if (isAnimationFinished)
-          fsm.SwitchState(enemy.BattleState);
+            if (IsAnimationFinished)
+                Fsm.SwitchState(Enemy.BattleState);
+        }
     }
 }

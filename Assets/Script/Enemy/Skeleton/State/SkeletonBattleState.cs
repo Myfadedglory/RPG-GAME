@@ -1,76 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Player;
+using Script.Utilities;
 using UnityEngine;
 
-public class SkeletonBattleState : SkeletonState
+namespace Script.Enemy.Skeleton.State
 {
-    private Transform player;
-    private int moveDir;
-
-    public SkeletonBattleState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonBattleState : SkeletonState
     {
-    }
+        private Transform player;
+        private int moveDir;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-
-        enemy.CloseCounterImage();
-
-        player = PlayerManger.instance.player.transform;
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (enemy.IsPlayerDetected())
+        public SkeletonBattleState(Enemy entity, Fsm fsm, string animBoolName,Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
         {
-            stateTimer = enemy.battleTime;
+        }
 
-            if (enemy.IsPlayerDetected().distance <= enemy.attackDistance)
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
+
+            Enemy.CloseCounterImage();
+
+            player = PlayerManger.instance.player.transform;
+        }
+        
+        public override void Update()
+        {
+            base.Update();
+
+            if (Enemy.IsPlayerDetected())
             {
-                enemy.SetXZeroVelocity();
+                StateTimer = Enemy.battleTime;
 
-                if (CanAttack())
-                    fsm.SwitchState(enemy.AttackState);
+                if (Enemy.IsPlayerDetected().distance <= Enemy.attackDistance)
+                {
+                    Enemy.SetXZeroVelocity();
 
-                return;
+                    if (CanAttack())
+                        Fsm.SwitchState(Enemy.AttackState);
+
+                    return;
+                }
+            }
+            else
+            {
+                if (StateTimer < 0 || Vector2.Distance(player.transform.position, Enemy.transform.position) > Enemy.hatredDistance)
+                    Fsm.SwitchState(Enemy.IdleState);
+            }
+
+            if(Fsm.CurrentState != Enemy.AttackState)
+            {
+                if(Mathf.Approximately(player.position.x, Enemy.transform.position.x))
+                    return;
+                if (player.position.x > Enemy.transform.position.x)
+                    moveDir = 1;               
+                else if (player.position.x < Enemy.transform.position.x)
+                    moveDir = -1;
+
+                Enemy.SetVelocity(Enemy.moveSpeed * moveDir * Enemy.speedMultiplier, Rb.velocity.y, Enemy.needFlip);
             }
         }
-        else
-        {
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > enemy.hatredDistance)
-                fsm.SwitchState(enemy.IdleState);
-        }
 
-        if(fsm.currentState != enemy.AttackState)
+        private bool CanAttack()
         {
-            if(player.position.x == enemy.transform.position.x)
-                return;
-            else if (player.position.x > enemy.transform.position.x)
-                moveDir = 1;               
-            else if (player.position.x < enemy.transform.position.x)
-                moveDir = -1;
-
-            enemy.SetVelocity(enemy.moveSpeed * moveDir * enemy.speedMutipulier, rb.velocity.y, enemy.needFlip);
-        }
-    }
-
-    private bool CanAttack()
-    {
-        if(Time.time > enemy.lastTimeAttacked + enemy.attackCoolDown)
-        {
-            enemy.lastTimeAttacked = Time.time;
+            if (!(Time.time > Enemy.lastTimeAttacked + Enemy.attackCoolDown)) return false;
+            
+            Enemy.lastTimeAttacked = Time.time;
 
             return true;
-        }
 
-        return false;
+        }
     }
 }

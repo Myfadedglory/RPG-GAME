@@ -1,28 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerIdleState : PlayerGroundedState
+namespace Script.Player.State
 {
-    public PlayerIdleState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerIdleState : PlayerGroundedState
     {
-    }
+        public PlayerIdleState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        {
+        }
+        
+        public override void Update()
+        {
+            base.Update();
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (!(xInput == 0 || (xInput == entity.FacingDir) && entity.IsWallDetected()))
-            fsm.SwitchState(entity.MoveState);
+            if (!(XInput == 0 || (XInput == Entity.FacingDir) && Entity.IsWallDetected()))
+                Fsm.SwitchState(Entity.MoveState);
+        }
     }
 }

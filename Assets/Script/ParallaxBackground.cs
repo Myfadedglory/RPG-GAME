@@ -1,37 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ParallaxBackground : MonoBehaviour
+namespace Script
 {
-    private GameObject cam;
-    [SerializeField] private float parallaxEffect;
-
-    private float xPosition;
-    private float length;
-
-    // Start is called before the first frame update
-    void Start()
+    public class ParallaxBackground : MonoBehaviour
     {
-        cam = GameObject.Find("Main Camera");
+        private GameObject cam;
+        [SerializeField] private float parallaxEffect;
 
-        xPosition = transform.position.x;
+        private float xPosition;
+        private float length;
 
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            cam = GameObject.Find("Main Camera");
 
-    // Update is called once per frame
-    void Update()
-    {
-        float distanceMoved = cam.transform.position.x * (1- parallaxEffect);
+            xPosition = transform.position.x;
 
-        float distanceToMove = cam.transform.position.x * parallaxEffect;
+            length = GetComponent<SpriteRenderer>().bounds.size.x;
+        }
 
-        transform.position = new Vector3(xPosition +  distanceToMove, transform.position.y);
+        // Update is called once per frame
+        void Update()
+        {
+            var distanceMoved = cam.transform.position.x * (1- parallaxEffect);
 
-        if (distanceMoved > xPosition + length)
-            xPosition += length;
-        else if (distanceMoved < xPosition - length)
-            xPosition -= length;
+            var distanceToMove = cam.transform.position.x * parallaxEffect;
+
+            transform.position = new Vector3(xPosition +  distanceToMove, transform.position.y);
+
+            if (distanceMoved > xPosition + length)
+                xPosition += length;
+            else if (distanceMoved < xPosition - length)
+                xPosition -= length;
+        }
     }
 }

@@ -1,47 +1,37 @@
 using System.Threading.Tasks;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerState : EntityState<Player>
+namespace Script.Player
 {
-    protected float xInput;
-    protected float yInput;
-
-    protected static bool isBusy;
-
-    public PlayerState(Player player, FSM fsm, string animBoolName)
-        : base(player, fsm, animBoolName)
+    public class PlayerState : EntityState<Player>
     {
-    }
+        protected float XInput;
+        protected float YInput;
 
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
+        protected static bool isBusy;
+        private static readonly int YVelocity = Animator.StringToHash("yVelocity");
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState); 
-    }
+        protected PlayerState(Player player, Fsm fsm, string animBoolName)
+            : base(player, fsm, animBoolName)
+        {
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+        public override void Update()
+        {
+            base.Update();
 
-    public override void Update()
-    {
-        base.Update();
+            XInput = Input.GetAxisRaw("Horizontal");
+            YInput = Input.GetAxisRaw("Vertical");
 
-        xInput = Input.GetAxisRaw("Horizontal");
-        yInput = Input.GetAxisRaw("Vertical");
+            Anim.SetFloat(YVelocity, Rb.velocity.y);
+        }
 
-        anim.SetFloat("yVelocity", rb.velocity.y);
-    }
-
-    public async void BusyFor(float seconds)
-    {
-        isBusy = true;
-        await Task.Delay((int)(seconds * 1000));
-        isBusy = false;
+        protected static async void BusyFor(float seconds)
+        {
+            isBusy = true;
+            await Task.Delay((int)(seconds * 1000));
+            isBusy = false;
+        }
     }
 }

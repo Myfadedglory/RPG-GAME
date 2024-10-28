@@ -1,34 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class SkeletonMoveState : SkeletonGroundedState
+namespace Script.Enemy.Skeleton.State
 {
-    public SkeletonMoveState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonMoveState : SkeletonGroundedState
     {
-    }
-
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        enemy.SetVelocity(enemy.moveSpeed * enemy.FacingDir, rb.velocity.y , enemy.needFlip);
-
-        if (!enemy.IsGroundDetected() || enemy.IsWallDetected())
+        public SkeletonMoveState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
         {
-            enemy.Flip();
+        }
 
-            fsm.SwitchState(enemy.IdleState);
+        public override void Update()
+        {
+            base.Update();
+
+            Enemy.SetVelocity(Enemy.moveSpeed * Enemy.FacingDir, Rb.velocity.y , Enemy.needFlip);
+
+            if (Enemy.IsGroundDetected() && !Enemy.IsWallDetected()) return;
+            
+            Enemy.Flip();
+
+            Fsm.SwitchState(Enemy.IdleState);
         }
     }
 }

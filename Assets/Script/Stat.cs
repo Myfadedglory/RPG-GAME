@@ -1,33 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Stat 
+namespace Script
 {
-    [SerializeField] private double baseValve;
-
-    public List<double> modifiers;
-
-    public double GetValue()
+    [System.Serializable]
+    public class Stat 
     {
-        double finalValue = baseValve;
+        [SerializeField] private double baseValve;
 
-        foreach (double modifier in modifiers)
+        public List<double> modifiers;
+
+        public double GetValue()
         {
-            finalValue += modifier;
+            return baseValve + modifiers.Sum();
         }
 
-        return finalValue;
-    }
+        public void AddModifier(double modifier)
+        {
+            modifiers.Add(modifier);
+        }
 
-    public void AddModifier(double modifier)
-    {
-        modifiers.Add(modifier);
-    }
-
-    public void RemoveModifier(int modifier)
-    {
-        modifiers.RemoveAt(modifier);
+        public void RemoveModifier(int modifier)
+        {
+            modifiers.RemoveAt(modifier);
+        }
     }
 }

@@ -1,39 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerAimSwordState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerAimSwordState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
+    public class PlayerAimSwordState : PlayerState
     {
-    }
+        public PlayerAimSwordState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        {
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        entity.Skill.sword.ActiveDots(true);
-    }
+            Entity.Skill.Sword.ActiveDots(true);
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+        public override void Update()
+        {
+            base.Update();
 
-    public override void Update()
-    {
-        base.Update();
+            Entity.SetXZeroVelocity();
 
-        entity.SetXZeroVelocity();
+            if (Input.GetKeyUp(KeyCode.Mouse1)) 
+                Fsm.SwitchState(Entity.IdleState);
 
-        if (Input.GetKeyUp(KeyCode.Mouse1)) 
-            fsm.SwitchState(entity.IdleState);
+            Vector2 mousePosition = Camera.main!.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (mousePosition.x < entity.transform.position.x && entity.FacingDir == 1)
-            entity.Flip();
-        else if(mousePosition.x > entity.transform.position.x && entity.FacingDir != 1)
-            entity.Flip();
+            if (mousePosition.x < Entity.transform.position.x && Entity.FacingDir == 1)
+                Entity.Flip();
+            else if(mousePosition.x > Entity.transform.position.x && Entity.FacingDir != 1)
+                Entity.Flip();
+        }
     }
 }

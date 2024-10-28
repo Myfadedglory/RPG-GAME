@@ -1,7 +1,10 @@
-public enum SwordType
+namespace Script.Skill.Sword
 {
-    Regular,
-    Bounce,
-    Pierce,
-    Spin
+    public enum SwordType
+    {
+        Regular,
+        Bounce,
+        Pierce,
+        Spin
+    }
 }

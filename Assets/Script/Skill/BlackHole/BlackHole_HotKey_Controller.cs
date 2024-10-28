@@ -1,35 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Blackhole_HotKey_Controller : MonoBehaviour
+namespace Script.Skill.BlackHole
 {
-    private SpriteRenderer sr;
-    private KeyCode myHotKey;
-    private TextMeshProUGUI myText;
-
-    private Transform enemy;
-    private Blackhole_Skill_Controller blackholeAC;
-
-    public void SetUpHotKey(KeyCode myHotKey, Transform enemy, Blackhole_Skill_Controller blackholeAC)
+    public class Blackhole_HotKey_Controller : MonoBehaviour
     {
-        sr = GetComponent<SpriteRenderer>();
+        private SpriteRenderer sr;
+        private KeyCode myHotKey;
+        private TextMeshProUGUI myText;
 
-        myText = GetComponentInChildren<TextMeshProUGUI>();
+        private Transform enemy;
+        private Blackhole_Skill_Controller blackholeAc;
 
-        myText.text = myHotKey.ToString();
-
-        this.myHotKey = myHotKey;
-        this.enemy = enemy;
-        this.blackholeAC = blackholeAC;
-    }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(myHotKey))
+        public void SetUpHotKey(KeyCode myHotKey, Transform enemy, Blackhole_Skill_Controller blackholeAc)
         {
-            blackholeAC.AddEnemyToTarget(enemy);
+            sr = GetComponent<SpriteRenderer>();
+
+            myText = GetComponentInChildren<TextMeshProUGUI>();
+
+            myText.text = myHotKey.ToString();
+
+            this.myHotKey = myHotKey;
+            this.enemy = enemy;
+            this.blackholeAc = blackholeAc;
+        }
+
+        private void Update()
+        {
+            if (!Input.GetKeyDown(myHotKey)) return;
+            
+            blackholeAc.AddEnemyToTarget(enemy);
 
             myText.color = Color.clear;
 

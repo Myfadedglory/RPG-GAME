@@ -1,39 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerCatchSwordState : PlayerState
+namespace Script.Player.State
 {
-    private Transform sword;
-
-    public PlayerCatchSwordState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
+    public class PlayerCatchSwordState : PlayerState
     {
-    }
+        private Transform sword;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public PlayerCatchSwordState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        {
+        }
 
-        sword = entity.Sword.transform;
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        if (sword.position.x < entity.transform.position.x && entity.FacingDir == 1)
-            entity.Flip();
-        else if (sword.position.x > entity.transform.position.x && entity.FacingDir == -1)
-            entity.Flip();
+            sword = Entity.Sword.transform;
 
-        entity.SetVelocity(entity.swordReturnForce * -entity.FacingDir ,rb.velocity.y  , !entity.needFlip);
-    }
+            if (sword.position.x < Entity.transform.position.x && Entity.FacingDir == 1)
+                Entity.Flip();
+            else if (sword.position.x > Entity.transform.position.x && Entity.FacingDir == -1)
+                Entity.Flip();
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+            Entity.SetVelocity(Entity.swordReturnForce * -Entity.FacingDir ,Rb.velocity.y  , !Entity.needFlip);
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        if(isAnimationFinished)
-            fsm.SwitchState(entity.IdleState);
+            if(IsAnimationFinished)
+                Fsm.SwitchState(Entity.IdleState);
+        }
     }
 }

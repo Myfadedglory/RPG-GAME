@@ -1,65 +1,62 @@
-using UnityEngine;
+using Script.Utilities;
 
-public class PlayerBlackholeState : PlayerState
+namespace Script.Player.State
 {
-    private float flyTime = 0.3f;
-    private bool skillUsed;
-
-    private float defaultGravity;
-
-    public PlayerBlackholeState(Player player, FSM fsm, string animBoolName) : base(player, fsm, animBoolName)
+    public class PlayerBlackholeState : PlayerState
     {
-    }
+        private float flyTime = 0.3f;
+        private bool skillUsed;
 
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
+        private float defaultGravity;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-
-        skillUsed = false;
-
-        stateTimer = flyTime;
-
-        defaultGravity = rb.gravityScale;
-
-        rb.gravityScale = 0;
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-
-        rb.gravityScale = defaultGravity;
-
-        entity.MakeTransprent(false);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (SkillManger.instance.blackHole.BlackholeFinished())
+        public PlayerBlackholeState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
         {
-            fsm.SwitchState(entity.JumpState);
-            return;
         }
 
-        if (stateTimer > 0)
+        public override void Enter(IState lastState)
         {
-            entity.SetVelocity(0, 15, false);
+            base.Enter(lastState);
+
+            skillUsed = false;
+
+            StateTimer = flyTime;
+
+            defaultGravity = Rb.gravityScale;
+
+            Rb.gravityScale = 0;
         }
-        else
+
+        public override void Exit(IState newState)
         {
-            entity.SetVelocity(0, -0.1f, false);
-            if (!skillUsed)
+            base.Exit(newState);
+
+            Rb.gravityScale = defaultGravity;
+
+            Entity.MakeTransprent(false);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (SkillManger.instance.BlackHole.BlackholeFinished())
             {
-                if (!SkillManger.instance.blackHole.CanUseSkill()) return;
-                skillUsed = true;
+                Fsm.SwitchState(Entity.JumpState);
+                return;
             }
-        } 
+
+            if (StateTimer > 0)
+            {
+                Entity.SetVelocity(0, 15, false);
+            }
+            else
+            {
+                Entity.SetVelocity(0, -0.1f, false);
+                
+                if (skillUsed || !SkillManger.instance.BlackHole.CanUseSkill()) return;
+                
+                skillUsed = true;
+            } 
+        }
     }
 }

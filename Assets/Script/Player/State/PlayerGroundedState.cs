@@ -1,73 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Skill.Sword;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerGroundedState : PlayerState
+namespace Script.Player.State
 {
-    public PlayerGroundedState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerGroundedState : PlayerState
     {
-    }
-
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if(isBusy) return;
-
-        if (Input.GetKeyDown(KeyCode.R))
+        public PlayerGroundedState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
-            fsm.SwitchState(entity.BlackHole);
-            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
+        public override void Update()
         {
-            fsm.SwitchState(entity.AimSword);
-            return;
+            base.Update();
+
+            if(isBusy) return;
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Fsm.SwitchState(Entity.BlackHole);
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
+            {
+                Fsm.SwitchState(Entity.AimSword);
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Fsm.SwitchState(Entity.CounterAttack);
+                return;
+            }
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Fsm.SwitchState(Entity.AttackState);
+                return;
+            }
+
+            if (!Entity.IsGroundDetected())
+            {
+                Fsm.SwitchState(Entity.AirState);
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && Entity.IsGroundDetected())
+            {
+                Fsm.SwitchState(Entity.JumpState);
+                return;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        private bool HasNoSword()
         {
-            fsm.SwitchState(entity.CounterAttack);
-            return;
+            if(!Entity.Sword)
+                return true;
+
+            Entity.Sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+
+            return false;
         }
-
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            fsm.SwitchState(entity.AttackState);
-            return;
-        }
-
-        if (!entity.IsGroundDetected())
-        {
-            fsm.SwitchState(entity.AirState);
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && entity.IsGroundDetected())
-        {
-            fsm.SwitchState(entity.JumpState);
-            return;
-        }
-    }
-
-    private bool HasNoSword()
-    {
-        if(!entity.Sword)
-            return true;
-
-        entity.Sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
-
-        return false;
     }
 }

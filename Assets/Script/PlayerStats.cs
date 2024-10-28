@@ -1,22 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PlayerStats : CharacterStats
+namespace Script
 {
-    private Player player;
-
-    protected override void Start()
+    public class PlayerStats : CharacterStats
     {
-        base.Start();
+        private Player.Player player;
 
-        player = GetComponent<Player>();
-    }
+        protected override void Start()
+        {
+            base.Start();
 
-    protected override void Die()
-    {
-        base.Die();
+            player = GetComponent<Player.Player>();
+        }
 
-        player.Die();
+        protected override void Die()
+        {
+            base.Die();
+
+            player.Die();
+        }
     }
 }

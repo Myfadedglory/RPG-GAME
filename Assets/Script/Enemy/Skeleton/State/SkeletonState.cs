@@ -1,28 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class SkeletonState : EnemyState
+namespace Script.Enemy.Skeleton.State
 {
-    protected Skeleton enemy;
-
-    public SkeletonState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName)
+    public class SkeletonState : EnemyState
     {
-        this.enemy = enemy;
-    }
+        protected readonly Skeleton Enemy;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
-
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        protected SkeletonState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName)
+        {
+            Enemy = enemy;
+        }
     }
 }

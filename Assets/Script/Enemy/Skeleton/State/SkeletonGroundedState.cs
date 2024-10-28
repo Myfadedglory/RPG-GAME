@@ -1,33 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Player;
+using Script.Utilities;
 using UnityEngine;
 
-public class SkeletonGroundedState : SkeletonState
+namespace Script.Enemy.Skeleton.State
 {
-
-    protected Transform player;
-
-    public SkeletonGroundedState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonGroundedState : SkeletonState
     {
-    }
+        private Transform player;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        protected SkeletonGroundedState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+        {
+        }
 
-        player = PlayerManger.instance.player.transform;
-    }
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+            player = PlayerManger.instance.player.transform;
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        if(enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position , player.position) < enemy.minDetectedDistance) 
-            fsm.SwitchState(enemy.BattleState);
+            if(Enemy.IsPlayerDetected() || Vector2.Distance(Enemy.transform.position , player.position) < Enemy.minDetectedDistance) 
+                Fsm.SwitchState(Enemy.BattleState);
+        }
     }
 }

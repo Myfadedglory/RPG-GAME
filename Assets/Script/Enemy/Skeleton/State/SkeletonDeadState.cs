@@ -1,32 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class SkeletonDeadState : SkeletonState
+namespace Script.Enemy.Skeleton.State
 {
-    public SkeletonDeadState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonDeadState : SkeletonState
     {
-    }
+        public SkeletonDeadState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+        {
+        }
 
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
-    }
+        public override void AnimationFinishTrigger()
+        {
+            base.AnimationFinishTrigger();
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
-    }
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
+        }
 
-    public override void Update()
-    {
-        base.Update();
+        public override void Update()
+        {
+            base.Update();
 
-        enemy.SetZeroVelocity();
+            Enemy.SetZeroVelocity();
+        }
     }
 }

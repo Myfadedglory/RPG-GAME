@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Dash_Skill : Skill
+namespace Script.Skill.Clone
 {
-    public override void UseSkill()
+    public class Dash_Skill : Skill
     {
-        base.UseSkill();
     }
 }

@@ -1,42 +1,54 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+namespace Script
 {
-
-    public Stat strength;
-    public Stat damage;
-    public Stat maxHealth;
-
-    [SerializeField] private double currentHealth;
-
-    private Entity entity;
-
-    protected virtual void Start()
+    public class CharacterStats : MonoBehaviour
     {
-        currentHealth = maxHealth.GetValue();
+        [Header("Major stats")]
+        public Stat strength;
+        public Stat agility;
+        public Stat intelligence;
+        public Stat vitality;
 
-        entity = GetComponent<Entity>();
-    }
+        [Header("Defensive stats")]
+        public Stat maxHealth;
+        public Stat armor;
+        public Stat evasion;    //����    
 
-    public virtual void DoDamage(CharacterStats target)
-    {
-        double totalDamage = damage.GetValue() + strength.GetValue();
 
-        target.TakeDamage(totalDamage);
-    }
+        public Stat damage;
 
-    public virtual void TakeDamage(double damage)
-    {
-        currentHealth -= damage;
+        [SerializeField] private double currentHealth;
 
-        if (currentHealth <= 0)
-            Die();
-    }
+        protected virtual void Start()
+        {
+            currentHealth = maxHealth.GetValue();
+        }
 
-    protected virtual void Die()
-    {
+        public virtual void DoDamage(CharacterStats target)
+        {
+            var totalEvasion = evasion.GetValue() + agility.GetValue();
+
+            if (Random.Range(1, 100) < totalEvasion)
+            {
+                return;
+            }
+
+            var totalDamage = damage.GetValue() + strength.GetValue();
+
+            target.TakeDamage(totalDamage);
+        }
+
+        protected virtual void TakeDamage(double currentDamage)
+        {
+            currentHealth -= currentDamage;
+
+            if (currentHealth <= 0)
+                Die();
+        }
+
+        protected virtual void Die()
+        {
+        }
     }
 }

@@ -1,57 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Clone_Skill : Skill
+namespace Script.Skill.Clone
 {
-    [Header("Clone info")]
-    [SerializeField] private GameObject clonePrefab;
-    [SerializeField] private float cloneDuration;
-    [SerializeField] private bool canAttack;
-    [SerializeField] private float clonerDetectDistance = 10f;
-
-    [SerializeField] private bool createCloneOnDashStart;
-    [SerializeField] private bool createCloneOnDashOver;
-
-    [Header("Duplicate clone info")]
-    [SerializeField] private bool canDuplicateClone;
-    [SerializeField] private float chanceToDuplcate;
-
-    [Header("Crystal instead of clone")]
-    public bool crystalInsteadOfClone;
-
-    public void CreateClone(Transform newTransform, Vector3? offset)
+    public class Clone_Skill : Skill
     {
-        if(crystalInsteadOfClone)
+        [Header("Clone info")]
+        [SerializeField] private GameObject clonePrefab;
+        [SerializeField] private float cloneDuration;
+        [SerializeField] private bool canAttack;
+        [SerializeField] private float clonerDetectDistance = 10f;
+
+        [SerializeField] private bool createCloneOnDashStart;
+        [SerializeField] private bool createCloneOnDashOver;
+
+        [Header("Duplicate clone info")]
+        [SerializeField] private bool canDuplicateClone;
+        [SerializeField] private float chanceToDuplcate;
+
+        [Header("Crystal instead of clone")]
+        public bool crystalInsteadOfClone;
+
+        public void CreateClone(Transform newTransform, Vector3? offset)
         {
-            SkillManger.instance.crystal.CreateCrystal();
-            SkillManger.instance.crystal.ChooseRandomTarget();
-            return;
+            if(crystalInsteadOfClone)
+            {
+                SkillManger.instance.Crystal.CreateCrystal();
+                SkillManger.instance.Crystal.ChooseRandomTarget();
+                return;
+            }
+
+            var newClone = Instantiate(clonePrefab);
+
+            newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(
+                newTransform,
+                cloneDuration,
+                clonerDetectDistance, 
+                canAttack, 
+                ChooseClosestEnemy, 
+                canDuplicateClone,
+                chanceToDuplcate,
+                offset ?? Vector3.zero
+            );
         }
 
-        var newClone = Instantiate(clonePrefab);
+        public void CreateCloneOnDashStart()
+        {
+            if (createCloneOnDashStart)
+                CreateClone(player.transform, Vector3.zero);
+        }
 
-        newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(
-            newTransform,
-            cloneDuration,
-            clonerDetectDistance, 
-            canAttack, 
-            ChooseClosestEnemy, 
-            canDuplicateClone,
-            chanceToDuplcate,
-            offset ?? Vector3.zero
-        );
-    }
-
-    public void CreateCloneOnDashStart()
-    {
-        if (createCloneOnDashStart)
-            CreateClone(player.transform, Vector3.zero);
-    }
-
-    public void CreateCloneOnDashOver()
-    {
-        if (createCloneOnDashOver)
-            CreateClone(player.transform, Vector3.zero);
+        public void CreateCloneOnDashOver()
+        {
+            if (createCloneOnDashOver)
+                CreateClone(player.transform, Vector3.zero);
+        }
     }
 }

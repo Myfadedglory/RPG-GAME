@@ -1,30 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Utilities;
 
-public class SkeletonIdleState : SkeletonGroundedState
+namespace Script.Enemy.Skeleton.State
 {
-    public SkeletonIdleState(Enemy entity, FSM fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+    public class SkeletonIdleState : SkeletonGroundedState
     {
-    }
+        public SkeletonIdleState(Enemy entity, Fsm fsm, string animBoolName, Skeleton enemy) : base(entity, fsm, animBoolName, enemy)
+        {
+        }
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        stateTimer = enemy.idleTime;
-    }
+            StateTimer = Enemy.idleTime;
+        }
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
-    }
+        public override void Update()
+        {
+            base.Update();
 
-    public override void Update()
-    {
-        base.Update();
-
-        if(stateTimer < 0) 
-            fsm.SwitchState(enemy.MoveState);
+            if(StateTimer < 0) 
+                Fsm.SwitchState(Enemy.MoveState);
+        }
     }
 }

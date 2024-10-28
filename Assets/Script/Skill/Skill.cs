@@ -1,79 +1,77 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Player;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
+namespace Script.Skill
 {
-    [SerializeField] protected float cooldown;
-    [SerializeField] protected LayerMask whatIsEnemy;
-    protected float cooldownTimer;
-
-    protected Player player;
-
-    protected virtual void Start()
+    public class Skill : MonoBehaviour
     {
-        player = PlayerManger.instance.player;
-    }
+        [SerializeField] protected float cooldown;
+        [SerializeField] protected LayerMask whatIsEnemy;
+        protected float CooldownTimer;
 
-    protected virtual void Update()
-    {
-        cooldownTimer -= Time.deltaTime;
-    }
+        protected Player.Player player;
 
-    public virtual bool CanUseSkill()
-    {
-        if (cooldownTimer < 0)
+        protected virtual void Start()
         {
+            player = PlayerManger.instance.player;
+        }
+
+        protected virtual void Update()
+        {
+            CooldownTimer -= Time.deltaTime;
+        }
+
+        public virtual bool CanUseSkill()
+        {
+            if (!(CooldownTimer < 0)) return false;
+            
             UseSkill();
 
-            cooldownTimer = cooldown;
+            CooldownTimer = cooldown;
 
             return true;
         }
-        return false;
-    }
 
-    public virtual void UseSkill()
-    {
-
-    }
-
-    protected virtual Transform ChooseClosestEnemy(Transform detectTransform, float radius)
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
-
-        Transform closestEnemy = null;
-        
-        float closestDistance = Mathf.Infinity;
-
-        foreach (var hit in colliders)
+        protected virtual void UseSkill()
         {
-            if (hit.GetComponent<Enemy>() != null)
-            {
-                float distance = Vector2.Distance(detectTransform.position, hit.transform.position);
 
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestEnemy = hit.transform;
-                }
-            }
         }
 
-        return closestEnemy;
-    }
-
-    protected virtual Transform ChooseRandomEnemy(Transform detectTransform, float detectDistance)
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectDistance, whatIsEnemy);
-
-        if (colliders.Length > 0)
+        protected virtual Transform ChooseClosestEnemy(Transform detectTransform, float radius)
         {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
+
+            Transform closestEnemy = null;
+        
+            float closestDistance = Mathf.Infinity;
+
+            foreach (var hit in colliders)
+            {
+                if (hit.GetComponent<Enemy.Enemy>() != null)
+                {
+                    float distance = Vector2.Distance(detectTransform.position, hit.transform.position);
+
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestEnemy = hit.transform;
+                    }
+                }
+            }
+
+            return closestEnemy;
+        }
+
+        protected virtual Transform ChooseRandomEnemy(Transform detectTransform, float detectDistance)
+        {
+            var colliders = Physics2D.OverlapCircleAll(transform.position, detectDistance, whatIsEnemy);
+
+            if (colliders.Length <= 0) return null;
+            
             var randomTarget = colliders[Random.Range(0, colliders.Length)];
 
             return randomTarget.transform;
-        }
 
-        return null;
+        }
     }
 }

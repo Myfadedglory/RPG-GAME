@@ -1,57 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
+using Script.Utilities;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerState
+namespace Script.Player.State
 {
-    private int comboCounter;
-
-    private float lastTimeAttacked;
-
-    public PlayerAttackState(Player entity, FSM fsm, string animBoolName) : base(entity, fsm, animBoolName)
+    public class PlayerAttackState : PlayerState
     {
-    }
+        private static readonly int ComboCounter = Animator.StringToHash("ComboCounter");
+        private int comboCounter;
 
-    public override void Enter(IState lastState)
-    {
-        base.Enter(lastState);
+        private float lastTimeAttacked;
 
-        stateTimer = .1f;
+        public PlayerAttackState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        {
+        }
 
-        if (comboCounter > 2 || Time.time >= lastTimeAttacked + entity.comboWindow)
-            comboCounter = 0;
+        public override void Enter(IState lastState)
+        {
+            base.Enter(lastState);
 
-        entity.SetVelocity(
-            entity.attackMoveMent[comboCounter].x * entity.FacingDir, 
-            entity.attackMoveMent[comboCounter].y , entity.needFlip
-        );
+            StateTimer = .1f;
 
-        anim.SetInteger("ComboCounter", comboCounter);
+            if (comboCounter > 2 || Time.time >= lastTimeAttacked + Entity.comboWindow)
+                comboCounter = 0;
 
-        anim.speed = entity.attackSpeed;
-    }
+            Entity.SetVelocity(
+                Entity.attackMoveMent[comboCounter].x * Entity.FacingDir, 
+                Entity.attackMoveMent[comboCounter].y , Entity.needFlip
+            );
 
-    public override void Exit(IState newState)
-    {
-        base.Exit(newState);
+            Anim.SetInteger(ComboCounter, comboCounter);
 
-        BusyFor(0.15f);
+            Anim.speed = Entity.attackSpeed;
+        }
 
-        anim.speed = 1;
+        public override void Exit(IState newState)
+        {
+            base.Exit(newState);
 
-        lastTimeAttacked = Time.time;
+            BusyFor(0.15f);
 
-        comboCounter++;
-    }
+            Anim.speed = 1;
 
-    public override void Update()
-    {
-        base.Update();
+            lastTimeAttacked = Time.time;
 
-        if (stateTimer < 0)
-            entity.SetZeroVelocity();
+            comboCounter++;
+        }
 
-        if (isAnimationFinished)
-            fsm.SwitchState(entity.IdleState);        
+        public override void Update()
+        {
+            base.Update();
+
+            if (StateTimer < 0)
+                Entity.SetZeroVelocity();
+
+            if (IsAnimationFinished)
+                Fsm.SwitchState(Entity.IdleState);        
+        }
     }
 }

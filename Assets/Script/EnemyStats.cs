@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Script.Enemy.Skeleton;
 
-public class EnemyStats : CharacterStats
+namespace Script
 {
-    private Skeleton enemy;
-
-    protected override void Start()
+    public class EnemyStats : CharacterStats
     {
-        base.Start();
+        private Skeleton enemy;
 
-        enemy = GetComponent<Skeleton>();
-    }
+        protected override void Start()
+        {
+            base.Start();
 
-    protected override void Die()
-    {
-        base.Die();
+            enemy = GetComponent<Skeleton>();
+        }
 
-        enemy.Die();
+        protected override void Die()
+        {
+            base.Die();
+
+            enemy.Die();
+        }
     }
 }

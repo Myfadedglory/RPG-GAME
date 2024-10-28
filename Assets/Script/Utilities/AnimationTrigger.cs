@@ -1,39 +1,42 @@
 using UnityEngine;
 
-public class AnimationTriggers<T> : MonoBehaviour where T : Entity
+namespace Script.Utilities
 {
-    protected T entity;
-
-    protected virtual void Start()
+    public class AnimationTriggers<T> : MonoBehaviour where T : Entity
     {
-        entity = GetComponentInParent<T>();
-        if (!entity) Debug.LogError($"父物体未找到名为 {typeof(T)} 的组件");
-    }
+        protected T entity;
 
-    protected virtual void AnimationTrigger()
-    {
-        entity.Fsm.currentState?.AnimationFinishTrigger();
-    }
-
-    protected virtual void AttackTriggerLogic(int attackedDir)
-    {
-        var colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
-
-        foreach (var hit in colliders)
+        protected virtual void Start()
         {
-            if (typeof(T) == typeof(Player) && hit.GetComponent<Enemy>() is Enemy enemy)
+            entity = GetComponentInParent<T>();
+            if (!entity) Debug.LogError($"为 {typeof(T)} ");
+        }
+
+        protected virtual void AnimationTrigger()
+        {
+            entity.Fsm.CurrentState?.AnimationFinishTrigger();
+        }
+
+        protected virtual void AttackTriggerLogic(int attackedDir)
+        {
+            var colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
+
+            foreach (var hit in colliders)
             {
-                enemy.Damage(entity.Stats, attackedDir);
-            }
-            else if (typeof(T) == typeof(Enemy) && hit.GetComponent<Player>() is Player player)
-            {
-                player.Damage(entity.Stats, attackedDir);
+                if (typeof(T) == typeof(Player.Player) && hit.GetComponent<Enemy.Enemy>() is { } enemy)
+                {
+                    enemy.Damage(entity.Stats, attackedDir);
+                }
+                else if (typeof(T) == typeof(Enemy.Enemy) && hit.GetComponent<Player.Player>() is { } player)
+                {
+                    player.Damage(entity.Stats, attackedDir);
+                }
             }
         }
-    }
 
-    protected virtual void AttackTrigger()
-    {
-        AttackTriggerLogic(entity.FacingDir);
+        protected virtual void AttackTrigger()
+        {
+            AttackTriggerLogic(entity.FacingDir);
+        }
     }
 }
