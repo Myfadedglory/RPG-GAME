@@ -63,6 +63,7 @@
     <Compile Include="Assets\Script\Player\State\PlayerMoveState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
+    <Compile Include="Assets\Script\Modifier.cs" />
     <Compile Include="Assets\Script\Skill\SkillManger.cs" />
     <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Skill\Sword\Sword_Skill_Controller.cs" />

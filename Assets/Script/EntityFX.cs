@@ -11,8 +11,7 @@ namespace Script
         [SerializeField] private Material hitMat;
         [SerializeField] private float flashDuration = 0.2f;
         private Material originalMat;
-
-
+        
         private void Start()
         {
             sr = GetComponentInChildren<SpriteRenderer>();

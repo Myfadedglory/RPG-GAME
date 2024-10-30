@@ -46,11 +46,11 @@ namespace Script.Enemy.Skeleton
             Fsm.CurrentState.Update();
         }
 
-        public override void Damage(CharacterStats from, int attackDir)
+        public override void Damage(CharacterStats from, int attackDir, bool isMagic)
         {
             Fsm.SwitchState(HitState);
 
-            base.Damage(from, attackDir);
+            base.Damage(from, attackDir, isMagic);
         }
 
         public override bool CanBeStun()

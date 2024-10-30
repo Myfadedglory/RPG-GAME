@@ -13,7 +13,7 @@ namespace Script
         [SerializeField] protected Transform wallCheck;
         [SerializeField] protected float wallCheckDistance;
 
-        [Header("Knockback info")]
+        [Header("Knock back info")]
         [SerializeField] protected Vector2 knockbackDirection;
         [SerializeField] protected float knockbackDuration = 0.07f;
         private bool isKnocked;
@@ -60,28 +60,22 @@ namespace Script
             Fsm.CurrentState?.Update();
         }
 
-        /*
-         * ��������: �˺���Դ����
-         * Ŀǰ�������: ��������˺��߼�
-         * �������: ���ǽ��˺����������������ά��������
-         */
-
-        public virtual void Damage(CharacterStats from, int attackDir)
+        public virtual void Damage(CharacterStats from, int attackDir, bool isMagic)
         {
             Fx.StartCoroutine("FlashFX");
 
             StartCoroutine(nameof(HitKnockback), attackDir);            
 
-            from.DoDamage(Stats);
+            from.DoDamage(Stats, isMagic);
         }
 
-        public virtual void Damage(CharacterStats from)
+        public virtual void Damage(CharacterStats from, bool isMagic)
         {
             Fx.StartCoroutine("FlashFX");
 
             StartCoroutine(nameof(HitKnockback), -FacingDir);
 
-            from.DoDamage(Stats);
+            from.DoDamage(Stats, isMagic);
         }
 
         protected virtual IEnumerator HitKnockback(int attackDir)
@@ -135,12 +129,15 @@ namespace Script
             transform.Rotate(0, 180, 0);
         }
 
-        protected virtual void FlipController(float _x)
+        protected virtual void FlipController(float x)
         {
-            if (Rb.velocity.x > 0 && !facingRight)
-                Flip();
-            else if (Rb.velocity.x < 0 && facingRight)
-                Flip();
+            switch (Rb.velocity.x)
+            {
+                case > 0 when !facingRight:
+                case < 0 when facingRight:
+                    Flip();
+                    break;
+            }
         }
 
         #endregion
@@ -166,9 +163,9 @@ namespace Script
 
         #endregion
 
-        public void MakeTransprent(bool transprent)
+        public void MakeTransparent(bool transparent)
         {
-            Sr.color = transprent ? Color.clear : Color.white;
+            Sr.color = transparent ? Color.clear : Color.white;
         }
         
         public abstract void Die();

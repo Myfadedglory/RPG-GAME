@@ -90,7 +90,7 @@ namespace Script.Skill.Clone
             {
                 if (hit.GetComponent<Enemy.Enemy>() != null)
                 {
-                    hit.GetComponent<Enemy.Enemy>().Damage(PlayerManger.instance.player.Stats,cloneFacingDir);
+                    hit.GetComponent<Enemy.Enemy>().Damage(PlayerManger.instance.player.Stats,cloneFacingDir, false);
 
                     if (canDuplicateClone)
                     {

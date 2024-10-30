@@ -7123,7 +7123,7 @@ MonoBehaviour:
   counterImage: {fileID: 1833145346}
   moveSpeed: 2
   idleTime: 1
-  speedMutipulier: 1.2
+  speedMultiplier: 1.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2
@@ -7188,13 +7188,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength:
     baseValve: 0
-    modifiers: []
+  agility:
+    baseValve: 0
+  intelligence:
+    baseValve: 0
+  vitality:
+    baseValve: 0
   damage:
     baseValve: 0
-    modifiers: []
+  critChance:
+    baseValve: 0
+  critPower:
+    baseValve: 0
   maxHealth:
     baseValve: 0
-    modifiers: []
+  armor:
+    baseValve: 0
+  evasion:
+    baseValve: 0
+  physicsResistance:
+    baseValve: 0
+  fireResistance:
+    baseValve: 0
+  iceResistance:
+    baseValve: 0
+  lightningResistance:
+    baseValve: 0
+  fireDamage:
+    baseValve: 0
+  iceDamage:
+    baseValve: 0
+  lightningDamage:
+    baseValve: 0
+  igniteDuration: 10
+  chillDuration: 20
+  shockDuration: 20
+  igniteDamage: 10
   currentHealth: 0
 --- !u!1 &636397133
 GameObject:
@@ -7271,7 +7300,7 @@ MonoBehaviour:
   counterImage: {fileID: 2060859513}
   moveSpeed: 2
   idleTime: 1
-  speedMutipulier: 1.2
+  speedMultiplier: 1.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2
@@ -7336,13 +7365,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength:
     baseValve: 0
-    modifiers: []
+  agility:
+    baseValve: 0
+  intelligence:
+    baseValve: 0
+  vitality:
+    baseValve: 0
   damage:
     baseValve: 0
-    modifiers: []
+  critChance:
+    baseValve: 0
+  critPower:
+    baseValve: 0
   maxHealth:
     baseValve: 0
-    modifiers: []
+  armor:
+    baseValve: 0
+  evasion:
+    baseValve: 0
+  physicsResistance:
+    baseValve: 0
+  fireResistance:
+    baseValve: 0
+  iceResistance:
+    baseValve: 0
+  lightningResistance:
+    baseValve: 0
+  fireDamage:
+    baseValve: 0
+  iceDamage:
+    baseValve: 0
+  lightningDamage:
+    baseValve: 0
+  igniteDuration: 10
+  chillDuration: 20
+  shockDuration: 20
+  igniteDamage: 10
   currentHealth: 0
 --- !u!1 &696464196
 GameObject:
@@ -8972,16 +9030,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strength:
+    baseValve: -0
+  agility:
     baseValve: 0
-    modifiers: []
+  intelligence:
+    baseValve: 0
+  vitality:
+    baseValve: 0
   damage:
     baseValve: 10
-    modifiers:
-    - 5
+  critChance:
+    baseValve: 0
+  critPower:
+    baseValve: 0
   maxHealth:
     baseValve: 5
-    modifiers:
-    - 5
+  armor:
+    baseValve: 0
+  evasion:
+    baseValve: 0
+  physicsResistance:
+    baseValve: 0
+  fireResistance:
+    baseValve: 0
+  iceResistance:
+    baseValve: 0
+  lightningResistance:
+    baseValve: 0
+  fireDamage:
+    baseValve: 0
+  iceDamage:
+    baseValve: 0
+  lightningDamage:
+    baseValve: 10
+  igniteDuration: 10
+  chillDuration: 20
+  shockDuration: 20
+  igniteDamage: 10
   currentHealth: 0
 --- !u!1 &1088857665
 GameObject:
@@ -9404,7 +9489,7 @@ MonoBehaviour:
   counterImage: {fileID: 1881544110}
   moveSpeed: 2
   idleTime: 1
-  speedMutipulier: 1.2
+  speedMultiplier: 1.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
   hitDuration: 0.2
@@ -9436,15 +9521,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength:
     baseValve: 0
-    modifiers: []
+  agility:
+    baseValve: 0
+  intelligence:
+    baseValve: 0
+  vitality:
+    baseValve: 0
   damage:
     baseValve: 10
-    modifiers:
-    - 1
+  critChance:
+    baseValve: 0
+  critPower:
+    baseValve: 0
   maxHealth:
-    baseValve: 20
-    modifiers:
-    - 10
+    baseValve: 1000
+  armor:
+    baseValve: 0
+  evasion:
+    baseValve: 0
+  physicsResistance:
+    baseValve: 0.5
+  fireResistance:
+    baseValve: 0
+  iceResistance:
+    baseValve: 0
+  lightningResistance:
+    baseValve: 0
+  fireDamage:
+    baseValve: 0
+  iceDamage:
+    baseValve: 0
+  lightningDamage:
+    baseValve: 0
+  igniteDuration: 10
+  chillDuration: 20
+  shockDuration: 20
+  igniteDamage: 10
   currentHealth: 0
 --- !u!70 &1688166336
 CapsuleCollider2D:

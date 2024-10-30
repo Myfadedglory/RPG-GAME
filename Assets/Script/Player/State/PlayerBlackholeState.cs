@@ -32,7 +32,7 @@ namespace Script.Player.State
 
             Rb.gravityScale = defaultGravity;
 
-            Entity.MakeTransprent(false);
+            Entity.MakeTransparent(false);
         }
 
         public override void Update()

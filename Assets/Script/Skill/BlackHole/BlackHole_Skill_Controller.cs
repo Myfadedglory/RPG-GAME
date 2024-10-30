@@ -129,7 +129,7 @@ namespace Script.Skill.BlackHole
             
             playerCanDisapear = false;
             
-            PlayerManger.instance.player.MakeTransprent(true);
+            PlayerManger.instance.player.MakeTransparent(true);
         }
 
         private void CloneAttackLogic()

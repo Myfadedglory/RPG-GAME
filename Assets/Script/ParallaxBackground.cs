@@ -9,9 +9,8 @@ namespace Script
 
         private float xPosition;
         private float length;
-
-        // Start is called before the first frame update
-        void Start()
+        
+        private void Start()
         {
             cam = GameObject.Find("Main Camera");
 
@@ -19,9 +18,8 @@ namespace Script
 
             length = GetComponent<SpriteRenderer>().bounds.size.x;
         }
-
-        // Update is called once per frame
-        void Update()
+        
+        private void Update()
         {
             var distanceMoved = cam.transform.position.x * (1- parallaxEffect);
 

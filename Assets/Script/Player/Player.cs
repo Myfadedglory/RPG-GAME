@@ -13,12 +13,12 @@ namespace Script.Player
 
         [Header("Move info")]
         public float moveSpeed = 3.80f;
-        public float horizonJumpForce = 8f;
-        public float verticalJumpForce = 10f;
+        public float horizonJumpForce = 4f;
+        public float verticalJumpForce = 8f;
 
         [Header("Dash info")]
         [SerializeField] public float dashCoolDown = 1.2f;
-        public float dashSpeed = 25;
+        public float dashSpeed = 40;
         public float dashDuration = .2f;
         public float DashDir { get; private set; }
 
@@ -27,7 +27,6 @@ namespace Script.Player
 
         [Header("Counter Attack info")]
         public float counterAttackDuration = 0.1f;
-
         public float swordReturnForce = 7f;
 
         public SkillManger Skill {  get; private set; }
@@ -108,11 +107,11 @@ namespace Script.Player
             Destroy(Sword);
         }
 
-        public override void Damage(CharacterStats from, int attackedDir)
+        public override void Damage(CharacterStats from, int attackedDir, bool isMagic)
         {
             Fsm.SwitchState(HitState);
 
-            base.Damage(from, attackedDir);
+            base.Damage(from, attackedDir, isMagic);
         }
 
         public void AnimationTrigger() => Fsm.CurrentState.AnimationFinishTrigger();
@@ -123,6 +122,12 @@ namespace Script.Player
                 return;
 
             if (!Input.GetKeyDown(KeyCode.LeftShift) || !SkillManger.instance.Dash.CanUseSkill()) return;
+            
+            // var modifier = new Modifier("power", Modifier.Operation.Addition, 1);
+            //
+            // Stats.damage.AddModifier(modifier);
+            //
+            // Debug.Log(Stats.damage.GetValue());
             
             DashDir = Input.GetAxisRaw("Horizontal");
 

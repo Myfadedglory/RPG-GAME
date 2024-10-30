@@ -4,39 +4,39 @@ namespace Script.Utilities
 {
     public class AnimationTriggers<T> : MonoBehaviour where T : Entity
     {
-        protected T entity;
+        protected T Entity;
 
         protected virtual void Start()
         {
-            entity = GetComponentInParent<T>();
-            if (!entity) Debug.LogError($"Ϊ {typeof(T)} ");
+            Entity = GetComponentInParent<T>();
+            if (!Entity) Debug.LogError($"Ϊ {typeof(T)} ");
         }
 
         protected virtual void AnimationTrigger()
         {
-            entity.Fsm.CurrentState?.AnimationFinishTrigger();
+            Entity.Fsm.CurrentState?.AnimationFinishTrigger();
         }
 
         protected virtual void AttackTriggerLogic(int attackedDir)
         {
-            var colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, entity.attackCheckDistance);
+            var colliders = Physics2D.OverlapCircleAll(Entity.attackCheck.position, Entity.attackCheckDistance);
 
             foreach (var hit in colliders)
             {
                 if (typeof(T) == typeof(Player.Player) && hit.GetComponent<Enemy.Enemy>() is { } enemy)
                 {
-                    enemy.Damage(entity.Stats, attackedDir);
+                    enemy.Damage(Entity.Stats, attackedDir, false);
                 }
                 else if (typeof(T) == typeof(Enemy.Enemy) && hit.GetComponent<Player.Player>() is { } player)
                 {
-                    player.Damage(entity.Stats, attackedDir);
+                    player.Damage(Entity.Stats, attackedDir, false);
                 }
             }
         }
 
         protected virtual void AttackTrigger()
         {
-            AttackTriggerLogic(entity.FacingDir);
+            AttackTriggerLogic(Entity.FacingDir);
         }
     }
 }

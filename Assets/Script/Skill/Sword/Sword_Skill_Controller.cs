@@ -125,7 +125,7 @@ namespace Script.Skill.Sword
                 {
 
                     Enemy.Enemy enemy = enemyTarget[targetIndex].GetComponent<Enemy.Enemy>();
-                    enemy.Damage(player.Stats,swordAttackDir);
+                    enemy.Damage(player.Stats,swordAttackDir, false);
                     enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
 
                     bounceAmount--;
@@ -283,7 +283,7 @@ namespace Script.Skill.Sword
 
                     foreach (var hit in colliders)
                     {
-                        hit.GetComponent<Enemy.Enemy>()?.Damage(player.Stats);
+                        hit.GetComponent<Enemy.Enemy>()?.Damage(player.Stats, false);
                     }
                 }
             }
@@ -294,7 +294,7 @@ namespace Script.Skill.Sword
             if (!wasStopped)
                 AttackEnemy(collision);
             else
-                collision.GetComponent<Enemy.Enemy>().Damage(player.Stats);
+                collision.GetComponent<Enemy.Enemy>().Damage(player.Stats, false);
 
             if (isSpinning && collision.GetComponent<Enemy.Enemy>() != null)
             {
@@ -376,7 +376,7 @@ namespace Script.Skill.Sword
             {
                 Enemy.Enemy enemy = collision.GetComponent<Enemy.Enemy>();
 
-                enemy.Damage(player.Stats,swordAttackDir);
+                enemy.Damage(player.Stats,swordAttackDir, false);
 
                 enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
             }
