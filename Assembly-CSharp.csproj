@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Player\State\PlayerIdleState.cs" />
+    <Compile Include="Assets\Script\Player\PlayerStats.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerHitState.cs" />
     <Compile Include="Assets\Script\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonBattleState.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Assets\Script\Player\State\PlayerAirState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\Skeleton.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerWallSlideState.cs" />
+    <Compile Include="Assets\Script\IgniteEffect.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonAttackState.cs" />
     <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_HotKey_Controller.cs" />
     <Compile Include="Assets\Script\Utilities\AnimationTrigger.cs" />
@@ -62,7 +64,9 @@
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonIdleState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerMoveState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerGroundedState.cs" />
+    <Compile Include="Assets\Script\Enemy\EnemyStats.cs" />
     <Compile Include="Assets\Script\EntityFX.cs" />
+    <Compile Include="Assets\Script\UI\HealthBar_UI.cs" />
     <Compile Include="Assets\Script\Modifier.cs" />
     <Compile Include="Assets\Script\Skill\SkillManger.cs" />
     <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill_Controller.cs" />
@@ -79,9 +83,10 @@
     <Compile Include="Assets\Script\Stat.cs" />
     <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill.cs" />
     <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_Skill_Controller.cs" />
-    <Compile Include="Assets\Script\PlayerStats.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonDeadState.cs" />
+    <Compile Include="Assets\Script\MagicStat.cs" />
     <Compile Include="Assets\Script\Player\PlayerAnimationTriggers.cs" />
+    <Compile Include="Assets\Script\ElementalStatus.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerCounterAttackState.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerBlackholeState.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonStunState.cs" />
@@ -93,7 +98,7 @@
     <Compile Include="Assets\Script\Player\State\PlayerDeadState.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Enemy\Skeleton\State\SkeletonHitState.cs" />
-    <Compile Include="Assets\Script\EnemyStats.cs" />
+    <Compile Include="Assets\Script\ChilledEffect.cs" />
     <Compile Include="Assets\Script\Enemy\EnemyAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Script\Player\State\PlayerAttackState.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Player\Player.cs" />
     <Compile Include="Assets\Script\CharacterStats.cs" />
+    <Compile Include="Assets\Script\IElementalEffect.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

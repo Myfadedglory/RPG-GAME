@@ -1,14 +1,14 @@
-namespace Script
+namespace Script.Player
 {
     public class PlayerStats : CharacterStats
     {
-        private Player.Player player;
+        private Script.Player.Player player;
 
         protected override void Start()
         {
             base.Start();
 
-            player = GetComponent<Player.Player>();
+            player = GetComponent<Script.Player.Player>();
         }
 
         protected override void Die()

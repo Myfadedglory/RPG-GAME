@@ -6,42 +6,46 @@ namespace Script
     [System.Serializable]
     public class Stat 
     {
-        [SerializeField] private double baseValve;
+        [SerializeField] protected double baseValve;
 
         public List<Modifier> Modifiers = new List<Modifier>();
 
         private bool dirty = true;
 
-        private void MarkDirty()
+        protected virtual void MarkDirty()
         {
             dirty = true;
         }
 
-        public double GetValue()
+        public virtual double GetValue()
         {
             return GetFinalValve();
         }
 
-        public void SetDefaultValue(double value)
+        public virtual void SetDefaultValue(double value)
         {
             baseValve = value;
         }
 
-        public void AddModifier(Modifier modifier)
+        public virtual void AddModifier(Modifier modifier)
         {
             Modifiers.Add(modifier);
             MarkDirty();
             CalculateFinalValve();
         }
 
-        public void RemoveModifier(int modifier)
+        public virtual void RemoveModifier(Modifier modifier)
         {
-            Modifiers.RemoveAt(modifier);
+            for (var i = 0; i < Modifiers.Count; i++)
+            {
+                if(Modifiers[i] == modifier)
+                    Modifiers.RemoveAt(i);
+            }
             MarkDirty();
             CalculateFinalValve();
         }
 
-        public double GetFinalValve()
+        public virtual double GetFinalValve()
         {
             if (dirty)
             {
@@ -50,7 +54,7 @@ namespace Script
             return CalculateFinalValve();
         }
 
-        private double CalculateFinalValve()
+        protected virtual double CalculateFinalValve()
         {
             var finalValve = baseValve;
             foreach (var modifier in Modifiers)

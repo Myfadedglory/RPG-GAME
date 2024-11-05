@@ -1,16 +1,14 @@
-using Script.Enemy.Skeleton;
-
-namespace Script
+namespace Script.Enemy
 {
     public class EnemyStats : CharacterStats
     {
-        private Skeleton enemy;
+        private Skeleton.Skeleton enemy;
 
         protected override void Start()
         {
             base.Start();
 
-            enemy = GetComponent<Skeleton>();
+            enemy = GetComponent<Skeleton.Skeleton>();
         }
 
         protected override void Die()

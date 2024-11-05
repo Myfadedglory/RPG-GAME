@@ -13,18 +13,9 @@ namespace Script.Enemy.Skeleton.State
         {
             base.Enter(lastState);
 
-            Enemy.Fx.InvokeRepeating("RedColorBlink", 0, .1f);
-
             StateTimer = Enemy.stunDuration;
-
-            Rb.velocity = new Vector2(-Enemy.FacingDir * Enemy.stunDirection.x, Enemy.stunDirection.y);
-        }
-
-        public override void Exit(IState newState)
-        {
-            base.Exit(newState);
-
-            Enemy.Fx.Invoke("CancelRedColorBlink", 0);
+            
+            Enemy.SetVelocity(-Enemy.FacingDir * Enemy.stunDirection.x, Enemy.stunDirection.y, false);
         }
 
         public override void Update()

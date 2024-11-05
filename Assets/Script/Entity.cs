@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Script.Utilities;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Script
         public float attackCheckDistance;
 
         public bool needFlip = true;
+        public Action OnFlipped;
 
         #region Component
 
@@ -127,6 +129,8 @@ namespace Script
             facingRight = !facingRight;
 
             transform.Rotate(0, 180, 0);
+
+             OnFlipped?.Invoke();
         }
 
         protected virtual void FlipController(float x)
