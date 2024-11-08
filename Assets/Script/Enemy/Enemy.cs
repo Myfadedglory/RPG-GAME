@@ -22,15 +22,15 @@ namespace Script.Enemy
         [SerializeField] protected GameObject counterImage;
 
         [Header("Move Info")]
-        public float moveSpeed = 2.0f;
+        [HideInInspector] public float moveSpeed;
         public float idleTime = 10f;
-        private float defaultMoveSpeed = 2.0f;
+        [SerializeField] private float defaultMoveSpeed = 2.0f;
 
         protected override void Start()
         {
             base.Start();
-
-            defaultMoveSpeed = moveSpeed;
+            
+            moveSpeed = defaultMoveSpeed;
         }
 
         protected override void Update()
@@ -40,29 +40,51 @@ namespace Script.Enemy
             Fsm.CurrentState.Update();
         }
 
-        public virtual void FreezeTime(bool timeFrozen)
+        public override void SlowEntityFor(float percentage, float duration)
         {
-            if (timeFrozen)
+            base.SlowEntityFor(percentage, duration);
+            StartCoroutine(SlowEntity());
+            return;
+
+            IEnumerator SlowEntity()
+            {
+                moveSpeed *= 1 - percentage;
+                Anim.speed *= 1 - percentage;
+            
+                yield return new WaitForSeconds(duration);
+            
+                moveSpeed = defaultMoveSpeed;
+                Anim.speed = 1;
+            }
+        }
+
+        public virtual void FreezeTime(bool freeze)
+        {
+            if (freeze)
             {
                 moveSpeed = 0;
-
                 Anim.speed = 0;
             }
             else
             {
                 moveSpeed = defaultMoveSpeed;
-
                 Anim.speed = 1;
             }
         }
 
-        protected virtual IEnumerable FreezeTimeFor(float seconds)
+        public virtual void FreezeTimeFor(float seconds)
         {
-            FreezeTime(true);
+            StartCoroutine(FreezeTimer());
+            return;
 
-            yield return new WaitForSeconds(seconds);
+            IEnumerator FreezeTimer()
+            {
+                FreezeTime(true);
 
-            FreezeTime(false);
+                yield return new WaitForSeconds(seconds);
+
+                FreezeTime(false);
+            }
         }
 
         #region Counter Attack Window
@@ -85,21 +107,19 @@ namespace Script.Enemy
 
         public virtual bool CanBeStun()
         {
-            if (canBeStun)
-            {
-                CloseCounterAttackWindow();
+            if (!canBeStun) return false;
+            
+            CloseCounterAttackWindow();
 
-                return true;
-            }
+            return true;
 
-            return false;
         }
 
         public void AnimationTrigger() => Fsm.CurrentState.AnimationFinishTrigger();
 
         public virtual RaycastHit2D IsPlayerDetected()
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(wallCheck.position, Vector2.right * FacingDir, playerDetectedDistance, whatIsPlayer | whatIsGround);
+            var hits = Physics2D.RaycastAll(wallCheck.position, Vector2.right * FacingDir, playerDetectedDistance, whatIsPlayer | whatIsGround);
 
             foreach (var hit in hits)
             {

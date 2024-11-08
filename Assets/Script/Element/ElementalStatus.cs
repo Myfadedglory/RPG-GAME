@@ -1,4 +1,4 @@
-﻿namespace Script
+﻿namespace Script.Element
 {
     public enum ElementalStatus
     {

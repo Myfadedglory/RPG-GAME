@@ -72,7 +72,7 @@ namespace Script.Skill.Sword
 
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                for (int i = 0; i < dots.Length; i++)
+                for (var i = 0; i < dots.Length; i++)
                 {
                     dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
                 }
@@ -81,15 +81,15 @@ namespace Script.Skill.Sword
 
         public void CreateSword()
         {
-            GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
+            var newSword = Instantiate(swordPrefab, Player.transform.position, transform.rotation);
 
-            Sword_Skill_Controller newSwordSript = newSword.GetComponent<Sword_Skill_Controller>();
+            var newSwordScript = newSword.GetComponent<Sword_Skill_Controller>();
 
-            SwitchSword(newSwordSript);
+            SwitchSword(newSwordScript);
 
-            newSwordSript.SetUpSword(swordType, finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, player);
+            newSwordScript.SetUpSword(swordType, finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, Player);
 
-            player.AssignNewSword(newSword);
+            Player.AssignNewSword(newSword);
 
             ActiveDots(false);
         }
@@ -118,11 +118,11 @@ namespace Script.Skill.Sword
 
         private Vector2 AimDirection()
         {
-            Vector2 playerPosition = player.transform.position;
+            Vector2 playerPosition = Player.transform.position;
 
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Vector2 direction = mousePosition - playerPosition;
+            var direction = mousePosition - playerPosition;
 
             return direction;
         }
@@ -141,14 +141,14 @@ namespace Script.Skill.Sword
 
             for (var i = 0; i < numberOfDots; i++)
             {
-                dots[i] = Instantiate(dotPrefab, player.transform.position, Quaternion.identity, dotsParent);
+                dots[i] = Instantiate(dotPrefab, Player.transform.position, Quaternion.identity, dotsParent);
                 dots[i].SetActive(false);
             }
         }
 
         private Vector2 DotsPosition(float t)
         {
-            var position = (Vector2)player.transform.position + new Vector2(
+            var position = (Vector2)Player.transform.position + new Vector2(
                 AimDirection().normalized.x * launchForce.x,
                 AimDirection().normalized.y * launchForce.y) * t + 0.5f * (Physics2D.gravity * swordGravity) * (t * t);
 

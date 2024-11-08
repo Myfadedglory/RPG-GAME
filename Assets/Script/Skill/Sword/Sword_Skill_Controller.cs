@@ -5,6 +5,7 @@ namespace Script.Skill.Sword
 {
     public class Sword_Skill_Controller : MonoBehaviour
     {
+        private static readonly int Rotation = Animator.StringToHash("Rotation");
         [SerializeField] private float returnSpeed = 12f;
         private float catchSwordDistance = 1f;
         private SwordType swordType;
@@ -87,6 +88,8 @@ namespace Script.Skill.Sword
                 case SwordType.Spin:
                     SpinLogic();
                     break;
+                case SwordType.Regular:
+                case SwordType.Pierce:
                 default:
                     break;
             }
@@ -110,43 +113,38 @@ namespace Script.Skill.Sword
 
         private void BounceLogic()
         {
-            if (isBouncing && enemyTarget.Count > 0)
+            if (!isBouncing || enemyTarget.Count <= 0) return;
+            
+            Vector2 targetPosition = enemyTarget[targetIndex].position;
+
+            swordAttackDir = transform.position.x < targetPosition.x ? 1 : -1;
+
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                targetPosition,
+                bounceSpeed * Time.deltaTime);
+
+            if (!(Vector2.Distance(transform.position, targetPosition) < hitDistance)) return;
+            
+            var enemy = enemyTarget[targetIndex].GetComponent<Enemy.Enemy>();
+            enemy.Damage(player.Stats, swordAttackDir);
+            enemy.FreezeTimeFor(freezeDuration);
+
+            bounceAmount--;
+
+            if (bounceAmount < 0)
             {
-                Vector2 targetPosition = enemyTarget[targetIndex].position;
-
-                swordAttackDir = transform.position.x < targetPosition.x ? 1 : -1;
-
-                transform.position = Vector2.MoveTowards(
-                    transform.position,
-                    targetPosition,
-                    bounceSpeed * Time.deltaTime);
-
-                if (Vector2.Distance(transform.position, targetPosition) < hitDistance)
-                {
-
-                    Enemy.Enemy enemy = enemyTarget[targetIndex].GetComponent<Enemy.Enemy>();
-                    enemy.Damage(player.Stats,swordAttackDir, false);
-                    enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
-
-                    bounceAmount--;
-
-                    if (bounceAmount < 0)
-                    {
-                        isBouncing = false;
-                        isReturning = true;
-                        return;
-                    }
-
-                    targetIndex = FindClosestEnemyIndex();
-
-                    if (targetIndex == -1)
-                    {
-                        isBouncing = false;
-                        isReturning = true;
-                        return;
-                    }
-                }
+                isBouncing = false;
+                isReturning = true;
+                return;
             }
+
+            targetIndex = FindClosestEnemyIndex();
+
+            if (targetIndex != -1) return;
+            
+            isBouncing = false;
+            isReturning = true;
         }
 
         private void HandleBounce(Collider2D collision)
@@ -165,40 +163,35 @@ namespace Script.Skill.Sword
 
         private void SetUpBounceTarget(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() != null)
-            {
-                if (isBouncing && enemyTarget.Count <= 0)
-                {
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, maxBounceDistance);
+            if (collision.GetComponent<Enemy.Enemy>() == null || (!isBouncing || enemyTarget.Count > 0)) return;
+            
+            var colliders = Physics2D.OverlapCircleAll(transform.position, maxBounceDistance);
 
-                    foreach (var hit in colliders)
-                    {
-                        if (hit.GetComponent<Enemy.Enemy>() != null)
-                            enemyTarget.Add(hit.transform);
-                    }
-                }
+            foreach (var hit in colliders)
+            {
+                if (hit.GetComponent<Enemy.Enemy>() != null)
+                    enemyTarget.Add(hit.transform);
             }
         }
 
         private int FindClosestEnemyIndex()
         {
-            float closestDistance = Mathf.Infinity;
+            var closestDistance = Mathf.Infinity;
 
-            int closestIndex = -1;
+            var closestIndex = -1;
 
-            for (int i = 0; i < enemyTarget.Count; i++)
+            for (var i = 0; i < enemyTarget.Count; i++)
             {
                 if (i == targetIndex)
                     continue;
 
-                float distance = Vector2.Distance(transform.position, enemyTarget[i].position);
+                var distance = Vector2.Distance(transform.position, enemyTarget[i].position);
 
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
+                if (distance >= closestDistance) continue;
+                
+                closestDistance = distance;
 
-                    closestIndex = i;
-                }
+                closestIndex = i;
             }
 
             return closestIndex;
@@ -252,40 +245,38 @@ namespace Script.Skill.Sword
 
         private void SpinLogic()
         {
-            if (isSpinning)
+            if (!isSpinning) return;
+            
+            if (Vector2.Distance(transform.position, player.transform.position) > maxSpinDistance && !wasStopped)
             {
-                if (Vector2.Distance(transform.position, player.transform.position) > maxSpinDistance && !wasStopped)
-                {
-                    StopWhenSpinning();
-                }
+                StopWhenSpinning();
+            }
 
-                if (wasStopped)
-                {
-                    spinTimer -= Time.deltaTime;
+            if (!wasStopped) return;
+            
+            spinTimer -= Time.deltaTime;
 
-                    transform.position = Vector2.MoveTowards(
-                        transform.position,
-                        new Vector2(transform.position.x + swordAttackDir, transform.position.y),
-                        spinMoveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                new Vector2(transform.position.x + swordAttackDir, transform.position.y),
+                spinMoveSpeed * Time.deltaTime);
 
-                    if (spinTimer < 0)
-                    {
-                        isReturning = true;
-                        isSpinning = false;
-                    }
+            if (spinTimer < 0)
+            {
+                isReturning = true;
+                isSpinning = false;
+            }
 
-                    hitTimer -= Time.deltaTime;
+            hitTimer -= Time.deltaTime;
 
-                    if (hitTimer < 0)
-                        hitTimer = hitCoolDown;
+            if (hitTimer < 0)
+                hitTimer = hitCoolDown;
 
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, hitDistance);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, hitDistance);
 
-                    foreach (var hit in colliders)
-                    {
-                        hit.GetComponent<Enemy.Enemy>()?.Damage(player.Stats, false);
-                    }
-                }
+            foreach (var hit in colliders)
+            {
+                hit.GetComponent<Enemy.Enemy>()?.Damage(player.Stats);
             }
         }
 
@@ -294,7 +285,7 @@ namespace Script.Skill.Sword
             if (!wasStopped)
                 AttackEnemy(collision);
             else
-                collision.GetComponent<Enemy.Enemy>().Damage(player.Stats, false);
+                collision.GetComponent<Enemy.Enemy>().Damage(player.Stats);
 
             if (isSpinning && collision.GetComponent<Enemy.Enemy>() != null)
             {
@@ -362,6 +353,7 @@ namespace Script.Skill.Sword
                 case SwordType.Spin:
                     HandleSpin(collision);
                     break;
+                case SwordType.Regular:
                 default:
                     AttackEnemy(collision);
                     PhysicAttribute();
@@ -372,14 +364,13 @@ namespace Script.Skill.Sword
 
         private void AttackEnemy(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() != null)
-            {
-                Enemy.Enemy enemy = collision.GetComponent<Enemy.Enemy>();
+            if (collision.GetComponent<Enemy.Enemy>() == null) return;
+            
+            var enemy = collision.GetComponent<Enemy.Enemy>();
 
-                enemy.Damage(player.Stats,swordAttackDir, false);
-
-                enemy.StartCoroutine("FreezeTimeFor", freezeDuration);
-            }
+            enemy.Damage(player.Stats,swordAttackDir);
+            
+            enemy.FreezeTimeFor(freezeDuration);
         }
 
         private void PhysicAttribute()
@@ -395,7 +386,7 @@ namespace Script.Skill.Sword
 
         private void AnimationAttribute(Collider2D collision)
         {
-            anim.SetBool("Rotation", false);
+            anim.SetBool(Rotation, false);
 
             transform.parent = collision.transform;
         }

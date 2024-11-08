@@ -14,7 +14,7 @@ namespace Script.Player.State
 
             StateTimer = .4f;
 
-            Entity.SetVelocity(Entity.horizonJumpForce * - Entity.FacingDir / Entity.wallJumpMutiplier, Entity.verticalJumpForce * Entity.wallJumpMutiplier ,Entity.needFlip);
+            Entity.SetVelocity(Entity.jumpForce.x * - Entity.FacingDir / Entity.wallJumpMutiplier, Entity.jumpForce.y * Entity.wallJumpMutiplier ,Entity.needFlip);
         }
         
         public override void Update()

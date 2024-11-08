@@ -1,4 +1,5 @@
 using Script.Enemy.Skeleton.State;
+using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -46,11 +47,11 @@ namespace Script.Enemy.Skeleton
             Fsm.CurrentState.Update();
         }
 
-        public override void Damage(CharacterStats from, int attackDir, bool isMagic)
+        public override void Damage(CharacterStats from, int attackDir)
         {
             Fsm.SwitchState(HitState);
 
-            base.Damage(from, attackDir, isMagic);
+            base.Damage(from, attackDir);
         }
 
         public override bool CanBeStun()

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
+using Script.Stats;
 using UnityEngine;
 
-namespace Script
+namespace Script.Element
 {
     public class IgniteEffect : IElementalEffect
     {
@@ -9,23 +10,28 @@ namespace Script
         private readonly double burningDamage;
         private readonly float damageInterval;
 
-        public IgniteEffect(float duration)
+        public IgniteEffect(float duration, double burningDamage, float damageInterval)
         {
             this.duration = duration;
+            this.burningDamage = burningDamage;
+            this.damageInterval = damageInterval;
         }
         
         public void ApplyEffect(CharacterStats target)
         {
-            target.StartCoroutine(BurnDamageCoroutine(target));
+            target.StartCoroutine(ApplyIgniteEffect(target));
         }
         
-        private IEnumerator BurnDamageCoroutine(CharacterStats target)
+        private IEnumerator ApplyIgniteEffect(CharacterStats target)
         {
             var timer = duration;
+            
             while (timer > 0)
             {
                 target.TakeDamage(burningDamage);
+                
                 yield return new WaitForSeconds(damageInterval);
+                
                 timer -= damageInterval;
             }
 

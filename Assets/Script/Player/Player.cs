@@ -1,4 +1,6 @@
+using System.Collections;
 using Script.Player.State;
+using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
 
@@ -12,13 +14,14 @@ namespace Script.Player
         public float comboWindow = 1f;
 
         [Header("Move info")]
-        public float moveSpeed = 3.80f;
-        public float horizonJumpForce = 4f;
-        public float verticalJumpForce = 8f;
+        [HideInInspector] public float moveSpeed;
+        [HideInInspector] public Vector2 jumpForce;
+        public float defaultMoveSpeed = 3.80f;
+        public Vector2 defaultJumpForce = new (4, 8);
 
         [Header("Dash info")]
-        [SerializeField] public float dashCoolDown = 1.2f;
-        public float dashSpeed = 40;
+        [HideInInspector] public float dashSpeed;
+        public float defaultDashSpeed = 40;
         public float dashDuration = .2f;
         public float DashDir { get; private set; }
 
@@ -62,6 +65,10 @@ namespace Script.Player
         protected override void Start()
         {
             base.Start();
+            
+            moveSpeed = defaultMoveSpeed;
+            jumpForce = defaultJumpForce;
+            dashSpeed = defaultDashSpeed;
 
             IdleState = new PlayerIdleState(this, Fsm, "Idle");
             MoveState = new PlayerMoveState(this, Fsm, "Move");
@@ -95,6 +102,30 @@ namespace Script.Player
                 Skill.Crystal.CanUseSkill();
         }
 
+        public override void SlowEntityFor(float percentage, float duration)
+        {
+            base.SlowEntityFor(percentage, duration);
+            
+            StartCoroutine(SlowEntity());
+            return;
+
+            IEnumerator SlowEntity()
+            {
+                moveSpeed *= 1-percentage;
+                jumpForce *= 1-percentage;
+                dashSpeed *= 1-percentage;
+                Anim.speed *= 1-percentage;
+            
+                yield return new WaitForSeconds(duration);
+            
+                moveSpeed = defaultMoveSpeed;
+                jumpForce = defaultJumpForce;
+                dashSpeed = defaultDashSpeed;
+                Anim.speed = 1;
+            }
+        }
+        
+        
         public void AssignNewSword(GameObject newSword)
         {
             Sword = newSword;
@@ -107,11 +138,11 @@ namespace Script.Player
             Destroy(Sword);
         }
 
-        public override void Damage(CharacterStats from, int attackedDir, bool isMagic)
+        public override void Damage(CharacterStats from, int attackedDir)
         {
             Fsm.SwitchState(HitState);
 
-            base.Damage(from, attackedDir, isMagic);
+            base.Damage(from, attackedDir);
         }
 
         public void AnimationTrigger() => Fsm.CurrentState.AnimationFinishTrigger();
@@ -122,12 +153,6 @@ namespace Script.Player
                 return;
 
             if (!Input.GetKeyDown(KeyCode.LeftShift) || !SkillManger.instance.Dash.CanUseSkill()) return;
-            
-            // var modifier = new Modifier("power", Modifier.Operation.Addition, 1);
-            //
-            // Stats.damage.AddModifier(modifier);
-            //
-            // Debug.Log(Stats.damage.GetValue());
             
             DashDir = Input.GetAxisRaw("Horizontal");
 

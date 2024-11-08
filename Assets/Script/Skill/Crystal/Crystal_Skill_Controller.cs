@@ -1,5 +1,6 @@
 using System;
 using Script.Player;
+using Script.Stats;
 using UnityEngine;
 
 namespace Script.Skill.Crystal
@@ -7,8 +8,8 @@ namespace Script.Skill.Crystal
     public class Crystal_Skill_Controller : MonoBehaviour
     {
         private static readonly int Explode = Animator.StringToHash("Explode");
-        private Animator anim => GetComponent<Animator>();
-        private CircleCollider2D cd => GetComponent<CircleCollider2D>();
+        private Animator Anim => GetComponent<Animator>();
+        private CircleCollider2D Cd => GetComponent<CircleCollider2D>();
 
         private float crystalExitTimer;
 
@@ -20,7 +21,7 @@ namespace Script.Skill.Crystal
         private Vector2 maxSize;
         private float growSpeed;
 
-        private readonly float crystalExplodeDistance = 0.5f;
+        private const float CrystalExplodeDistance = 0.5f;
 
         private Transform followTarget;
 
@@ -65,13 +66,13 @@ namespace Script.Skill.Crystal
                 moveSpeed * Time.deltaTime
             );
 
-            if (Vector2.Distance(transform.position, followTarget.position) < crystalExplodeDistance)
+            if (Vector2.Distance(transform.position, followTarget.position) < CrystalExplodeDistance)
                 CrystalExitTimeOver();
         }
 
         private void AnimationExplodeEvent()
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, cd.radius);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, Cd.radius);
 
             foreach(var hit in colliders)
             {
@@ -79,9 +80,9 @@ namespace Script.Skill.Crystal
                 
                 var enemy = hit.GetComponent<Enemy.Enemy>();
                 if (enemy.transform.position.x <= transform.position.x)
-                    enemy.Damage(PlayerManger.instance.player.Stats, (int)enemy.left.x, true);
+                    enemy.MagicDamage(PlayerManger.instance.player.Stats, (int)enemy.left.x, MagicType.Lightning);
                 else if (enemy.transform.position.x > transform.position.x)
-                    enemy.Damage(PlayerManger.instance.player.Stats, (int)enemy.right.x, true);
+                    enemy.MagicDamage(PlayerManger.instance.player.Stats, (int)enemy.right.x, MagicType.Lightning);
             }
         }
 
@@ -91,7 +92,7 @@ namespace Script.Skill.Crystal
             {
                 canMove = false;
                 canGrow = true;
-                anim.SetTrigger(Explode);
+                Anim.SetTrigger(Explode);
             }
             else
                 SelfDestroy();

@@ -1,3 +1,5 @@
+using Script.Stats;
+
 namespace Script.Player
 {
     public class PlayerStats : CharacterStats

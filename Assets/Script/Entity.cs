@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
 
@@ -62,23 +63,45 @@ namespace Script
             Fsm.CurrentState?.Update();
         }
 
-        public virtual void Damage(CharacterStats from, int attackDir, bool isMagic)
+        public virtual void SlowEntityFor(float percentage, float duration)
+        {
+        }
+
+        #region Damage
+        
+        public virtual void Damage(CharacterStats from, int attackDir)
         {
             Fx.StartCoroutine("FlashFX");
 
             StartCoroutine(nameof(HitKnockback), attackDir);            
 
-            from.DoDamage(Stats, isMagic);
+            from.DoPhysicsDamage(Stats);
         }
 
-        public virtual void Damage(CharacterStats from, bool isMagic)
+        public virtual void Damage(CharacterStats from)
         {
             Fx.StartCoroutine("FlashFX");
 
             StartCoroutine(nameof(HitKnockback), -FacingDir);
 
-            from.DoDamage(Stats, isMagic);
+            from.DoPhysicsDamage(Stats);
         }
+
+        public virtual void MagicDamage(CharacterStats from, int attackDir, MagicType magicType)
+        {
+            StartCoroutine(nameof(HitKnockback), attackDir);            
+            
+            from.DoMagicDamage(Stats, magicType);
+        }
+
+        public virtual void MagicDamage(CharacterStats from, MagicType magicType)
+        {
+            StartCoroutine(nameof(HitKnockback), -FacingDir);
+
+            from.DoMagicDamage(Stats, magicType);
+        }
+        
+        #endregion
 
         protected virtual IEnumerator HitKnockback(int attackDir)
         {

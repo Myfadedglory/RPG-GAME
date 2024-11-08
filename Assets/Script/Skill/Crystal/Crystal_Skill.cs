@@ -36,9 +36,9 @@ namespace Script.Skill.Crystal
             currentCrystal = CreateCrystal(crystalPrefab);
         }
 
-        public GameObject CreateCrystal(GameObject prefab)
+        private GameObject CreateCrystal(GameObject prefab)
         {
-            var newCrystal = Instantiate(prefab, player.transform.position, Quaternion.identity);
+            var newCrystal = Instantiate(prefab, Player.transform.position, Quaternion.identity);
 
             newCrystal.GetComponent<Crystal_Skill_Controller>().SetUpCrystal(
                 canMove,
@@ -77,8 +77,8 @@ namespace Script.Skill.Crystal
                 if(canMove)
                     return;
 
-                (currentCrystal.transform.position, player.transform.position) = 
-                    (player.transform.position, currentCrystal.transform.position);
+                (currentCrystal.transform.position, Player.transform.position) = 
+                    (Player.transform.position, currentCrystal.transform.position);
 
                 if (cloneInsteadOfCrystal)
                 {

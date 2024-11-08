@@ -1,6 +1,7 @@
 using System;
 using Script.Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Script.Skill.Clone
@@ -16,8 +17,8 @@ namespace Script.Skill.Clone
         private float clonerDetectDistance;
         private float cloneTimer;
 
-        [SerializeField] private Transform attackCheck;
-        [SerializeField] private float attackCheckRadious = 0.8f;
+        [SerializeField] private Transform attackCheck; 
+        [SerializeField] private float attackCheckRadius = 0.8f;
 
         private int cloneFacingDir = 1;
         private Transform closestEnemy;
@@ -36,13 +37,12 @@ namespace Script.Skill.Clone
         {    
             cloneTimer -= Time.deltaTime;
 
-            if (cloneTimer < 0)
-            {
-                sr.color = new Color(1,1,1,sr.color.a - (Time.deltaTime * colorLosingSpeed));
+            if (cloneTimer >= 0) return;
+            
+            sr.color = new Color(1,1,1,sr.color.a - (Time.deltaTime * colorLosingSpeed));
 
-                if(sr.color.a <= 0)
-                    Destroy(gameObject);
-            }
+            if(sr.color.a <= 0)
+                Destroy(gameObject);
         }
 
         public void SetUpClone(
@@ -52,13 +52,11 @@ namespace Script.Skill.Clone
             bool canAttack,
             Func<Transform, float, Transform> FindClosestEnemy,
             bool canDuplicateClone,
-            float chanceToDuplcate,
+            float chanceToDuplicate,
             Vector3 _offset   
         )  
         {
-            var offset = _offset;
-
-            transform.position = newTransform.position + offset;
+            transform.position = newTransform.position + _offset;
 
             cloneTimer = cloneDuration;
 
@@ -66,7 +64,7 @@ namespace Script.Skill.Clone
 
             this.canDuplicateClone = canDuplicateClone;
 
-            this.chanceToDuplicate = chanceToDuplcate;
+            this.chanceToDuplicate = chanceToDuplicate;
 
             if (canAttack)
                 anim.SetInteger(AttackNumber, Random.Range(1, 4));
@@ -84,21 +82,19 @@ namespace Script.Skill.Clone
 
         private void AttackTrigger()
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadious);
+            var colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadius);
 
             foreach (var hit in colliders)
             {
-                if (hit.GetComponent<Enemy.Enemy>() != null)
-                {
-                    hit.GetComponent<Enemy.Enemy>().Damage(PlayerManger.instance.player.Stats,cloneFacingDir, false);
+                if (hit.GetComponent<Enemy.Enemy>() == null) continue;
+                
+                hit.GetComponent<Enemy.Enemy>().Damage(PlayerManger.instance.player.Stats,cloneFacingDir);
 
-                    if (canDuplicateClone)
-                    {
-                        if(Random.Range(0,100) < chanceToDuplicate * 100)
-                        {
-                            SkillManger.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
-                        }
-                    }
+                if (!canDuplicateClone) continue;
+                
+                if(Random.Range(0,100) < chanceToDuplicate * 100)
+                {
+                    SkillManger.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
                 }
             }
         }
@@ -107,15 +103,11 @@ namespace Script.Skill.Clone
         {
             closestEnemy = findClosestEnemy(transform, clonerDetectDistance);
 
-            if(closestEnemy != null)
-            {
-                if (closestEnemy.position.x < transform.position.x)
-                {
-                    cloneFacingDir = -1;
+            if (!closestEnemy || closestEnemy.position.x >= transform.position.x) return;
+            
+            cloneFacingDir = -1;
 
-                    transform.Rotate(0, 180, 0);
-                }
-            }
+            transform.Rotate(0, 180, 0);
         }
     }
 }

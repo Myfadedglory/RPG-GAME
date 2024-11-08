@@ -1,3 +1,5 @@
+using Script.Stats;
+
 namespace Script.Enemy
 {
     public class EnemyStats : CharacterStats

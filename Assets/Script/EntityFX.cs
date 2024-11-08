@@ -33,11 +33,6 @@ namespace Script
 
             sr.material = originalMat;
         }
-
-        /*private void CounterAttackColorFX()
-        {
-            sr.color = sr.color != Color.white ? Color.white : Color.red;
-        }*/
         
         public void AlimentsFxFor(List<Color> colors, float seconds)
         {
@@ -47,8 +42,11 @@ namespace Script
         private IEnumerator AlimentsFx(List<Color> colors, float seconds)
         {
             var coroutine = StartCoroutine(AlimentColorFX(colors));
+            
             yield return new WaitForSeconds(seconds);
+            
             StopCoroutine(coroutine);
+            
             sr.color = Color.white;
         }
 
@@ -60,14 +58,6 @@ namespace Script
 
                 yield return new WaitForSeconds(0.3f);
             }
-            // ReSharper disable once IteratorNeverReturns
         }
-
-        /*private void CancelColorChange()
-        {
-            CancelInvoke();
-
-            sr.color = Color.white;
-        }*/
     }
 }

@@ -13,7 +13,7 @@ namespace Script.Player.State
         {
             base.Enter(lastState);
 
-            Rb.velocity = new Vector2(Rb.velocity.x, Entity.verticalJumpForce);
+            Rb.velocity = new Vector2(Rb.velocity.x, Entity.jumpForce.y);
         }
 
         public override void Update()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Script
+namespace Script.Stats
 {
     [System.Serializable]
     public class MagicStat : Stat

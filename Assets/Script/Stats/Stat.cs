@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Script
+namespace Script.Stats
 {
     [System.Serializable]
     public class Stat 
     {
         [SerializeField] protected double baseValve;
 
-        public List<Modifier> Modifiers = new List<Modifier>();
+        public List<Modifier> Modifiers = new ();
 
         private bool dirty = true;
 
@@ -30,7 +30,9 @@ namespace Script
         public virtual void AddModifier(Modifier modifier)
         {
             Modifiers.Add(modifier);
+            
             MarkDirty();
+            
             CalculateFinalValve();
         }
 
@@ -38,10 +40,12 @@ namespace Script
         {
             for (var i = 0; i < Modifiers.Count; i++)
             {
-                if(Modifiers[i] == modifier)
+                if(Modifiers[i].GetGuid() == modifier.GetGuid())
                     Modifiers.RemoveAt(i);
             }
+            
             MarkDirty();
+            
             CalculateFinalValve();
         }
 
@@ -51,12 +55,14 @@ namespace Script
             {
                 dirty = false;
             }
+            
             return CalculateFinalValve();
         }
 
         protected virtual double CalculateFinalValve()
         {
             var finalValve = baseValve;
+            
             foreach (var modifier in Modifiers)
             {
                 if (modifier.GetOperation() == Modifier.Operation.Addition)
@@ -67,6 +73,7 @@ namespace Script
                     finalValve *= modifier.GetValue();
                 }
             }
+            
             return finalValve;
         }
     }

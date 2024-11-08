@@ -19,12 +19,12 @@ namespace Script.Skill.BlackHole
         {
             base.UseSkill();
 
-            GameObject newBlackhole = Instantiate(balckholePrefab, player.transform.position, Quaternion.identity);
+            GameObject newBlackhole = Instantiate(balckholePrefab, Player.transform.position, Quaternion.identity);
 
             currentBlackhole = newBlackhole.GetComponent<Blackhole_Skill_Controller>();
 
             currentBlackhole.SetUpBlackHole(
-                player,
+                Player,
                 maxSize,
                 maxDuration, 
                 growSpeed, 

@@ -9,11 +9,11 @@ namespace Script.Skill
         [SerializeField] protected LayerMask whatIsEnemy;
         protected float CooldownTimer;
 
-        protected Player.Player player;
+        protected Player.Player Player;
 
         protected virtual void Start()
         {
-            player = PlayerManger.instance.player;
+            Player = PlayerManger.instance.player;
         }
 
         protected virtual void Update()
@@ -39,24 +39,22 @@ namespace Script.Skill
 
         protected virtual Transform ChooseClosestEnemy(Transform detectTransform, float radius)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
+            var colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
 
             Transform closestEnemy = null;
         
-            float closestDistance = Mathf.Infinity;
+            var closestDistance = Mathf.Infinity;
 
             foreach (var hit in colliders)
             {
-                if (hit.GetComponent<Enemy.Enemy>() != null)
-                {
-                    float distance = Vector2.Distance(detectTransform.position, hit.transform.position);
+                if (!hit.GetComponent<Enemy.Enemy>()) continue;
+                
+                var distance = Vector2.Distance(detectTransform.position, hit.transform.position);
 
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closestEnemy = hit.transform;
-                    }
-                }
+                if (distance >= closestDistance) continue;
+                
+                closestDistance = distance;
+                closestEnemy = hit.transform;
             }
 
             return closestEnemy;

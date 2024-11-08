@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Script.Stats;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Script.UI

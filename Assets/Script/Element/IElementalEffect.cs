@@ -1,4 +1,6 @@
-﻿namespace Script
+﻿using Script.Stats;
+
+namespace Script.Element
 {
     public interface IElementalEffect
     {

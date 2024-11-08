@@ -46,13 +46,13 @@ namespace Script.Skill.Clone
         public void CreateCloneOnDashStart()
         {
             if (createCloneOnDashStart)
-                CreateClone(player.transform, Vector3.zero);
+                CreateClone(Player.transform, Vector3.zero);
         }
 
         public void CreateCloneOnDashOver()
         {
             if (createCloneOnDashOver)
-                CreateClone(player.transform, Vector3.zero);
+                CreateClone(Player.transform, Vector3.zero);
         }
     }
 }

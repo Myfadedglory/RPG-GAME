@@ -99,18 +99,18 @@ namespace Script.Skill.BlackHole
                     growSpeed * Time.deltaTime
                 );
             }
-            if (canShrink)
-            {
-                transform.localScale = Vector2.Lerp(
-                    transform.localScale,
-                    new Vector2(-1, -1),
-                    shrinkSpeed * Time.deltaTime
-                );
 
-                if (transform.localScale.x < 0)
-                {
-                    Destroy(gameObject);
-                }
+            if (!canShrink) return;
+            
+            transform.localScale = Vector2.Lerp(
+                transform.localScale,
+                new Vector2(-1, -1),
+                shrinkSpeed * Time.deltaTime
+            );
+
+            if (transform.localScale.x < 0)
+            {
+                Destroy(gameObject);
             }
         }
 
@@ -165,21 +165,21 @@ namespace Script.Skill.BlackHole
 
         private void DestroyHotkeys()
         {
-            for(int i = 0; i < createdHotkeys.Count; i++)
+            foreach (var hotkey in createdHotkeys)
             {
-                Destroy(createdHotkeys[i]);
+                Destroy(hotkey);
             }
+
             createdHotkeys.Clear();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.GetComponent<Enemy.Enemy>() != null)
-            {
-                collision.GetComponent<Enemy.Enemy>().FreezeTime(true);
+            if (collision.GetComponent<Enemy.Enemy>() == null) return;
+            
+            collision.GetComponent<Enemy.Enemy>().FreezeTime(true);
 
-                CreateHotKey(collision);
-            }
+            CreateHotKey(collision);
         }
 
         private void OnTriggerExit2D(Collider2D collision)
