@@ -1,4 +1,5 @@
 using Script.Utilities;
+using UnityEngine;
 
 namespace Script.Player.State
 {
@@ -12,7 +13,7 @@ namespace Script.Player.State
         {
             base.Update();
 
-            if (!(XInput == 0 || (XInput == Entity.FacingDir) && Entity.IsWallDetected()))
+            if (!(XInput == 0 || (Mathf.Approximately(XInput, Entity.FacingDir)) && Entity.IsWallDetected()))
                 Fsm.SwitchState(Entity.MoveState);
         }
     }

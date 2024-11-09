@@ -22,17 +22,22 @@ namespace Script.Element
         public void ApplyEffect(CharacterStats target)
         {
             target.StartCoroutine(ApplyShockedEffect(target));
+
+            SpreadToCloseEnemies(target);
+        }
+
+        private void SpreadToCloseEnemies(CharacterStats target)
+        {
+            if(!target.GetComponent<Enemy.Enemy>()) return;
             
-            if(target.GetComponent<Player.Player>() != null) return;
+            var newTarget = FindClosestEnemy(currentTarget, shockingRadius)?.GetComponent<CharacterStats>();
             
-            var newTarget = FindClosestEnemy(currentTarget, shockingRadius).GetComponent<CharacterStats>();
-            
-            if (newTarget.CurrentStatus != ElementalStatus.Shocked)
+            if (newTarget is not null && newTarget.CurrentStatus != ElementalStatus.Shocked)
             {
                 currentTarget.GetComponent<CharacterStats>().CreateShockStrike(newTarget);
             }
         }
-        
+
         private static Transform FindClosestEnemy(Transform detectTransform, float radius)
         {
             var colliders = Physics2D.OverlapCircleAll(detectTransform.position, radius);
@@ -47,7 +52,9 @@ namespace Script.Element
                 
                 var distance = Vector2.Distance(detectTransform.position, hit.transform.position);
 
-                if (distance >= closestDistance || hit.transform == detectTransform) continue;
+                if (distance >= closestDistance || 
+                    hit.transform == detectTransform || 
+                    hit.GetComponent<CharacterStats>()?.CurrentStatus == ElementalStatus.Shocked) continue;
                 
                 closestDistance = distance;
                 

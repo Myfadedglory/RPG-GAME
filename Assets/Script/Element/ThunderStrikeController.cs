@@ -1,3 +1,4 @@
+using Script.Player;
 using Script.Stats;
 using UnityEngine;
 
@@ -52,7 +53,9 @@ namespace Script
 
         private void DamageAndSelfDestroy()
         {
-            target.TakeDamage(damage);
+            var enemy = target.GetComponent<Enemy.Enemy>();
+            
+            enemy.MagicDamage(PlayerManger.instance.player.Stats, MagicType.Lightning);
 
             Destroy(gameObject, 0.4f);
         }
