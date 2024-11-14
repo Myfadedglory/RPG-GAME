@@ -16,3 +16,8 @@ MonoBehaviour:
   itemName: Stolen sword
   icon: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   equipmentType: 0
+  modifiers:
+  - className: Offence
+    statType: 0
+    operation: 0
+    value: 10

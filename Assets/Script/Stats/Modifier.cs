@@ -1,30 +1,34 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Script.Stats
 {
+    [Serializable]
     public class Modifier
     {
-        private readonly string className;
-        private readonly Operation operation;
-        private readonly double value;
+        [SerializeField] private string className;
+        [SerializeField] private StatType statType;
+        [SerializeField] private Operation operation;
+        [SerializeField] private double value;
         private readonly Guid guid;
 
-        public Modifier(string className, Operation operation, double value)
+        public Modifier(string className, StatType statType, Operation operation, double value)
         {
             this.className = className;
+            this.statType = statType;
             this.operation = operation;
             this.value = value;
             guid = new Guid();
         }
 
-        public Guid GetGuid()
-        {
-            return guid;
-        }
-
         public string GetClassName()
         {
             return className;
+        }
+
+        public StatType GetStatType()
+        {
+            return statType;
         }
 
         public Operation GetOperation()
@@ -35,6 +39,11 @@ namespace Script.Stats
         public double GetValue()
         {
             return value;
+        }
+        
+        public Guid GetGuid()
+        {
+            return guid;
         }
         
         public enum Operation

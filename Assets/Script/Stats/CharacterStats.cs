@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Script.Element;
+using Script.Element.effect;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Script.Stats
@@ -17,10 +18,10 @@ namespace Script.Stats
          * vitality         maxHealth,shocked resistance    type : double   range : (0, infinity)
          */
         [Header("Major stats")]
-        public Stat strength;     
-        public Stat agility;      
-        public Stat intelligence; 
-        public Stat vitality;     
+        public ValueStat strength;     
+        public ValueStat agility;      
+        public ValueStat intelligence; 
+        public ValueStat vitality;     
         
         /*
          * physicsDamage      basic damage                  type : double   range : (0, infinity)
@@ -33,18 +34,20 @@ namespace Script.Stats
         public Stat physicsDamage;
         public Stat attackAccurate;
         public Stat critChance;    
-        public Stat critPower;     
+        public ValueStat critPower;     
         
         /*
          * maxHealth          max health                    type : double   range : (0, infinity)
          * evasion            chance of evasion             type : double   range : (0, 100)
+         * armor              decrease damage               type : double   range : (0, infinity)
          * physicsResistance  free % of physics damage      type : double   range : (0, 1)
          */
 
         [Header("Defensive stats")]
         public Stat maxHealth;
-        public Stat evasion; 
-        public Stat physicsResistance;
+        public Stat evasion;
+        public ValueStat armor;
+        public ValueStat physicsResistance;
 
         /*
          * fireMagic          fire magic damage             type : double   range : (0, infinity)
@@ -59,6 +62,8 @@ namespace Script.Stats
         
         #endregion
 
+        #region  Element effect data
+        
         private const double IgniteDamage = 5f;
         private const float IgniteDamageCoolDown = 1f;
         private const float ChillReducePhysicResistance = 0.5f;
@@ -68,6 +73,8 @@ namespace Script.Stats
         private const float ShockStrikeSpeed = 5;
         private const double ShockStrikeDamage = 5;
         private const float DetectEnemyRadius = 20;
+        
+        #endregion
         
         public double currentHealth;
         public Action OnHealthChanged;
@@ -82,36 +89,83 @@ namespace Script.Stats
             CurrentStatus = ElementalStatus.None;
             currentHealth = GetMaxHealth();
             fx = GetComponentInParent<EntityFX>();
+            InitializeStatDictionary();
             OnHealthChanged?.Invoke();
         }
+        
+        #region Modifiers
+
+        private Dictionary<StatType, Stat> statDictionary;
+
+        private void InitializeStatDictionary()
+        {
+            statDictionary = new Dictionary<StatType, Stat>
+            {
+                { StatType.Strength, strength },
+                { StatType.Agility, agility },
+                { StatType.Intelligence, intelligence },
+                { StatType.Vitality, vitality },
+                { StatType.PhysicsDamage, physicsDamage },
+                { StatType.AttackAccurate, attackAccurate },
+                { StatType.CritChance, critChance },
+                { StatType.CritPower, critPower },
+                { StatType.MaxHealth, maxHealth },
+                { StatType.Evasion, evasion },
+                { StatType.Armor, armor },
+                { StatType.FireMagic, fireMagic },
+                { StatType.FireResistance, fireMagic.magicResistance },
+                { StatType.IceMagic, iceMagic },
+                { StatType.IceResistance, iceMagic.magicResistance },
+                { StatType.LightningMagic, lightningMagic },
+                { StatType.LightningResistance, lightningMagic.magicResistance }
+            };
+        }
+
+        public virtual void ApplyModifier(Modifier modifier)
+        {
+            if (statDictionary.TryGetValue(modifier.GetStatType(), out var stat))
+            {
+                stat.AddModifier(modifier);
+            }
+        }
+
+        public virtual void RemoveModifier(Modifier modifier)
+        {
+            if (statDictionary.TryGetValue(modifier.GetStatType(), out var stat))
+            {
+                stat.RemoveModifier(modifier);
+            }
+        }
+
+        #endregion
 
         #region ElementalStatus Effect
         
         private void StatusEffect(ElementalStatus status, float statusDuration)
         {
-            switch (status)
+            var colors = status switch
             {
-                case ElementalStatus.Ignited:
-                    var igniteEffect = new IgniteEffect(statusDuration, IgniteDamage, IgniteDamageCoolDown);
-                    igniteEffect.ApplyEffect(this);
-                    fx.AlimentsFxFor(fx.igniteColor, statusDuration);
-                    return;
-                case ElementalStatus.Chilled:
-                    var chillEffect = new ChilledEffect(statusDuration, ChillActionSlowPercentage, ChillReducePhysicResistance);
-                    chillEffect.ApplyEffect(this);
-                    fx.AlimentsFxFor(fx.chillColor, statusDuration);
-                    return;
-                case ElementalStatus.Shocked:
-                    var shockedEffect = new ShockedEffect(statusDuration, ShockedReduceAttackAccurate, transform, DetectEnemyRadius);
-                    shockedEffect.ApplyEffect(this);
-                    fx.AlimentsFxFor(fx.lightningColor, statusDuration);
-                    return;
-                case ElementalStatus.None:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                ElementalStatus.Ignited => fx.igniteColor,
+                ElementalStatus.Chilled => fx.chillColor,
+                ElementalStatus.Shocked => fx.lightningColor,
+                _ => new List<Color> { Color.white, Color.white } // 默认颜色列表
+            };
+
+            IElementalEffect effect = status switch
+            {
+                ElementalStatus.Ignited => new IgniteEffect(statusDuration, IgniteDamage, IgniteDamageCoolDown),
+                ElementalStatus.Chilled => new ChilledEffect(statusDuration, ChillActionSlowPercentage, ChillReducePhysicResistance),
+                ElementalStatus.Shocked => new ShockedEffect(statusDuration, ShockedReduceAttackAccurate, transform, DetectEnemyRadius),
+                _ => null
+            };
+
+            if (effect == null) return;
+            
+            effect.ApplyEffect(this);
+            fx.AlimentsFxFor(colors, statusDuration);
         }
+
+
         
         private double SetMagic(CharacterStats target, MagicType magicType)
         {
@@ -121,17 +175,17 @@ namespace Script.Stats
             {
                 case MagicType.Fire:
                     target.statusTimers = fireMagic.GetMagicStatusDuration();
-                    totalDamage = ApplyResistance(fireMagic.GetValue(), target.fireMagic.magicResistance);
+                    totalDamage = target.fireMagic.magicResistance.ApplyStat(fireMagic.GetValue());
                     target.CurrentStatus = ElementalStatus.Ignited;
                     break;
                 case MagicType.Ice:
                     target.statusTimers = iceMagic.GetMagicStatusDuration();
-                    totalDamage = ApplyResistance(iceMagic.GetValue(), target.iceMagic.magicResistance);
+                    totalDamage = target.iceMagic.magicResistance.ApplyStat(iceMagic.GetValue());
                     target.CurrentStatus = ElementalStatus.Chilled;
                     break;
                 case MagicType.Lightning:
                     target.statusTimers = lightningMagic.GetMagicStatusDuration();
-                    totalDamage = ApplyResistance(lightningMagic.GetValue(), target.lightningMagic.magicResistance);
+                    totalDamage = target.lightningMagic.magicResistance.ApplyStat(lightningMagic.GetValue());
                     target.CurrentStatus = ElementalStatus.Shocked;
                     break;
                 default:
@@ -154,60 +208,39 @@ namespace Script.Stats
         
         public virtual void DoMagicDamage(CharacterStats target, MagicType magicType)
         {
-            if(ApplyEvasion(target) || ApplyAttackAccurate()) return;
+            if(Random.Range(0, 100) <= target.evasion.GetValue() + target.agility.GetValue()||
+               Random.Range(0, 100) <= attackAccurate.GetValue()) return;
 
             var totalDamage = SetMagic(target, magicType);
             
             target.StatusEffect(target.CurrentStatus, target.statusTimers);
             
-            totalDamage *= 1 + intelligence.GetValue() * totalDamage / 100;
+            totalDamage = intelligence.ApplyStat(totalDamage, 3);
             
             target.TakeDamage(totalDamage);
         }
         
         public virtual void DoPhysicsDamage(CharacterStats target)
         {
-            if (ApplyEvasion(target) || ApplyAttackAccurate()) return;
+            if (Random.Range(0, 100) <= target.evasion.GetValue() + target.agility.GetValue()||
+                Random.Range(0, 100) <= attackAccurate.GetValue()) return;
 
-            var totalDamage = physicsDamage.GetValue() + strength.GetValue();
+            var totalDamage = strength.ApplyStat(physicsDamage.GetValue(), 2);
+
+            if (Random.Range(0, 100) < critChance.GetValue() + strength.GetValue())
+            {
+                totalDamage = critPower.ApplyStat(totalDamage);
+            }
                 
-            totalDamage = ApplyCrit(totalDamage);
-                
-            totalDamage = ApplyResistance(totalDamage, target.physicsResistance);
+            totalDamage = target.armor.ApplyStat(totalDamage);
+            
+            totalDamage = target.physicsResistance.ApplyStat(totalDamage);
             
             target.TakeDamage(totalDamage);
         }
         
         #endregion
-
-        #region Attribute Correction
-
-        private bool ApplyAttackAccurate()
-        {
-            return Random.value > attackAccurate.GetValue();
-        }
-
-        private static double ApplyResistance(double baseDamage, Stat resistance)
-        {
-            return baseDamage * (1 - resistance.GetValue());
-        }
         
-        private double ApplyCrit(double baseDamage)
-        {
-            if (Random.Range(1, 100) < (critChance.GetValue() + agility.GetValue()) * 100)
-            {
-                baseDamage *= 1 + critPower.GetValue();
-            }
-            return baseDamage;
-        }
-
-        private static bool ApplyEvasion(CharacterStats target)
-        {
-            return Random.Range(1, 100) < target.evasion.GetValue() + target.agility.GetValue();
-        }
-
-        #endregion
-
         public virtual void TakeDamage(double damage)
         {
             fx.StartCoroutine("FlashFX");
@@ -223,7 +256,7 @@ namespace Script.Stats
 
         public double GetMaxHealth()
         {
-            return maxHealth.GetValue() + vitality.GetValue() * 5;
+            return vitality.ApplyStat(maxHealth.GetValue(), 5);
         }
 
         public double GetCurrentHealth()

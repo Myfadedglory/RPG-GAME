@@ -7,7 +7,7 @@ namespace Script.Stats
     {
         [SerializeField] private float statusDuration;
         
-        public Stat magicResistance;
+        public ValueStat magicResistance;
 
         public float GetMagicStatusDuration()
         {
