@@ -19,7 +19,7 @@ namespace Script.Element.effect
         protected override IEnumerator EffectCoroutine()
         {
             Target.ApplyModifier(chillEffect);
-            Target.GetComponentInParent<Enemy.Enemy>().SlowEntityFor(actionSlowPercentage, Duration);
+            Target.GetComponentInParent<Entity.Enemy.Enemy>().SlowEntityFor(actionSlowPercentage, Duration);
 
             yield return new WaitForSeconds(Duration);
 

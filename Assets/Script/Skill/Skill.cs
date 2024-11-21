@@ -1,4 +1,4 @@
-using Script.Player;
+using Script.Entity.Player;
 using UnityEngine;
 
 namespace Script.Skill
@@ -9,11 +9,11 @@ namespace Script.Skill
         [SerializeField] protected LayerMask whatIsEnemy;
         protected float CooldownTimer;
 
-        protected Player.Player Player;
+        protected Player Player;
 
         protected virtual void Start()
         {
-            Player = PlayerManger.instance.player;
+            Player = PlayerManager.instance.player;
         }
 
         protected virtual void Update()
@@ -47,7 +47,7 @@ namespace Script.Skill
 
             foreach (var hit in colliders)
             {
-                if (!hit.GetComponent<Enemy.Enemy>()) continue;
+                if (!hit.GetComponent<Entity.Enemy.Enemy>()) continue;
                 
                 var distance = Vector2.Distance(detectTransform.position, hit.transform.position);
 

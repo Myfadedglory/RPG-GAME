@@ -8,7 +8,7 @@ namespace Script.Stats
     {
         [SerializeField] protected double baseValve;
 
-        public List<Modifier> Modifiers = new ();
+        public List<Modifier> modifiers = new ();
 
         private bool dirty = true;
 
@@ -29,7 +29,7 @@ namespace Script.Stats
 
         public virtual void AddModifier(Modifier modifier)
         {
-            Modifiers.Add(modifier);
+            modifiers.Add(modifier);
             
             MarkDirty();
             
@@ -38,10 +38,10 @@ namespace Script.Stats
 
         public virtual void RemoveModifier(Modifier modifier)
         {
-            for (var i = 0; i < Modifiers.Count; i++)
+            for (var i = 0; i < modifiers.Count; i++)
             {
-                if(Modifiers[i].GetGuid() == modifier.GetGuid())
-                    Modifiers.RemoveAt(i);
+                if(modifiers[i].GetGuid() == modifier.GetGuid())
+                    modifiers.RemoveAt(i);
             }
             
             MarkDirty();
@@ -63,7 +63,7 @@ namespace Script.Stats
         {
             var finalValve = baseValve;
             
-            foreach (var modifier in Modifiers)
+            foreach (var modifier in modifiers)
             {
                 if (modifier.GetOperation() == Modifier.Operation.Addition)
                 {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Script.Element;
 using Script.Element.effect;
+using Script.Entity;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -61,7 +62,7 @@ namespace Script.Stats
         public MagicStat lightningMagic;
         
         #endregion
-
+        
         #region  Element effect data
         
         private const double IgniteDamage = 5f;
@@ -194,9 +195,7 @@ namespace Script.Stats
 
             return totalDamage;
         }
-
-        #endregion
-
+        
         public virtual void CreateShockStrike(CharacterStats target)
         {
             var shockStrike = Instantiate(shockStrikePrefab, transform.position, Quaternion.identity);
@@ -204,39 +203,41 @@ namespace Script.Stats
             shockStrike.GetComponent<ThunderStrikeController>().SetUp(target, ShockStrikeSpeed, ShockStrikeDamage);
         }
 
+        #endregion
+
         #region DoDamage
         
         public virtual void DoMagicDamage(CharacterStats target, MagicType magicType)
         {
-            if(Random.Range(0, 100) <= target.evasion.GetValue() + target.agility.GetValue()||
+            if(Random.Range(0, 100) <= target.agility.ApplyStat(target.evasion.GetValue())||
                Random.Range(0, 100) <= attackAccurate.GetValue()) return;
 
-            var totalDamage = SetMagic(target, magicType);
+            var damage = SetMagic(target, magicType);
             
             target.StatusEffect(target.CurrentStatus, target.statusTimers);
             
-            totalDamage = intelligence.ApplyStat(totalDamage, 3);
+            damage = intelligence.ApplyStat(damage, 3);
             
-            target.TakeDamage(totalDamage);
+            target.TakeDamage(damage);
         }
         
         public virtual void DoPhysicsDamage(CharacterStats target)
         {
-            if (Random.Range(0, 100) <= target.evasion.GetValue() + target.agility.GetValue()||
+            if (Random.Range(0, 100) <= target.agility.ApplyStat(target.evasion.GetValue(), 2)||
                 Random.Range(0, 100) <= attackAccurate.GetValue()) return;
 
-            var totalDamage = strength.ApplyStat(physicsDamage.GetValue(), 2);
+            var damage = strength.ApplyStat(physicsDamage.GetValue(), 2);
 
             if (Random.Range(0, 100) < critChance.GetValue() + strength.GetValue())
             {
-                totalDamage = critPower.ApplyStat(totalDamage);
+                damage = critPower.ApplyStat(damage);
             }
                 
-            totalDamage = target.armor.ApplyStat(totalDamage);
+            damage = target.armor.ApplyStat(damage);
             
-            totalDamage = target.physicsResistance.ApplyStat(totalDamage);
+            damage = target.physicsResistance.ApplyStat(damage);
             
-            target.TakeDamage(totalDamage);
+            target.TakeDamage(damage);
         }
         
         #endregion

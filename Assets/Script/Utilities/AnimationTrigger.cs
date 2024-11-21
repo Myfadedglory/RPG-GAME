@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Script.Utilities
 {
-    public class AnimationTriggers<T> : MonoBehaviour where T : Entity
+    public class AnimationTriggers<T> : MonoBehaviour where T : Entity.Entity
     {
         protected T Entity;
 
@@ -23,11 +23,11 @@ namespace Script.Utilities
 
             foreach (var hit in colliders)
             {
-                if (typeof(T) == typeof(Player.Player) && hit.GetComponent<Enemy.Enemy>() is { } enemy)
+                if (typeof(T) == typeof(Entity.Player.Player) && hit.GetComponent<Entity.Enemy.Enemy>() is { } enemy)
                 {
                     enemy.Damage(Entity.Stats, attackedDir);
                 }
-                else if (typeof(T) == typeof(Enemy.Enemy) && hit.GetComponent<Player.Player>() is { } player)
+                else if (typeof(T) == typeof(Entity.Enemy.Enemy) && hit.GetComponent<Entity.Player.Player>() is { } player)
                 {
                     player.Damage(Entity.Stats, attackedDir);
                 }

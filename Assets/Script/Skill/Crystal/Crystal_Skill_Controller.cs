@@ -1,5 +1,5 @@
 using System;
-using Script.Player;
+using Script.Entity.Player;
 using Script.Stats;
 using UnityEngine;
 
@@ -76,13 +76,13 @@ namespace Script.Skill.Crystal
 
             foreach(var hit in colliders)
             {
-                if (hit.GetComponent<Enemy.Enemy>() == null) continue;
+                if (hit.GetComponent<Entity.Enemy.Enemy>() == null) continue;
                 
-                var enemy = hit.GetComponent<Enemy.Enemy>();
+                var enemy = hit.GetComponent<Entity.Enemy.Enemy>();
                 if (enemy.transform.position.x <= transform.position.x)
-                    enemy.MagicDamage(PlayerManger.instance.player.Stats, (int)enemy.left.x, MagicType.Lightning);
+                    enemy.MagicDamage(PlayerManager.instance.player.Stats, (int)enemy.left.x, MagicType.Lightning);
                 else if (enemy.transform.position.x > transform.position.x)
-                    enemy.MagicDamage(PlayerManger.instance.player.Stats, (int)enemy.right.x, MagicType.Lightning);
+                    enemy.MagicDamage(PlayerManager.instance.player.Stats, (int)enemy.right.x, MagicType.Lightning);
             }
         }
 

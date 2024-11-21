@@ -5,21 +5,31 @@ namespace Script.Item
     public class ItemObject : MonoBehaviour
     {
         [SerializeField] private ItemData itemData;
+        
+        private Rigidbody2D Rb => GetComponent<Rigidbody2D>();
+        private SpriteRenderer Sr => GetComponent<SpriteRenderer>();
 
         private void OnValidate()
         {
-            GetComponent<SpriteRenderer>().sprite = itemData.icon;
+            if (itemData == null) return;
+            
+            Sr.sprite = itemData.icon;
             
             gameObject.name = "Item Object - " + itemData.itemName;
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        public void SetUp(ItemData itemData, Vector2 velocity)
         {
-            if (collision.CompareTag("Player"))
-            {
-                Inventory.instance.AddItem(itemData);
-                Destroy(gameObject);
-            }
+            this.itemData = itemData;
+            Rb.velocity = velocity;
+            Sr.sprite = itemData.icon;
+            gameObject.name = itemData.itemName;
+        }
+
+        public void PickUpItem()
+        {
+            Inventory.instance.AddItem(itemData);
+            Destroy(gameObject);
         }
     }
 }

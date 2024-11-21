@@ -1,4 +1,5 @@
 using Script.Item;
+using UnityEngine.EventSystems;
 
 namespace Script.UI
 {
@@ -9,6 +10,11 @@ namespace Script.UI
         private void OnValidate()
         {
             gameObject.name = "Equipment slot " + slotType;
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            Inventory.instance.UnEquipItem(slotType);
         }
     }
 }

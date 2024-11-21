@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 namespace Script.Item
 {
@@ -14,5 +15,18 @@ namespace Script.Item
         public ItemType itemType;
         public string itemName;
         public Sprite icon;
+        public string description;
+        
+        protected StringBuilder Sb = new ();
+
+        protected virtual string GetBasicDescription()
+        {
+            return description;
+        }
+
+        protected virtual string GetAttributeDescription()
+        {
+            return " ";
+        }
     }
 }

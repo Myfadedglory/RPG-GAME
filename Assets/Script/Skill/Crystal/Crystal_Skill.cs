@@ -82,7 +82,7 @@ namespace Script.Skill.Crystal
 
                 if (cloneInsteadOfCrystal)
                 {
-                    SkillManger.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
+                    SkillManager.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
                     Destroy(currentCrystal);
                 }
                 else

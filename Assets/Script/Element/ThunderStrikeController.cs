@@ -1,8 +1,8 @@
-using Script.Player;
+using Script.Entity.Player;
 using Script.Stats;
 using UnityEngine;
 
-namespace Script
+namespace Script.Element
 {
     public class ThunderStrikeController : MonoBehaviour
     {
@@ -53,9 +53,9 @@ namespace Script
 
         private void DamageAndSelfDestroy()
         {
-            var enemy = target.GetComponent<Enemy.Enemy>();
+            var enemy = target.GetComponent<Entity.Enemy.Enemy>();
             
-            enemy.MagicDamage(PlayerManger.instance.player.Stats, MagicType.Lightning);
+            enemy.MagicDamage(PlayerManager.instance.player.Stats, MagicType.Lightning);
 
             Destroy(gameObject, 0.4f);
         }

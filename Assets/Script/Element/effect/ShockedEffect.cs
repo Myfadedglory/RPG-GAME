@@ -32,7 +32,7 @@ namespace Script.Element.effect
 
         private void SpreadToCloseEnemies(CharacterStats target)
         {
-            if (!target.GetComponent<Enemy.Enemy>()) return;
+            if (!target.GetComponent<Entity.Enemy.Enemy>()) return;
 
             var newTarget = FindClosestEnemy(currentTarget, shockingRadius)?.GetComponent<CharacterStats>();
 
@@ -51,7 +51,7 @@ namespace Script.Element.effect
 
             foreach (var hit in colliders)
             {
-                if (!hit.GetComponent<Enemy.Enemy>()) continue;
+                if (!hit.GetComponent<Entity.Enemy.Enemy>()) continue;
 
                 var distance = Vector2.Distance(detectTransform.position, hit.transform.position);
 

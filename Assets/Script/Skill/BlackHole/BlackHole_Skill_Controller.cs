@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Script.Player;
+using Script.Entity.Player;
 using UnityEngine;
 
 namespace Script.Skill.BlackHole
@@ -25,7 +25,7 @@ namespace Script.Skill.BlackHole
         private float durationTimer;
         private bool cloneAttackReleased;
         private bool playerCanDisapear;
-        private Player.Player player;
+        private Entity.Player.Player player;
 
         private List<Transform> targets;
         private List<GameObject> createdHotkeys;
@@ -48,7 +48,7 @@ namespace Script.Skill.BlackHole
         }
 
         public void SetUpBlackHole(
-            Player.Player player,
+            Entity.Player.Player player,
             float maxSize,
             float maxDuration, 
             float growSpeed, 
@@ -129,7 +129,7 @@ namespace Script.Skill.BlackHole
             
             playerCanDisapear = false;
             
-            PlayerManger.instance.player.MakeTransparent(true);
+            PlayerManager.instance.player.MakeTransparent(true);
         }
 
         private void CloneAttackLogic()
@@ -147,7 +147,7 @@ namespace Script.Skill.BlackHole
 
             if(targets.Count > 0)
             {
-                SkillManger.instance.Clone.CreateClone(targets[Random.Range(0, targets.Count)], new Vector3(xoffset, 0));
+                SkillManager.instance.Clone.CreateClone(targets[Random.Range(0, targets.Count)], new Vector3(xoffset, 0));
             }
 
             amountOfAttack--;
@@ -175,17 +175,17 @@ namespace Script.Skill.BlackHole
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() == null) return;
+            if (collision.GetComponent<Entity.Enemy.Enemy>() == null) return;
             
-            collision.GetComponent<Enemy.Enemy>().FreezeTime(true);
+            collision.GetComponent<Entity.Enemy.Enemy>().FreezeTime(true);
 
             CreateHotKey(collision);
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() != null)
-                collision.GetComponent<Enemy.Enemy>().FreezeTime(false);
+            if (collision.GetComponent<Entity.Enemy.Enemy>() != null)
+                collision.GetComponent<Entity.Enemy.Enemy>().FreezeTime(false);
         }
 
         private void CreateHotKey(Collider2D collision)

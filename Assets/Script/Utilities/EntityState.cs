@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Script.Utilities
 {
-    public class EntityState<T> : IState where T : Entity
+    public class EntityState<T> : IState where T : Entity.Entity
     {
         protected float StateTimer { get; set; }
         protected bool IsAnimationFinished { get; set; }

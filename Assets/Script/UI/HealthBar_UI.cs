@@ -6,14 +6,14 @@ namespace Script.UI
 {
     public class HealthBarUI : MonoBehaviour
     {
-        private Entity entity;
+        private Entity.Entity entity;
         private RectTransform healthBar;
         private Slider healthSlider;
         private CharacterStats characterStats;
 
         private void Awake()
         {
-            entity = GetComponentInParent<Entity>();
+            entity = GetComponentInParent<Entity.Entity>();
             healthBar = GetComponent<RectTransform>();
             healthSlider = GetComponentInChildren<Slider>();
             characterStats = GetComponentInParent<CharacterStats>();

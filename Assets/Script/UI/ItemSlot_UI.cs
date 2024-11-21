@@ -35,8 +35,11 @@ namespace Script.UI
             itemText.text = "";
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        public virtual void OnPointerDown(PointerEventData eventData)
         {
+            if(Input.GetKey(KeyCode.LeftControl))
+                Inventory.instance.RemoveItem(item.data);
+            
             if(item.data.itemType == ItemType.Equipment)
                 Inventory.instance.EquipItem(item.data);
         }

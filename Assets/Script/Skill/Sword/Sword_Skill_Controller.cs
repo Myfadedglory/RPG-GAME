@@ -13,7 +13,7 @@ namespace Script.Skill.Sword
         private Animator anim;
         private Rigidbody2D rb;
         private CircleCollider2D cd;
-        private Player.Player player;
+        private Entity.Player.Player player;
 
         private bool canRotate = true;
         private bool isReturning;
@@ -53,7 +53,7 @@ namespace Script.Skill.Sword
             float _gravityScale ,
             float _hitDistance,
             float _freezeDuration,
-            Player.Player _player)
+            Entity.Player.Player _player)
         {
             swordType = _swordType;
             player = _player;
@@ -126,7 +126,7 @@ namespace Script.Skill.Sword
 
             if (!(Vector2.Distance(transform.position, targetPosition) < hitDistance)) return;
             
-            var enemy = enemyTarget[targetIndex].GetComponent<Enemy.Enemy>();
+            var enemy = enemyTarget[targetIndex].GetComponent<Entity.Enemy.Enemy>();
             enemy.Damage(player.Stats, swordAttackDir);
             enemy.FreezeTimeFor(freezeDuration);
 
@@ -163,13 +163,13 @@ namespace Script.Skill.Sword
 
         private void SetUpBounceTarget(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() == null || (!isBouncing || enemyTarget.Count > 0)) return;
+            if (collision.GetComponent<Entity.Enemy.Enemy>() == null || (!isBouncing || enemyTarget.Count > 0)) return;
             
             var colliders = Physics2D.OverlapCircleAll(transform.position, maxBounceDistance);
 
             foreach (var hit in colliders)
             {
-                if (hit.GetComponent<Enemy.Enemy>() != null)
+                if (hit.GetComponent<Entity.Enemy.Enemy>() != null)
                     enemyTarget.Add(hit.transform);
             }
         }
@@ -210,7 +210,7 @@ namespace Script.Skill.Sword
         {
             AttackEnemy(collision);
 
-            if (peirceAmount > 0 && collision.GetComponent<Enemy.Enemy>() != null)
+            if (peirceAmount > 0 && collision.GetComponent<Entity.Enemy.Enemy>() != null)
             {
                 peirceAmount--;
 
@@ -276,7 +276,7 @@ namespace Script.Skill.Sword
 
             foreach (var hit in colliders)
             {
-                hit.GetComponent<Enemy.Enemy>()?.Damage(player.Stats);
+                hit.GetComponent<Entity.Enemy.Enemy>()?.Damage(player.Stats);
             }
         }
 
@@ -285,9 +285,9 @@ namespace Script.Skill.Sword
             if (!wasStopped)
                 AttackEnemy(collision);
             else
-                collision.GetComponent<Enemy.Enemy>().Damage(player.Stats);
+                collision.GetComponent<Entity.Enemy.Enemy>().Damage(player.Stats);
 
-            if (isSpinning && collision.GetComponent<Enemy.Enemy>() != null)
+            if (isSpinning && collision.GetComponent<Entity.Enemy.Enemy>() != null)
             {
                 StopWhenSpinning();
 
@@ -364,9 +364,9 @@ namespace Script.Skill.Sword
 
         private void AttackEnemy(Collider2D collision)
         {
-            if (collision.GetComponent<Enemy.Enemy>() == null) return;
+            if (collision.GetComponent<Entity.Enemy.Enemy>() == null) return;
             
-            var enemy = collision.GetComponent<Enemy.Enemy>();
+            var enemy = collision.GetComponent<Entity.Enemy.Enemy>();
 
             enemy.Damage(player.Stats,swordAttackDir);
             

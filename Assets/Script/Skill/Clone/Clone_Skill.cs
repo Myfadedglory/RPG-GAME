@@ -24,8 +24,8 @@ namespace Script.Skill.Clone
         {
             if(crystalInsteadOfClone)
             {
-                SkillManger.instance.Crystal.CreateCrystal();
-                SkillManger.instance.Crystal.ChooseRandomTarget();
+                SkillManager.instance.Crystal.CreateCrystal();
+                SkillManager.instance.Crystal.ChooseRandomTarget();
                 return;
             }
 

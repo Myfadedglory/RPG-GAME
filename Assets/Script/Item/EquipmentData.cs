@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Script.Player;
+using Script.Entity.Player;
 using Script.Stats;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Script.Item
 {
-    public enum EquipmentType
-    {
-        Weapon,
-        Armor,
-        Amulet,
-        Flask
-    }
-    
     [Serializable]
     [CreateAssetMenu(fileName = "new Item Menu", menuName = "Data/Equipment")]
     public class EquipmentData : ItemData
@@ -23,24 +14,39 @@ namespace Script.Item
         
         public List<Modifier> modifiers = new ();
 
+        public List<InventoryItem> craftMaterials = new ();
+
         public void ApplyModifiers()
         {
-            var playerStats = PlayerManger.instance.player.GetComponent<PlayerStats>();
-            
             foreach (var modifier in modifiers)
             {
-                playerStats.ApplyModifier(modifier);
+                PlayerManager.instance.player.GetComponent<PlayerStats>().ApplyModifier(modifier);
             }
         }
 
         public void RemoveModifiers()
         {
-            var playerStats = PlayerManger.instance.player.GetComponent<PlayerStats>();
-
             foreach (var modifier in modifiers)
             {
-                playerStats.RemoveModifier(modifier);
+                PlayerManager.instance.player.GetComponent<PlayerStats>().RemoveModifier(modifier);
             }
+        }
+
+        protected override string GetAttributeDescription()
+        {
+            foreach (var modifier in modifiers)
+            {
+                AddItemDescription(modifier.GetValue(), modifier.GetStatType().ToString());
+            }
+
+            return Sb.ToString();
+        }
+        
+        private void AddItemDescription(double value, string name)
+        {
+            if (Sb.Length > 0) Sb.AppendLine();
+
+            if (value > 0) Sb.Append(name + ": " + value);
         }
     }
 }

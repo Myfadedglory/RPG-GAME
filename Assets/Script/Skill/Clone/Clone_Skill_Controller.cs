@@ -1,7 +1,6 @@
 using System;
-using Script.Player;
+using Script.Entity.Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Script.Skill.Clone
@@ -86,15 +85,15 @@ namespace Script.Skill.Clone
 
             foreach (var hit in colliders)
             {
-                if (hit.GetComponent<Enemy.Enemy>() == null) continue;
+                if (hit.GetComponent<Entity.Enemy.Enemy>() == null) continue;
                 
-                hit.GetComponent<Enemy.Enemy>().Damage(PlayerManger.instance.player.Stats,cloneFacingDir);
+                hit.GetComponent<Entity.Enemy.Enemy>().Damage(PlayerManager.instance.player.Stats,cloneFacingDir);
 
                 if (!canDuplicateClone) continue;
                 
                 if(Random.Range(0,100) < chanceToDuplicate * 100)
                 {
-                    SkillManger.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
+                    SkillManager.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
                 }
             }
         }

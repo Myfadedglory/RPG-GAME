@@ -11,13 +11,13 @@ namespace Script.Item
         public static Inventory instance;
         
         public List<InventoryItem> inventory;
-        public Dictionary<ItemData, InventoryItem> InventoryDictionary;
+        private Dictionary<ItemData, InventoryItem> inventoryDictionary;
         
         public List<InventoryItem> stash;
-        public Dictionary<ItemData, InventoryItem> StashDictionary;
+        private Dictionary<ItemData, InventoryItem> stashDictionary;
         
         public List<InventoryItem> equipment;
-        public Dictionary<EquipmentData, InventoryItem> EquipmentDictionary;
+        private Dictionary<EquipmentData, InventoryItem> equipmentDictionary;
 
         [SerializeField] private Transform inventorySlotParent;
         [SerializeField] private Transform stashSlotParent;
@@ -38,15 +38,15 @@ namespace Script.Item
         private void Start()
         {
             inventory = new List<InventoryItem>();
-            InventoryDictionary = new Dictionary<ItemData, InventoryItem>();
+            inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
             inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<ItemSlotUI>();
             
             stash = new List<InventoryItem>();
-            StashDictionary = new Dictionary<ItemData, InventoryItem>();
+            stashDictionary = new Dictionary<ItemData, InventoryItem>();
             stashItemSlot = stashSlotParent.GetComponentsInChildren<ItemSlotUI>();
             
             equipment = new List<InventoryItem>();
-            EquipmentDictionary = new Dictionary<EquipmentData, InventoryItem>();
+            equipmentDictionary = new Dictionary<EquipmentData, InventoryItem>();
             equipmentItemSlot = equipmentSlotParent.GetComponentsInChildren<EquipmentSlotUI>();
         }
 
@@ -61,96 +61,96 @@ namespace Script.Item
             }
             
             UnEquipItem(newEquipment.equipmentType);
+            RemoveItem(item);
             
             newEquipment.ApplyModifiers();
             
             var newItem = new InventoryItem(item);
             equipment.Add(newItem);
-            EquipmentDictionary.Add(newEquipment, newItem);
-            
-            RemoveItem(item);
+            equipmentDictionary.Add(newEquipment, newItem);
+            UpdateEquipmentSlotUI();
         }
 
         public void UnEquipItem(EquipmentType equipmentType)
         {
-            var existingEquipment = EquipmentDictionary.Keys
+            var existingEquipment = equipmentDictionary.Keys
                 .FirstOrDefault(equip => equip.equipmentType == equipmentType);
             
             if(existingEquipment is null) return;
             
-            if (!EquipmentDictionary.TryGetValue(existingEquipment, out var oldItem)) return;
+            if (!equipmentDictionary.TryGetValue(existingEquipment, out var oldItem)) return;
             
             AddItem(existingEquipment);
             
             equipment.Remove(oldItem);
             existingEquipment.RemoveModifiers();
-            EquipmentDictionary.Remove(existingEquipment);
+            equipmentDictionary.Remove(existingEquipment);
+            UpdateEquipmentSlotUI();
         }
 
         #endregion
 
-        private void UpdateSlotUI()
+        #region Updqte Slot
+        
+        private static void UpdateSlotUI(List<InventoryItem> items, ItemSlotUI[] slots)
         {
-            foreach (var m in equipmentItemSlot)
+            for (var i = 0; i < slots.Length; i++)
             {
-                m.ClearSlot();
+                if (i < items.Count)
+                {
+                    slots[i].UpdateSlot(items[i]);
+                }
+                else
+                {
+                    slots[i].ClearSlot();
+                }
             }
-            foreach (var t in inventoryItemSlot)
-            {
-                t.ClearSlot();
-            }
+        }
 
-            foreach (var i in stashItemSlot)
-            {
-                i.ClearSlot();
-            }
-            
-            for (var i = 0; i < inventory.Count; i++)
-            {
-                inventoryItemSlot[i].UpdateSlot(inventory[i]);
-            }
-
-            for (var i = 0; i < stash.Count; i++)
-            {
-                stashItemSlot[i].UpdateSlot(stash[i]);
-            }
-            
+        private void UpdateEquipmentSlotUI()
+        {
             foreach (var slot in equipmentItemSlot)
             {
-                foreach (var item in EquipmentDictionary.Where(item => item.Key.equipmentType == slot.slotType))
+                slot.ClearSlot();
+                foreach (var item in equipmentDictionary.Where(item => item.Key.equipmentType == slot.slotType))
                 {
                     slot.UpdateSlot(item.Value);
                 }
             }
         }
+        
+        #endregion
 
+        #region Add or Remove Api and Method
+        
         public void AddItem(ItemData item)
         {
             switch (item.itemType)
             {
                 case ItemType.Equipment:
-                    AddItemMethod(inventory, InventoryDictionary, item);
+                    AddItemMethod(inventory, inventoryDictionary, item);
+                    UpdateSlotUI(inventory, inventoryItemSlot);
                     break;
                 case ItemType.Material:
-                    AddItemMethod(stash, StashDictionary, item);
+                    AddItemMethod(stash, stashDictionary, item);
+                    UpdateSlotUI(stash, stashItemSlot);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
-            UpdateSlotUI();
         }
-
-        // ReSharper disable once MemberCanBePrivate.Global
+        
         public void RemoveItem(ItemData item)
         {
             switch (item.itemType)
             {
                 case ItemType.Material:
-                    RemoveItemMethod(stash, StashDictionary, item);
+                    RemoveItemMethod(stash, stashDictionary, item);
+                    UpdateSlotUI(stash, stashItemSlot);
                     break;
                 case ItemType.Equipment:
-                    RemoveItemMethod(inventory, InventoryDictionary, item);
+                    RemoveItemMethod(inventory, inventoryDictionary, item);
+                    UpdateSlotUI(inventory, inventoryItemSlot);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -172,7 +172,7 @@ namespace Script.Item
             }
         }
 
-        private void RemoveItemMethod(List<InventoryItem> items, Dictionary<ItemData, InventoryItem> dictionary,
+        private static void RemoveItemMethod(List<InventoryItem> items, Dictionary<ItemData, InventoryItem> dictionary,
             ItemData item)
         {
             if (!dictionary.TryGetValue(item, out var value)) return;
@@ -186,8 +186,42 @@ namespace Script.Item
             {
                 value.RemoveStack();
             }
-                
-            UpdateSlotUI();
+        }
+        
+        #endregion
+
+        public bool CanCraft(EquipmentData itemToCraft, List<InventoryItem> requiredMaterials)
+        {
+            var materialToRemove = new List<InventoryItem>();
+            
+            foreach (var material in requiredMaterials)
+            {
+                if (stashDictionary.TryGetValue(material.data, out var stashValue))
+                {
+                    if (stashValue.stackSize < material.stackSize)
+                    {
+                        Debug.Log("Don't have enough material");
+                        return false;
+                    }
+                    else
+                    {
+                        materialToRemove.Add(stashValue);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Don't have enough material");
+                    return false;
+                }
+            }
+
+            foreach (var removedMaterial in materialToRemove)
+            {
+                RemoveItem(removedMaterial.data);
+            }
+            
+            AddItem(itemToCraft);
+            return true;
         }
     }
 }
