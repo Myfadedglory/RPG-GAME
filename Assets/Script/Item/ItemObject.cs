@@ -28,7 +28,7 @@ namespace Script.Item
 
         public void PickUpItem()
         {
-            Inventory.instance.AddItem(itemData);
+            Inventory.Inventory.instance.AddItem(itemData);
             Destroy(gameObject);
         }
     }

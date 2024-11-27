@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Script.Entity.Player;
+using Script.Item.Inventory;
 using Script.Stats;
 using UnityEngine;
 
-namespace Script.Item
+namespace Script.Item.Equipment
 {
     [Serializable]
     [CreateAssetMenu(fileName = "new Item Menu", menuName = "Data/Equipment")]

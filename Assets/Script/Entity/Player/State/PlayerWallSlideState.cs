@@ -26,7 +26,7 @@ namespace Script.Entity.Player.State
             if (YInput < 0)
                 Entity.SetVelocity(0, Rb.velocity.y , Entity.needFlip);
             else
-                Entity.SetVelocity(0, Entity.wallSlideMutiplier * Rb.velocity.y, Entity.needFlip);
+                Entity.SetVelocity(0, Entity.wallSlideMultiplier * Rb.velocity.y, Entity.needFlip);
 
             if (Entity.IsGroundDetected())
                 Fsm.SwitchState(Entity.IdleState);

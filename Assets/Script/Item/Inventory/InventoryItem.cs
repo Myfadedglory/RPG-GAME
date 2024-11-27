@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Script.Item
+namespace Script.Item.Inventory
 {
     [Serializable]
     public class InventoryItem
@@ -14,14 +14,14 @@ namespace Script.Item
             AddStack();
         }
 
-        public void AddStack()
+        public void AddStack(int amount = 1)
         {
-            stackSize++;
+            stackSize+=amount;
         }
 
-        public void RemoveStack()
+        public void RemoveStack(int amount = 1)
         {
-            stackSize--;
+            stackSize-=amount;
         }
     }
 }

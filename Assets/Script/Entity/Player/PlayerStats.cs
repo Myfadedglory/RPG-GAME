@@ -4,13 +4,13 @@ namespace Script.Entity.Player
 {
     public class PlayerStats : CharacterStats
     {
-        private Script.Entity.Player.Player player;
+        private Player player;
 
         protected override void Start()
         {
             base.Start();
 
-            player = GetComponent<Script.Entity.Player.Player>();
+            player = GetComponent<Player>();
         }
 
         protected override void Die()

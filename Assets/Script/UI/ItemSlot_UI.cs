@@ -1,4 +1,5 @@
 using Script.Item;
+using Script.Item.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;

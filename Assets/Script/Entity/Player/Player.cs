@@ -4,6 +4,7 @@ using Script.Skill;
 using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script.Entity.Player
 {
@@ -33,14 +34,16 @@ namespace Script.Entity.Player
         public float counterAttackDuration = 0.1f;
         public float swordReturnForce = 7f;
 
+        [SerializeField] private GameObject totalMenu;
+
         public SkillManager Skill {  get; private set; }
         public GameObject Sword { get; private set; }
 
         #region Mutiplier info
 
-        public float airMoveMutiplier = .8f;
-        public float wallSlideMutiplier = .7f;
-        public float wallJumpMutiplier = 1.1f;
+        public float airMoveMultiplier = .8f;
+        public float wallSlideMultiplier = .7f;
+        public float wallJumpMultiplier = 1.1f;
 
         #endregion
 
@@ -96,6 +99,9 @@ namespace Script.Entity.Player
             base.Update();
 
             Fsm.CurrentState.Update();
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+                totalMenu.GetComponent<UI.UI>()?.ShowOrHideUI();
 
             CheckDashInput();
 

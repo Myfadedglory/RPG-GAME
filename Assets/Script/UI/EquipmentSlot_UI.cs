@@ -1,4 +1,6 @@
 using Script.Item;
+using Script.Item.Equipment;
+using Script.Item.Inventory;
 using UnityEngine.EventSystems;
 
 namespace Script.UI

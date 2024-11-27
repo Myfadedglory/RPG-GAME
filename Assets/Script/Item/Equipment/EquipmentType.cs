@@ -1,4 +1,4 @@
-﻿namespace Script.Item
+﻿namespace Script.Item.Equipment
 {
     public enum EquipmentType
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Script.Item
+namespace Script.Item.ItemDrop
 {
     public class ItemDrop : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace Script.Item
             }
         }
 
-        protected void DropItem(ItemData item)
+        protected virtual void DropItem(ItemData item)
         {
             var pos = transform.position + new Vector3(0, 1);
             var newDrop = Instantiate(dropPrefab, pos, Quaternion.identity);

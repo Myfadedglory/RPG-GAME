@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Script.Item.Equipment;
 using Script.UI;
 using UnityEngine;
 
-namespace Script.Item
+namespace Script.Item.Inventory
 {
     public class Inventory : MonoBehaviour
     {

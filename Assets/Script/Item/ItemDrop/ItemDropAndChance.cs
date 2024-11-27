@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Script.Item
+namespace Script.Item.ItemDrop
 {
     [Serializable]
     public class ItemDropAndChance
