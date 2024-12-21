@@ -28,8 +28,7 @@ namespace Script.Entity
         [Header("Attack info")]
         public Transform attackCheck;
         public float attackCheckDistance;
-
-        public bool needFlip = true;
+        
         public Action OnFlipped;
 
         #region Component
@@ -177,7 +176,7 @@ namespace Script.Entity
 
         public virtual void SetZeroVelocity() => Rb.velocity = new Vector2(0, 0);
 
-        public virtual void SetVelocity(float xVelocity, float yVelocity , bool needFlip)
+        public virtual void SetVelocity(float xVelocity, float yVelocity , bool needFlip = true)
         {
             if(isKnocked)
                 return;
@@ -196,5 +195,17 @@ namespace Script.Entity
         }
         
         public abstract void Die();
+
+        public virtual void DestroyEntity(float duration)
+        {
+            StartCoroutine(DestroyEntityFor(duration));
+        }
+
+        private IEnumerator DestroyEntityFor(float duration)
+        {
+            Sr.color = new Color(0, 0, 0, Sr.color.a - (Time.deltaTime / duration));
+            yield return new WaitForSeconds(duration);
+            Destroy(gameObject);
+        }
     }
 }

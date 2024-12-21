@@ -48,7 +48,6 @@ namespace Script.Element
             trigger = true;
             DamageAndSelfDestroy();
             anim.SetTrigger(Hit);
-            
         }
 
         private void DamageAndSelfDestroy()

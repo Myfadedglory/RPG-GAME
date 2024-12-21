@@ -12,7 +12,7 @@ namespace Script.Entity.Enemy.Skeleton.State
         {
             base.Update();
 
-            Enemy.SetVelocity(Enemy.moveSpeed * Enemy.FacingDir, Rb.velocity.y , Enemy.needFlip);
+            Enemy.SetVelocity(Enemy.moveSpeed * Enemy.FacingDir, Rb.velocity.y);
 
             if (Enemy.IsGroundDetected() && !Enemy.IsWallDetected()) return;
             

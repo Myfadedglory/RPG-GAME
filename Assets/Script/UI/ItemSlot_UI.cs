@@ -11,6 +11,7 @@ namespace Script.UI
     {
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI itemText;
+        [SerializeField] private GameObject throwPrefab;
 
         public InventoryItem item;
 
@@ -38,11 +39,26 @@ namespace Script.UI
 
         public virtual void OnPointerDown(PointerEventData eventData)
         {
-            if(Input.GetKey(KeyCode.LeftControl))
+            if(item == null) return;
+
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
                 Inventory.instance.RemoveItem(item.data);
+                ThrowItem(item.data);
+            }
+                
             
             if(item.data.itemType == ItemType.Equipment)
                 Inventory.instance.EquipItem(item.data);
+        }
+
+        private void ThrowItem(ItemData item)
+        {
+            var pos = transform.position + new Vector3(1,1);
+            var newThrow = Instantiate(throwPrefab, pos, Quaternion.identity);
+            if (!newThrow.TryGetComponent(out ItemObject itemObject)) return;
+            var randomVelocity = new Vector2(Random.Range(-5, 5), Random.Range(10, 15));
+            itemObject.SetUp(item, randomVelocity);
         }
     }
 }

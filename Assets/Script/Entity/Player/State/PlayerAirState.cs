@@ -23,7 +23,7 @@ namespace Script.Entity.Player.State
                 Fsm.SwitchState(Entity.WallSlide);
 
             if(XInput != 0)
-                Entity.SetVelocity(Entity.airMoveMultiplier * XInput * Entity.moveSpeed , Rb.velocity.y , Entity.needFlip);
+                Entity.SetVelocity(Entity.airMoveMultiplier * XInput * Entity.moveSpeed , Rb.velocity.y);
 
             if(Entity.IsGroundDetected())
                 Fsm.SwitchState(Entity.IdleState);

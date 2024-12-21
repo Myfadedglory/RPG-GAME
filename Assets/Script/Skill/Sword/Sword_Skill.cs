@@ -73,9 +73,7 @@ namespace Script.Skill.Sword
             if (Input.GetKey(KeyCode.Mouse1))
             {
                 for (var i = 0; i < dots.Length; i++)
-                {
                     dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
-                }
             }
         }
 
@@ -120,6 +118,8 @@ namespace Script.Skill.Sword
         {
             Vector2 playerPosition = Player.transform.position;
 
+            if (!Camera.main) return Vector2.zero;
+            
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             var direction = mousePosition - playerPosition;
@@ -127,11 +127,11 @@ namespace Script.Skill.Sword
             return direction;
         }
 
-        public void ActiveDots(bool _isActive)
+        public void ActiveDots(bool isActive)
         {
             foreach (var t in dots)
             {
-                t.SetActive(_isActive);
+                t.SetActive(isActive);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Script.Skill.Sword
         {
             var position = (Vector2)Player.transform.position + new Vector2(
                 AimDirection().normalized.x * launchForce.x,
-                AimDirection().normalized.y * launchForce.y) * t + 0.5f * (Physics2D.gravity * swordGravity) * (t * t);
+                AimDirection().normalized.y * launchForce.y) * t + Physics2D.gravity * (0.5f * swordGravity * (t * t));
 
             return position;
         }

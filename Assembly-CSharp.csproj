@@ -48,6 +48,7 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerBlackholeState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonBattleState.cs" />
+    <Compile Include="Assets\Script\UI\SkillTreeSlotUI.cs" />
     <Compile Include="Assets\Script\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Item\Equipment\EquipmentData.cs" />
     <Compile Include="Assets\Script\Item\ItemObject.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Assets\Script\Entity\Enemy\EnemyState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\Skeleton.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Clone_Skill.cs" />
+    <Compile Include="Assets\Script\UI\Tooltip.cs" />
     <Compile Include="Assets\Script\Item\Inventory\Inventory.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerIdleState.cs" />
     <Compile Include="Assets\Script\Stats\CharacterStats.cs" />

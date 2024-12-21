@@ -11710,7 +11710,7 @@ MonoBehaviour:
   createCloneOnDashStart: 1
   createCloneOnDashOver: 0
   canDuplicateClone: 1
-  chanceToDuplcate: 0.3
+  chanceToDuplicate: 0
   crystalInsteadOfClone: 0
 --- !u!114 &936336909
 MonoBehaviour:
@@ -11954,7 +11954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &995664218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12036,7 +12036,6 @@ MonoBehaviour:
   down: {x: 0, y: -1}
   attackCheck: {fileID: 1969391706}
   attackCheckDistance: 0.8
-  needFlip: 1
   attackMoveMent:
   - {x: 5, y: 1}
   - {x: 2, y: 2}
@@ -12054,9 +12053,9 @@ MonoBehaviour:
   counterAttackDuration: 0.2
   swordReturnForce: 3.5
   totalMenu: {fileID: 1868712320}
-  airMoveMutiplier: 0.8
-  wallSlideMutiplier: 0.7
-  wallJumpMutiplier: 1.2
+  airMoveMultiplier: 0.8
+  wallSlideMultiplier: 0.7
+  wallJumpMultiplier: 1.1
 --- !u!4 &1035196604
 Transform:
   m_ObjectHideFlags: 0
@@ -15441,7 +15440,6 @@ MonoBehaviour:
   down: {x: 0, y: -1}
   attackCheck: {fileID: 1088857666}
   attackCheckDistance: 0.6
-  needFlip: 1
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64

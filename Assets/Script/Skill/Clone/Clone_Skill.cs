@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script.Skill.Clone
 {
@@ -15,7 +16,7 @@ namespace Script.Skill.Clone
 
         [Header("Duplicate clone info")]
         [SerializeField] private bool canDuplicateClone;
-        [SerializeField] private float chanceToDuplcate;
+        [SerializeField] private float chanceToDuplicate;
 
         [Header("Crystal instead of clone")]
         public bool crystalInsteadOfClone;
@@ -38,7 +39,7 @@ namespace Script.Skill.Clone
                 canAttack, 
                 ChooseClosestEnemy, 
                 canDuplicateClone,
-                chanceToDuplcate,
+                chanceToDuplicate,
                 offset ?? Vector3.zero
             );
         }

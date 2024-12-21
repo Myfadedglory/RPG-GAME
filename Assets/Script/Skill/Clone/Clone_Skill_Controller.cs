@@ -49,17 +49,17 @@ namespace Script.Skill.Clone
             float cloneDuration,
             float clonerDetectDistance,
             bool canAttack,
-            Func<Transform, float, Transform> FindClosestEnemy,
+            Func<Transform, float, Transform> findClosestEnemy,
             bool canDuplicateClone,
             float chanceToDuplicate,
-            Vector3 _offset   
+            Vector3 offset   
         )  
         {
-            transform.position = newTransform.position + _offset;
+            transform.position = newTransform.position + offset;
 
             cloneTimer = cloneDuration;
 
-            this.findClosestEnemy = FindClosestEnemy;
+            this.findClosestEnemy = findClosestEnemy;
 
             this.canDuplicateClone = canDuplicateClone;
 

@@ -33,7 +33,7 @@ namespace Script.Item.Equipment
             }
         }
 
-        protected override string GetAttributeDescription()
+        public override string GetAttributeDescription()
         {
             foreach (var modifier in modifiers)
             {

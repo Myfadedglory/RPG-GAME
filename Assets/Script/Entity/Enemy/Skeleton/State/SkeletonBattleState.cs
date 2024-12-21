@@ -55,7 +55,7 @@ namespace Script.Entity.Enemy.Skeleton.State
                 else if (player.position.x < Enemy.transform.position.x)
                     moveDir = -1;
 
-                Enemy.SetVelocity(Enemy.moveSpeed * moveDir * Enemy.speedMultiplier, Rb.velocity.y, Enemy.needFlip);
+                Enemy.SetVelocity(Enemy.moveSpeed * moveDir * Enemy.speedMultiplier, Rb.velocity.y);
             }
         }
 

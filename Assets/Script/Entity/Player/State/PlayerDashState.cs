@@ -33,7 +33,7 @@ namespace Script.Entity.Player.State
             if(!Entity.IsGroundDetected() && Entity.IsWallDetected())
                 Fsm.SwitchState(Entity.WallSlide);
 
-            Entity.SetVelocity(Entity.dashSpeed * Entity.DashDir , 0 , Entity.needFlip);
+            Entity.SetVelocity(Entity.dashSpeed * Entity.DashDir , 0 );
 
             if (StateTimer < 0) 
                 Fsm.SwitchState(Entity.IdleState);

@@ -24,7 +24,7 @@ namespace Script.Item
             return description;
         }
 
-        protected virtual string GetAttributeDescription()
+        public virtual string GetAttributeDescription()
         {
             return " ";
         }

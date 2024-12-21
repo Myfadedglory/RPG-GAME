@@ -22,7 +22,7 @@ namespace Script.Entity.Player.State
             else if (sword.position.x > Entity.transform.position.x && Entity.FacingDir == -1)
                 Entity.Flip();
 
-            Entity.SetVelocity(Entity.swordReturnForce * -Entity.FacingDir ,Rb.velocity.y  , !Entity.needFlip);
+            Entity.SetVelocity(Entity.swordReturnForce * -Entity.FacingDir ,Rb.velocity.y  , false);
         }
 
         public override void Update()

@@ -12,7 +12,7 @@ namespace Script.Entity.Player.State
         {
             base.Update();
 
-            Entity.SetVelocity(XInput * Entity.moveSpeed, Rb.velocity.y ,Entity.needFlip);
+            Entity.SetVelocity(XInput * Entity.moveSpeed, Rb.velocity.y);
 
             if (XInput == 0 || Entity.IsWallDetected())
                 Fsm.SwitchState(Entity.IdleState);

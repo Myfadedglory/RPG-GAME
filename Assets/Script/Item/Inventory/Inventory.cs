@@ -69,7 +69,11 @@ namespace Script.Item.Inventory
             var newItem = new InventoryItem(item);
             equipment.Add(newItem);
             equipmentDictionary.Add(newEquipment, newItem);
-            UpdateEquipmentSlotUI();
+            
+            /*
+            *   updateSlot这里必须在Add方法后面，不然更新会延时生效,也就是必须要在更新Dictionary后再更新Slot
+            */
+            UpdateSlotUI(equipmentItemSlot);
         }
 
         public void UnEquipItem(EquipmentType equipmentType)
@@ -86,7 +90,11 @@ namespace Script.Item.Inventory
             equipment.Remove(oldItem);
             existingEquipment.RemoveModifiers();
             equipmentDictionary.Remove(existingEquipment);
-            UpdateEquipmentSlotUI();
+            
+            /*
+             *   updateSlot这里必须在Add方法后面，不然更新会延时生效,也就是必须要在更新Dictionary后再更新Slot
+             */
+            UpdateSlotUI(equipmentItemSlot);
         }
 
         #endregion
@@ -108,9 +116,9 @@ namespace Script.Item.Inventory
             }
         }
 
-        private void UpdateEquipmentSlotUI()
+        private void UpdateSlotUI(EquipmentSlotUI[] slots)
         {
-            foreach (var slot in equipmentItemSlot)
+            foreach (var slot in slots)
             {
                 slot.ClearSlot();
                 foreach (var item in equipmentDictionary.Where(item => item.Key.equipmentType == slot.slotType))

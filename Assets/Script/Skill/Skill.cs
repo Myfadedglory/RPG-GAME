@@ -69,7 +69,6 @@ namespace Script.Skill
             var randomTarget = colliders[Random.Range(0, colliders.Length)];
 
             return randomTarget.transform;
-
         }
     }
 }
