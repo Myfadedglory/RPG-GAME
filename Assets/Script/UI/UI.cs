@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Script.UI
 {
     public class UI : MonoBehaviour
     {
+        
+        public Tooltip tooltip;
+
         public void ShowOrHideUI()
         {
             transform.gameObject.SetActive(!transform.gameObject.activeSelf);

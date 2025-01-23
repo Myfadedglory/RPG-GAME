@@ -48,7 +48,6 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerBlackholeState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonBattleState.cs" />
-    <Compile Include="Assets\Script\UI\SkillTreeSlotUI.cs" />
     <Compile Include="Assets\Script\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Item\Equipment\EquipmentData.cs" />
     <Compile Include="Assets\Script\Item\ItemObject.cs" />
@@ -63,6 +62,7 @@
     <Compile Include="Assets\Script\Skill\SkillManager.cs" />
     <Compile Include="Assets\Script\Element\IElementalEffect.cs" />
     <Compile Include="Assets\Script\Stats\MagicType.cs" />
+    <Compile Include="Assets\Script\UI\StatSlot_UI.cs" />
     <Compile Include="Assets\Script\Entity\Player\Player.cs" />
     <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_HotKey_Controller.cs" />
     <Compile Include="Assets\Script\Item\ItemDrop\ItemDropAndChance.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerDeadState.cs" />
     <Compile Include="Assets\Script\Item\ItemTrigger.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonAttackState.cs" />
+    <Compile Include="Assets\Script\UI\SkillTreeSlotUI.cs" />
     <Compile Include="Assets\Script\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerAttackState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonDeadState.cs" />

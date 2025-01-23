@@ -270,5 +270,31 @@ namespace Script.Stats
         protected virtual void Die()
         {
         }
+
+
+        public Stat GetStat(StatType statType)
+        {
+            return statType switch
+            {
+                StatType.Strength => strength,
+                StatType.Agility => agility,
+                StatType.Intelligence => intelligence,
+                StatType.Vitality => vitality,
+                StatType.PhysicsDamage => physicsDamage,
+                StatType.AttackAccurate => attackAccurate,
+                StatType.CritChance => critChance,
+                StatType.CritPower => critPower,
+                StatType.MaxHealth => maxHealth,
+                StatType.Evasion => evasion,
+                StatType.Armor => armor,
+                StatType.FireMagic => fireMagic,
+                StatType.FireResistance => fireMagic.magicResistance,
+                StatType.IceMagic => iceMagic,
+                StatType.IceResistance => iceMagic.magicResistance,
+                StatType.LightningMagic => lightningMagic,
+                StatType.LightningResistance => lightningMagic.magicResistance,
+                _ => throw new ArgumentOutOfRangeException(nameof(statType), statType, null)
+            };
+        }
     }
 }

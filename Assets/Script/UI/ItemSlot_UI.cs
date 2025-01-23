@@ -1,19 +1,27 @@
 using Script.Item;
+using Script.Item.Equipment;
 using Script.Item.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Script.UI
 {
-    public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
+    public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI itemText;
         [SerializeField] private GameObject throwPrefab;
 
+        private UI ui;
         public InventoryItem item;
+
+        private void Start()
+        {
+            ui = GetComponentInParent<UI>();
+        }
 
         public void UpdateSlot(InventoryItem item)
         {
@@ -59,6 +67,24 @@ namespace Script.UI
             if (!newThrow.TryGetComponent(out ItemObject itemObject)) return;
             var randomVelocity = new Vector2(Random.Range(-5, 5), Random.Range(10, 15));
             itemObject.SetUp(item, randomVelocity);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if(item == null) return;
+            
+            if(item.data == null || item.data.itemType != ItemType.Equipment) return;
+            
+            ui.tooltip.ShowTooltip(item.data as EquipmentData);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if(item == null) return;
+            
+            if(item.data == null || item.data.itemType != ItemType.Equipment) return;
+            
+            ui.tooltip.HideTooltip(item.data as EquipmentData);
         }
     }
 }

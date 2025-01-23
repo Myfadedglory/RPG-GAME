@@ -24,6 +24,11 @@ namespace Script.Item
             return description;
         }
 
+        public virtual void ClearDescription()
+        {
+            Sb.Clear();
+        }
+
         public virtual string GetAttributeDescription()
         {
             return " ";

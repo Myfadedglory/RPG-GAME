@@ -1,11 +1,13 @@
 ﻿using Script.Item.Equipment;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Script.UI
 {
     public class Tooltip : MonoBehaviour
     {
+        [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI itemTypeText;
         [SerializeField] private TextMeshProUGUI itemDescriptionText;
@@ -13,6 +15,7 @@ namespace Script.UI
         public void ShowTooltip(EquipmentData item)
         {
             if (item == null) return;
+            image.sprite = item.icon;
             itemNameText.text = item.itemName;
             itemTypeText.text = item.equipmentType.ToString();
             itemDescriptionText.text = item.GetAttributeDescription();
@@ -20,9 +23,10 @@ namespace Script.UI
             gameObject.SetActive(true);
         }
 
-        public void HideTooltip()
+        public void HideTooltip(EquipmentData item)
         {
             gameObject.SetActive(false);
+            item.ClearDescription();
         }
     }
 }

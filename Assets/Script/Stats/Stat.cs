@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Script.Stats
@@ -9,6 +11,8 @@ namespace Script.Stats
         [SerializeField] protected double baseValve;
 
         public List<Modifier> modifiers = new ();
+
+        public Action StatValueChanged;
 
         private bool dirty = true;
 
@@ -31,6 +35,8 @@ namespace Script.Stats
         {
             modifiers.Add(modifier);
             
+            StatValueChanged?.Invoke();
+            
             MarkDirty();
             
             CalculateFinalValve();
@@ -43,6 +49,8 @@ namespace Script.Stats
                 if(modifiers[i].GetGuid() == modifier.GetGuid())
                     modifiers.RemoveAt(i);
             }
+            
+            StatValueChanged?.Invoke();
             
             MarkDirty();
             
