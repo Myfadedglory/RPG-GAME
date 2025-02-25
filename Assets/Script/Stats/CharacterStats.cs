@@ -12,24 +12,25 @@ namespace Script.Stats
     {
         #region Stats
         
-        /*
-         * strength         physicsDamage                   type : double   range : (0, infinity)
-         * agility          evasion                         type : double   range : (0, infinity)
-         * intelligence     magicDamage                     type : double   range : (0, infinity)
-         * vitality         maxHealth,shocked resistance    type : double   range : (0, infinity)
-         */
+        /// <summary>
+        /// strength         physicsDamage                   type : double   range : (0, infinity)
+        /// agility          evasion                         type : double   range : (0, infinity)
+        /// intelligence     magicDamage                     type : double   range : (0, infinity)
+        /// vitality         maxHealth,shocked resistance    type : double   range : (0, infinity) 
+        /// </summary>
+        
         [Header("Major stats")]
         public ValueStat strength;     
         public ValueStat agility;      
         public ValueStat intelligence; 
         public ValueStat vitality;     
         
-        /*
-         * physicsDamage      basic damage                  type : double   range : (0, infinity)
-         * attackAccurate     accurate of do damage         type : double   range : (0, 1)
-         * critChance         the chance of crit            type : double   range : (0, 1)
-         * critPower          critDamage                    type : double   range : (0, infinity)
-         */
+        /// <summary>
+        /// physicsDamage      basic damage                  type : double   range : (0, infinity)
+        /// attackAccurate     accurate of do damage         type : double   range : (0, 1)
+        /// critChance         the chance of crit            type : double   range : (0, 1)
+        /// critPower          critDamage                    type : double   range : (0, infinity)
+        /// </summary>
         
         [Header("Offensive stats")]
         public Stat physicsDamage;
@@ -37,24 +38,25 @@ namespace Script.Stats
         public Stat critChance;    
         public ValueStat critPower;     
         
-        /*
-         * maxHealth          max health                    type : double   range : (0, infinity)
-         * evasion            chance of evasion             type : double   range : (0, 100)
-         * armor              decrease damage               type : double   range : (0, infinity)
-         * physicsResistance  free % of physics damage      type : double   range : (0, 1)
-         */
+        /// <summary>
+        /// maxHealth          max health                    type : double   range : (0, infinity)
+        /// evasion            chance of evasion             type : double   range : (0, 100)
+        /// armor              decrease damage               type : double   range : (0, infinity)
+        /// physicsResistance  free % of physics damage      type : double   range : (0, 1)
+        /// </summary>
 
         [Header("Defensive stats")]
         public Stat maxHealth;
         public Stat evasion;
         public ValueStat armor;
         public ValueStat physicsResistance;
-
-        /*
-         * fireMagic          fire magic damage             type : double   range : (0, infinity)
-         * iceMagic           ice magic damage              type : double   range : (0, infinity)
-         * lightningMagic     lightning magic damage        type : double   range : (0, infinity)
-         */
+        
+        /// <summary>
+        /// fireMagic          fire magic damage             type : double   range : (0, infinity)
+        /// iceMagic           ice magic damage              type : double   range : (0, infinity)
+        /// lightningMagic     lightning magic damage        type : double   range : (0, infinity)
+        /// </summary>
+        
         
         [Header("Magic stats")] 
         public MagicStat fireMagic;

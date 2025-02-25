@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,14 +30,14 @@ namespace Script.UI
         
         public void UnlockSkill()
         {
-            foreach (var item in shouldBeUnlocked)
+            if (shouldBeUnlocked.Any(item => !item.unlocked))
             {
-                if (!item.unlocked) return;
+                return;
             }
 
-            foreach (var item in shouldBeLocked)
+            if (shouldBeLocked.Any(item => item.unlocked))
             {
-                if (item.unlocked) return;
+                return;
             }
 
             unlocked = true;

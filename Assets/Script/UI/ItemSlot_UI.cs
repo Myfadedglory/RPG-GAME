@@ -84,7 +84,7 @@ namespace Script.UI
             
             if(item.data == null || item.data.itemType != ItemType.Equipment) return;
             
-            ui.tooltip.HideTooltip(item.data as EquipmentData);
+            ui.tooltip.HideTooltip();
         }
     }
 }

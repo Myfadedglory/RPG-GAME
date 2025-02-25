@@ -1,26 +1,37 @@
-﻿using System;
-using Script.Item;
+﻿using Script.Item;
 using Script.Item.Equipment;
-using Script.Item.Inventory;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Script.UI
 {
-    public class CraftSlotUI : ItemSlotUI
+    public class CraftSlotUI : MonoBehaviour, IPointerClickHandler
     {
-        public void OnEnable()
+        public ItemData itemData;
+        private UI ui;
+        
+        private void Start()
         {
-            UpdateSlot(item);
+            ui = GetComponentInParent<UI>();
+        }
+        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if(itemData == null) return;
+            
+            if(ui.craftTooltip == null) return;
+            
+            ui.craftTooltip.HideTooltip();
+            
+            ui.craftTooltip.ShowTooltip(itemData as EquipmentData);
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        public void CopyFrom(ItemData itemData)
         {
-            var craftData = item.data as EquipmentData;
-            if (craftData != null && Inventory.instance.CanCraft(craftData, craftData.craftMaterials))
-            {
-                Debug.Log("you create a craft");
-            }
+            this.itemData = itemData;
+            var image = GetComponent<Image>();
+            image.sprite = itemData.icon;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Script.Entity.Player;
 using Script.Item.Inventory;
 using Script.Stats;
@@ -12,6 +13,12 @@ namespace Script.Item.Equipment
     public class EquipmentData : ItemData
     {
         public EquipmentType equipmentType;
+        
+        private StringBuilder materialDescription = new ();
+
+        public bool locked = false;
+
+        public string unlockedCondition;
         
         public List<Modifier> modifiers = new ();
 
@@ -33,6 +40,12 @@ namespace Script.Item.Equipment
             }
         }
 
+        public override void ClearExtraMessage()
+        {
+            base.ClearExtraMessage();
+            materialDescription.Clear();
+        }
+
         public override string GetAttributeDescription()
         {
             foreach (var modifier in modifiers)
@@ -40,14 +53,36 @@ namespace Script.Item.Equipment
                 AddItemDescription(modifier.GetValue(), modifier.GetStatType().ToString());
             }
 
-            return Sb.ToString();
+            return Description.ToString();
+        }
+
+        public string GetRawMaterialDescription()
+        {
+            foreach (var item in craftMaterials)
+            {
+                AddMaterialDescription(item.data.itemName,item.stackSize);
+            }
+            
+            return materialDescription.ToString();
         }
         
         private void AddItemDescription(double value, string name)
         {
-            if (Sb.Length > 0) Sb.AppendLine();
+            if (Description.Length > 0) Description.AppendLine();
 
-            if (value > 0) Sb.Append(name + ": " + value);
+            if (value > 0) Description.Append(name + ": " + value);
+        }
+
+        private void AddMaterialDescription(string materialName, int materialValue)
+        {
+            if (materialDescription.Length > 0) materialDescription.AppendLine();
+            
+            if (materialValue > 0) materialDescription.Append(materialName + ": " + materialValue);
+        }
+
+        public void Unlock()
+        {
+            locked = false;
         }
     }
 }

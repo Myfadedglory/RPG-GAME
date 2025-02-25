@@ -17,16 +17,16 @@ namespace Script.Item
         public Sprite icon;
         public string description;
         
-        protected StringBuilder Sb = new ();
+        protected readonly StringBuilder Description = new ();
 
         protected virtual string GetBasicDescription()
         {
             return description;
         }
 
-        public virtual void ClearDescription()
+        public virtual void ClearExtraMessage()
         {
-            Sb.Clear();
+            Description.Clear();
         }
 
         public virtual string GetAttributeDescription()

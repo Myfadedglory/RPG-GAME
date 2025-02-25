@@ -7,12 +7,14 @@ namespace Script.UI
 {
     public class Tooltip : MonoBehaviour
     {
-        [SerializeField] private Image image;
-        [SerializeField] private TextMeshProUGUI itemNameText;
-        [SerializeField] private TextMeshProUGUI itemTypeText;
-        [SerializeField] private TextMeshProUGUI itemDescriptionText;
+        [SerializeField] protected Image image;
+        [SerializeField] protected TextMeshProUGUI itemNameText;
+        [SerializeField] protected TextMeshProUGUI itemTypeText;
+        [SerializeField] protected TextMeshProUGUI itemDescriptionText;
+        
+        protected EquipmentData CurrentEquipment;
 
-        public void ShowTooltip(EquipmentData item)
+        public virtual void ShowTooltip(EquipmentData item)
         {
             if (item == null) return;
             image.sprite = item.icon;
@@ -21,12 +23,17 @@ namespace Script.UI
             itemDescriptionText.text = item.GetAttributeDescription();
 
             gameObject.SetActive(true);
+            
+            CurrentEquipment = item;
         }
 
-        public void HideTooltip(EquipmentData item)
+        public virtual void HideTooltip()
         {
             gameObject.SetActive(false);
-            item.ClearDescription();
+            
+            if (CurrentEquipment == null) return;
+            
+            CurrentEquipment.ClearExtraMessage();
         }
     }
 }

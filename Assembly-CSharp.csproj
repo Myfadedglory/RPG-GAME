@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Entity\Player\State\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerBlackholeState.cs" />
+    <Compile Include="Assets\Script\Item\Craft\Craft.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonBattleState.cs" />
     <Compile Include="Assets\Script\Utilities\FSM.cs" />
     <Compile Include="Assets\Script\Item\Equipment\EquipmentData.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Assets\Script\UI\StatSlot_UI.cs" />
     <Compile Include="Assets\Script\Entity\Player\Player.cs" />
     <Compile Include="Assets\Script\Skill\BlackHole\Blackhole_HotKey_Controller.cs" />
+    <Compile Include="Assets\Script\Item\Craft\CraftTooltip.cs" />
     <Compile Include="Assets\Script\Item\ItemDrop\ItemDropAndChance.cs" />
     <Compile Include="Assets\Script\Utilities\AnimationTrigger.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\EnemyState.cs" />

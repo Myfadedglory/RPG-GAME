@@ -16,8 +16,8 @@ MonoBehaviour:
   itemName: Nice armor
   icon: {fileID: -1581127718, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   description: an armor looks very nice
-  dropChance: 100
   equipmentType: 1
+  locked: 0
   modifiers:
   - className: Defence
     statType: 10
