@@ -90,9 +90,9 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerDeadState.cs" />
     <Compile Include="Assets\Script\Item\ItemTrigger.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonAttackState.cs" />
-    <Compile Include="Assets\Script\UI\SkillTreeSlotUI.cs" />
     <Compile Include="Assets\Script\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerAttackState.cs" />
+    <Compile Include="Assets\Script\UI\SkillToolTip_UI.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonDeadState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonState.cs" />
     <Compile Include="Assets\Script\Item\ItemDrop\ItemDrop.cs" />
@@ -116,9 +116,11 @@
     <Compile Include="Assets\Script\Stats\Stat.cs" />
     <Compile Include="Assets\Script\Entity\Player\PlayerAnimationTriggers.cs" />
     <Compile Include="Assets\Script\Item\ItemDrop\PlayerItemDrop.cs" />
+    <Compile Include="Assets\Script\UI\MainMenu_UI.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerHitState.cs" />
     <Compile Include="Assets\Script\Skill\Clone\Dash_Skill.cs" />
     <Compile Include="Assets\Script\Stats\MagicStat.cs" />
+    <Compile Include="Assets\Script\UI\SkillTreeSlot_UI.cs" />
     <Compile Include="Assets\Script\Item\Inventory\InventoryItem.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerAimSwordState.cs" />
     <Compile Include="Assets\Script\UI\CraftSlot_UI.cs" />

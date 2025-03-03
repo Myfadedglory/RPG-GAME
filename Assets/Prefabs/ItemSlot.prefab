@@ -225,8 +225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efaae936013b4f6428f07b711d33ec55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemImage: {fileID: 4996068571893369804}
+  itemImage: {fileID: 0}
   itemText: {fileID: 4492528796757803884}
+  throwPrefab: {fileID: 0}
   item:
     data: {fileID: 0}
     stackSize: 0

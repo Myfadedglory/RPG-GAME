@@ -11,8 +11,10 @@ namespace Script.UI
         [SerializeField] private GameObject skillTreeUI;
         [SerializeField] private GameObject craftUI;
         [SerializeField] private GameObject optionsUI;
+        
         public Tooltip tooltip;
         public CraftTooltip craftTooltip;
+        public SkillToolTipUI skillTooltip;
 
         private void Start()
         {
