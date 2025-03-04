@@ -54,7 +54,6 @@ namespace Script.UI
                 Inventory.instance.RemoveItem(item.data);
                 ThrowItem(item.data);
             }
-                
             
             if(item.data.itemType == ItemType.Equipment)
                 Inventory.instance.EquipItem(item.data);
@@ -73,9 +72,25 @@ namespace Script.UI
         {
             if(item == null) return;
             
+            Vector2 mousePosition = Input.mousePosition;
+            
+            var xOffset = mousePosition.x / Screen.width;
+            var yOffset = mousePosition.y / Screen.height;
+
+            if (mousePosition.x > 600)
+            {
+                xOffset *= -1;
+            }
+
+            if (mousePosition.y > 300)
+            {
+                yOffset *= -1;
+            }
+            
             if(item.data == null || item.data.itemType != ItemType.Equipment) return;
             
             ui.tooltip.ShowTooltip(item.data as EquipmentData);
+            ui.tooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
         }
 
         public void OnPointerExit(PointerEventData eventData)

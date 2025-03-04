@@ -6904,6 +6904,7 @@ MonoBehaviour:
   skillName: Aggresive mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &81129950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7729,6 +7730,7 @@ MonoBehaviour:
   skillName: Crystal mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &119756253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8081,6 +8083,7 @@ MonoBehaviour:
   skillName: Blackhole
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &134372231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8221,6 +8224,7 @@ MonoBehaviour:
   skillName: Donge mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &169547051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11567,8 +11571,9 @@ MonoBehaviour:
   shouldBeLocked: []
   skillImage: {fileID: 0}
   skillName: Time Stop
-  skillDescription: 
+  skillDescription: your attack can stop enemy's time
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &424705947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18111,8 +18116,9 @@ MonoBehaviour:
   shouldBeLocked: []
   skillImage: {fileID: 0}
   skillName: Vulnerability
-  skillDescription: 
+  skillDescription: ' your attack can lead enemy vulnerable'
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &884503359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19300,6 +19306,7 @@ MonoBehaviour:
   skillName: Multiple distruction
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &941755127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20091,8 +20098,9 @@ MonoBehaviour:
   - {fileID: 1950716180}
   skillImage: {fileID: 0}
   skillName: Chain Saw Sword
-  skillDescription: 
+  skillDescription: the sword you throw can stop enemy' s movement
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1011941765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22435,6 +22443,7 @@ MonoBehaviour:
   skillName: Dash mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1217017609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22978,8 +22987,9 @@ MonoBehaviour:
   - {fileID: 1950716180}
   skillImage: {fileID: 0}
   skillName: Bullet Sword
-  skillDescription: 
+  skillDescription: you sword can through enemy directly
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1267171941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23537,6 +23547,7 @@ MonoBehaviour:
   skillName: Time Mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1339992359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24025,6 +24036,7 @@ MonoBehaviour:
   skillName: Parry mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1357968092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24232,6 +24244,7 @@ MonoBehaviour:
   skillName: Restore with parry
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1389277344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24764,6 +24777,7 @@ MonoBehaviour:
   skillName: Multiple mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1430503551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25190,8 +25204,10 @@ MonoBehaviour:
   shouldBeLocked: []
   skillImage: {fileID: 0}
   skillName: Crystal
-  skillDescription: 
+  skillDescription: you can create a still crystal in where you are , and if use
+    skill when crystal already exist ,swap with the crystal
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1459429404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25433,6 +25449,7 @@ MonoBehaviour:
   skillName: Mirage blink
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1498906134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26387,6 +26404,7 @@ MonoBehaviour:
   skillName: Controlled destruction
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1563050130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27181,6 +27199,7 @@ MonoBehaviour:
   skillName: Crystal Expolsion
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1668957427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28020,6 +28039,7 @@ MonoBehaviour:
   skillName: Dash
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1737579837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29074,8 +29094,9 @@ MonoBehaviour:
   shouldBeLocked: []
   skillImage: {fileID: 412677339}
   skillName: Throw Sword
-  skillDescription: 
+  skillDescription: You can throw you sword
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1825174008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31191,8 +31212,9 @@ MonoBehaviour:
   - {fileID: 1267171940}
   skillImage: {fileID: 0}
   skillName: Bounce Sword
-  skillDescription: 
+  skillDescription: the sword you throw can bounce between enemies
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &1950716181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32617,6 +32639,7 @@ MonoBehaviour:
   skillName: Dash -"Actually here I am"
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &2062245865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33199,6 +33222,7 @@ MonoBehaviour:
   skillName: Donge
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &2099128509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33626,6 +33650,7 @@ MonoBehaviour:
   skillName: Parry
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
+  unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
 --- !u!114 &2126147576
 MonoBehaviour:
   m_ObjectHideFlags: 0

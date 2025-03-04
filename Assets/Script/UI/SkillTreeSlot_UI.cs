@@ -15,6 +15,7 @@ namespace Script.UI
         [SerializeField] private string skillName;
         [SerializeField] private string skillDescription;
         [SerializeField] private Color lockedColor;
+        [SerializeField] private Color unLockedColor;
 
         private UI ui;
 
@@ -31,15 +32,18 @@ namespace Script.UI
 
             GetComponent<Button>().onClick.AddListener(UnlockSkill);
         }
-        
+
+        private void Update()
+        {
+            if (CanUnlockSkill() && !unlocked)
+            {
+                skillImage.color = unLockedColor;
+            }
+        }
+
         public void UnlockSkill()
         {
-            if (shouldBeUnlocked.Any(item => !item.unlocked))
-            {
-                return;
-            }
-
-            if (shouldBeLocked.Any(item => item.unlocked))
+            if (!CanUnlockSkill())
             {
                 return;
             }
@@ -50,12 +54,34 @@ namespace Script.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            ui.skillTooltip.ShowToolTip(skillDescription, skillName);
+            if (CanUnlockSkill())
+            {
+                ui.skillTooltip.ShowToolTip(skillDescription, skillName);
+            }
+            else
+            {
+                ui.skillTooltip.ShowToolTip("you need to unlock preview skill before see the description", "Unknown");
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             ui.skillTooltip.HideToolTip();
+        }
+
+        private bool CanUnlockSkill()
+        {
+            if (shouldBeUnlocked.Any(item => !item.unlocked))
+            {
+                return false;
+            }
+
+            if (shouldBeLocked.Any(item => item.unlocked))
+            {
+                return false;
+            }
+            
+            return true;
         }
     }
 }
