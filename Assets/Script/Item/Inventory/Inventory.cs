@@ -63,6 +63,7 @@ namespace Script.Item.Inventory
             
             UnEquipItem(newEquipment.equipmentType);
             RemoveItem(item);
+            item.ClearExtraMessage();
             
             newEquipment.ApplyModifiers();
             
@@ -89,6 +90,7 @@ namespace Script.Item.Inventory
             
             equipment.Remove(oldItem);
             existingEquipment.RemoveModifiers();
+            existingEquipment.ClearExtraMessage();
             equipmentDictionary.Remove(existingEquipment);
             
             /*
