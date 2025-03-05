@@ -6,7 +6,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerGroundedState : PlayerState
     {
-        public PlayerGroundedState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        protected PlayerGroundedState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 
@@ -14,7 +14,7 @@ namespace Script.Entity.Player.State
         {
             base.Update();
 
-            if(isBusy) return;
+            if(isBusy || PlayerManager.instance.player.isMenuOpen) return;
 
             if (Input.GetKeyDown(KeyCode.R))
             {

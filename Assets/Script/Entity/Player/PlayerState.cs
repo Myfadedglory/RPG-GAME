@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Script.Utilities;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace Script.Entity.Player
         protected static bool isBusy;
         private static readonly int YVelocity = Animator.StringToHash("yVelocity");
 
-        protected PlayerState(Script.Entity.Player.Player player, Fsm fsm, string animBoolName)
+        protected PlayerState(Player player, Fsm fsm, string animBoolName)
             : base(player, fsm, animBoolName)
         {
         }
@@ -29,9 +30,16 @@ namespace Script.Entity.Player
 
         protected static async void BusyFor(float seconds)
         {
-            isBusy = true;
-            await Task.Delay((int)(seconds * 1000));
-            isBusy = false;
+            try
+            {
+                isBusy = true;
+                await Task.Delay((int)(seconds * 1000));
+                isBusy = false;
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Script.UI
         public Tooltip tooltip;
         public CraftTooltip craftTooltip;
         public SkillToolTipUI skillTooltip;
+        
+        private bool isUIOpen = false;
 
         private void Start()
         {
@@ -47,6 +49,7 @@ namespace Script.UI
 
         public void ShowOrHideUI()
         {
+            isUIOpen = !isUIOpen;
             transform.gameObject.SetActive(!transform.gameObject.activeSelf);
         }
 

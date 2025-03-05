@@ -27,22 +27,32 @@ namespace Script.UI
         {
             this.item = item;
             
-            itemImage.color = Color.white;
-            
-            if (item == null) return;
+            // 先处理 itemImage 的默认状态
+            if (itemImage != null)
+            {
+                itemImage.color = (item != null) ? Color.white : Color.clear;
+                itemImage.sprite = item?.data.icon;
+            }
 
-            itemImage.sprite = item.data.icon;
-
-            itemText.text = item.stackSize > 1 ? item.stackSize.ToString() : "";
+            if (itemText != null)
+            {
+                itemText.text = item is { stackSize: > 1 } ? item.stackSize.ToString() : "";
+            }
         }
 
         public void ClearSlot()
         {
             item = null;
-            
-            itemImage.sprite = null;
-            itemImage.color = Color.clear;
-            itemText.text = "";
+            if (itemImage != null)
+            {
+                itemImage.sprite = null;
+                itemImage.color = Color.clear;
+            }
+           
+            if (itemText != null)
+            {
+                itemText.text = "";
+            }
         }
 
         public virtual void OnPointerDown(PointerEventData eventData)
@@ -54,6 +64,8 @@ namespace Script.UI
                 Inventory.instance.RemoveItem(item.data);
                 ThrowItem(item.data);
             }
+
+            if (item.data == null) return;
             
             if(item.data.itemType == ItemType.Equipment)
                 Inventory.instance.EquipItem(item.data);
@@ -74,15 +86,15 @@ namespace Script.UI
             
             Vector2 mousePosition = Input.mousePosition;
             
-            var xOffset = mousePosition.x / Screen.width;
-            var yOffset = mousePosition.y / Screen.height;
+            var xOffset = 75;
+            var yOffset = 25;
 
-            if (mousePosition.x > 600)
+            if (mousePosition.x > Screen.width * 0.5f)
             {
                 xOffset *= -1;
             }
 
-            if (mousePosition.y > 300)
+            if (mousePosition.y > Screen.height * 0.5f)
             {
                 yOffset *= -1;
             }

@@ -11,7 +11,7 @@ namespace Script.Entity.Player
     public class Player : Entity
     {
         [Header("Attack info")]
-        public Vector2[] attackMoveMent;
+        public Vector2[] attackMovement;
         public float attackSpeed = 1f;
         public float comboWindow = 1f;
 
@@ -35,6 +35,7 @@ namespace Script.Entity.Player
         public float swordReturnForce = 7f;
 
         [SerializeField] private GameObject totalMenu;
+        public bool isMenuOpen = false;
 
         public SkillManager Skill {  get; private set; }
         public GameObject Sword { get; private set; }
@@ -101,9 +102,15 @@ namespace Script.Entity.Player
             Fsm.CurrentState.Update();
 
             if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                isMenuOpen = !isMenuOpen;
                 totalMenu.GetComponent<UI.UI>()?.ShowOrHideUI();
-
-            CheckDashInput();
+            }
+            
+            if(isMenuOpen) return;
+            
+            if(SkillManager.instance.Dash.dash)
+                CheckDashInput();
 
             if (Input.GetKeyDown(KeyCode.F))
                 Skill.Crystal.CanUseSkill();

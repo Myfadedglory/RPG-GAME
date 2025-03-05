@@ -8,7 +8,7 @@ namespace Script.UI
 {
     public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private bool unlocked;
+        public bool unlocked;
         [SerializeField] private SkillTreeSlotUI[] shouldBeUnlocked;
         [SerializeField] private SkillTreeSlotUI[] shouldBeLocked;
         [SerializeField] private Image skillImage;
@@ -23,14 +23,17 @@ namespace Script.UI
         {
             gameObject.name = $"Skill - {skillName}";
         }
-        
+
+        private void Awake()
+        {
+            GetComponent<Button>().onClick.AddListener(UnlockSkill);
+        }
+
         private void Start()
         {
             ui = GetComponentInParent<UI>();
             skillImage = GetComponent<Image>();
             skillImage.color = lockedColor;
-
-            GetComponent<Button>().onClick.AddListener(UnlockSkill);
         }
 
         private void Update()

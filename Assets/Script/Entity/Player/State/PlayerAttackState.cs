@@ -23,7 +23,7 @@ namespace Script.Entity.Player.State
             if (comboCounter > 2 || Time.time >= lastTimeAttacked + Entity.comboWindow)
                 comboCounter = 0;
 
-            Entity.SetVelocity(Entity.attackMoveMent[comboCounter].x * Entity.FacingDir, Entity.attackMoveMent[comboCounter].y);
+            Entity.SetVelocity(Entity.attackMovement[comboCounter].x * Entity.FacingDir, Entity.attackMovement[comboCounter].y);
 
             Anim.SetInteger(ComboCounter, comboCounter);
 
