@@ -23,7 +23,7 @@ namespace Script.Skill
 
         public virtual bool CanUseSkill()
         {
-            if (!(CooldownTimer < 0)) return false;
+            if (!(CooldownTimer <= 0)) return false;
             
             UseSkill();
 

@@ -6906,9 +6906,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &81129950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7736,9 +7733,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &119756253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8093,9 +8087,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &134372231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8238,9 +8229,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &169547051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11595,9 +11583,6 @@ MonoBehaviour:
   skillDescription: your attack can stop enemy's time
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &424705947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18178,9 +18163,6 @@ MonoBehaviour:
   skillDescription: ' your attack can lead enemy vulnerable'
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &884503359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19059,7 +19041,9 @@ MonoBehaviour:
     m_Bits: 256
   swordPrefab: {fileID: 741664258607326498, guid: f7d0d4e89e4f84f4d83441df47c25c1c, type: 3}
   launchForce: {x: 15, y: 20}
-  swordType: 1
+  swordType: 0
+  throwSword:
+    skillTreeSlotUI: {fileID: 1825174007}
   regularGravity: 3.5
   rotationSwordHitDistance: 0.15
   freezeDuration: 0.7
@@ -19067,13 +19051,19 @@ MonoBehaviour:
   bounceGravity: 3.5
   maxBounceDistance: 20
   bounceSpeed: 20
+  throwBounceSword:
+    skillTreeSlotUI: {fileID: 1950716180}
   pierceAmount: 2
   pierceGravity: 0.1
+  throwPierceSword:
+    skillTreeSlotUI: {fileID: 1267171940}
   maxSpinDistance: 7
   spinDuration: 1.5
   spinGravity: 0.1
   spinMoveSpeed: 2
   hitCoolDown: 0.35
+  throwSpinSword:
+    skillTreeSlotUI: {fileID: 1011941764}
   numberOfDots: 20
   spaceBetweenDots: 0.07
   dotPrefab: {fileID: 4939012568686019492, guid: 8f55a313e642b914b8abf058cd526302, type: 3}
@@ -19096,7 +19086,7 @@ MonoBehaviour:
     m_Bits: 256
   amountOfAttack: 4
   cloneAttackCoolDown: 0.3
-  balckholePrefab: {fileID: 2854853161236173897, guid: 2784b3ebdf57361459a572aedd26773b, type: 3}
+  blackholePrefab: {fileID: 0}
   maxSize: 15
   maxDuration: 10
   growSpeed: 1
@@ -19374,9 +19364,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &941755127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20172,9 +20159,6 @@ MonoBehaviour:
   skillDescription: the sword you throw can stop enemy' s movement
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1011941765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22546,9 +22530,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1217017609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23107,9 +23088,6 @@ MonoBehaviour:
   skillDescription: you sword can through enemy directly
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1267171941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23669,9 +23647,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1339992359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24162,9 +24137,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1357968092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24374,9 +24346,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1389277344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24911,9 +24880,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1430503551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25345,9 +25311,6 @@ MonoBehaviour:
     skill when crystal already exist ,swap with the crystal
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1459429404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25591,9 +25554,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1498906134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26550,9 +26510,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1563050130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27349,9 +27306,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1668957427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28206,9 +28160,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1737579837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29267,9 +29218,6 @@ MonoBehaviour:
   skillDescription: You can throw you sword
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1825174008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31419,9 +31367,6 @@ MonoBehaviour:
   skillDescription: the sword you throw can bounce between enemies
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1950716181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32901,9 +32846,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2062245865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33499,9 +33441,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2099128509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33931,9 +33870,6 @@ MonoBehaviour:
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
-  onUnlockedChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2126147576
 MonoBehaviour:
   m_ObjectHideFlags: 0

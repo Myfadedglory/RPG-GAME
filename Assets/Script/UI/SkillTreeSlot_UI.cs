@@ -61,13 +61,30 @@ namespace Script.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Vector2 mousePosition = Input.mousePosition;
+                
+            var xOffset = 50;
+            var yOffset = 100;
+
+            if (mousePosition.x > Screen.width * 0.5f)
+            {
+                xOffset *= -1;
+            }
+
+            if (mousePosition.y > Screen.height * 0.5f)
+            {
+                yOffset *= -1;
+            }
+            
             if (CanUnlockSkill())
             {
                 ui.skillTooltip.ShowToolTip(skillDescription, skillName);
+                ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
             }
             else
             {
                 ui.skillTooltip.ShowToolTip("you need to unlock preview skill before see the description", "Unknown");
+                ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
             }
         }
 

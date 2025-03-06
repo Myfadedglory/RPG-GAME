@@ -53,6 +53,11 @@ namespace Script.Skill.Sword
             SetUpGravity();
         }
 
+        public override bool CanUseSkill()
+        {
+            return throwSword.GetSkillCondition() && base.CanUseSkill();
+        }
+
         private void SetUpGravity()
         {
             swordGravity = swordType switch

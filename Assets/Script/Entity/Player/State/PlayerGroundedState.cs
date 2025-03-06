@@ -1,3 +1,4 @@
+using Script.Skill;
 using Script.Skill.Sword;
 using Script.Utilities;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace Script.Entity.Player.State
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
+            if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && SkillManager.instance.Sword.CanUseSkill())
             {
                 Fsm.SwitchState(Entity.AimSword);
                 return;

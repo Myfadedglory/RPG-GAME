@@ -24,7 +24,7 @@ namespace Script.Skill.BlackHole
         private float cloneAttackTimer;
         private float durationTimer;
         private bool cloneAttackReleased;
-        private bool playerCanDisapear;
+        private bool playerCanDisappear;
         private Player player;
 
         private List<Transform> targets;
@@ -44,7 +44,7 @@ namespace Script.Skill.BlackHole
             createdHotkeys = new List<GameObject>();
             canGrow = true;
             canCreateHotkey = true;
-            playerCanDisapear = true;
+            playerCanDisappear = true;
         }
 
         public void SetUpBlackHole(
@@ -125,9 +125,9 @@ namespace Script.Skill.BlackHole
 
             canCreateHotkey = false;
 
-            if (!playerCanDisapear) return;
+            if (!playerCanDisappear) return;
             
-            playerCanDisapear = false;
+            playerCanDisappear = false;
             
             PlayerManager.instance.player.MakeTransparent(true);
         }
@@ -218,6 +218,5 @@ namespace Script.Skill.BlackHole
             if (targets.Exists(e => e == enemy)) return;
             targets.Add(enemy);
         } 
-
     }
 }
