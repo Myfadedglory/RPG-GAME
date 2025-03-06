@@ -4,7 +4,6 @@ using Script.Skill;
 using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Script.Entity.Player
 {
@@ -34,8 +33,7 @@ namespace Script.Entity.Player
         public float counterAttackDuration = 0.1f;
         public float swordReturnForce = 7f;
 
-        [SerializeField] private GameObject totalMenu;
-        public bool isMenuOpen = false;
+        public GameObject totalMenu;
 
         public SkillManager Skill {  get; private set; }
         public GameObject Sword { get; private set; }
@@ -103,14 +101,12 @@ namespace Script.Entity.Player
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                isMenuOpen = !isMenuOpen;
                 totalMenu.GetComponent<UI.UI>()?.ShowOrHideUI();
             }
             
-            if(isMenuOpen) return;
+            if(totalMenu.GetComponent<UI.UI>().UIOpenStatus()) return;
             
-            if(SkillManager.instance.Dash.dash)
-                CheckDashInput();
+            CheckDashInput();
 
             if (Input.GetKeyDown(KeyCode.F))
                 Skill.Crystal.CanUseSkill();
@@ -163,10 +159,7 @@ namespace Script.Entity.Player
 
         private void CheckDashInput()
         {
-            if(IsWallDetected()) 
-                return;
-
-            if (!Input.GetKeyDown(KeyCode.LeftShift) || !SkillManager.instance.Dash.CanUseSkill()) return;
+            if (IsWallDetected()||!Input.GetKeyDown(KeyCode.LeftShift) || !SkillManager.instance.Dash.CanUseSkill()) return;
             
             DashDir = Input.GetAxisRaw("Horizontal");
 

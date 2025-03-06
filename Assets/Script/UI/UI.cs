@@ -1,5 +1,4 @@
 ﻿using Script.Item.Craft;
-using TMPro;
 using UnityEngine;
 
 namespace Script.UI
@@ -15,8 +14,6 @@ namespace Script.UI
         public Tooltip tooltip;
         public CraftTooltip craftTooltip;
         public SkillToolTipUI skillTooltip;
-        
-        private bool isUIOpen = false;
 
         private void Start()
         {
@@ -49,7 +46,6 @@ namespace Script.UI
 
         public void ShowOrHideUI()
         {
-            isUIOpen = !isUIOpen;
             transform.gameObject.SetActive(!transform.gameObject.activeSelf);
         }
 
@@ -61,6 +57,11 @@ namespace Script.UI
                 
             }
             menu?.SetActive(true);
+        }
+
+        public bool UIOpenStatus()
+        {
+            return transform.gameObject.activeSelf;
         }
     }
 }

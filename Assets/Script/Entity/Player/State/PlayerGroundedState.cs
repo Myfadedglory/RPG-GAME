@@ -14,7 +14,7 @@ namespace Script.Entity.Player.State
         {
             base.Update();
 
-            if(isBusy || PlayerManager.instance.player.isMenuOpen) return;
+            if(isBusy || PlayerManager.instance.player.totalMenu.GetComponent<UI.UI>().UIOpenStatus()) return;
 
             if (Input.GetKeyDown(KeyCode.R))
             {

@@ -8700,7 +8700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &220677224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9839,10 +9839,10 @@ RectTransform:
   - {fileID: 107064153}
   m_Father: {fileID: 1692804599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -50}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &282168439
 MonoBehaviour:
@@ -14172,10 +14172,10 @@ RectTransform:
   - {fileID: 1066851931}
   m_Father: {fileID: 1692804599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1500, y: -50}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &636203125
 MonoBehaviour:
@@ -15385,10 +15385,10 @@ RectTransform:
   - {fileID: 1405411570}
   m_Father: {fileID: 1692804599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 900, y: -50}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726973140
 MonoBehaviour:
@@ -18968,7 +18968,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   dash: 0
-  dashMirage: 0
+  dashStartMirage: 0
   dashArriveMirage: 0
 --- !u!114 &936336906
 MonoBehaviour:
@@ -22420,7 +22420,7 @@ GameObject:
   - component: {fileID: 1217017608}
   - component: {fileID: 1217017607}
   m_Layer: 5
-  m_Name: Skill - Dash mirage
+  m_Name: Skill - Dash start mirage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22488,7 +22488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1217017609}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 936336905}
+        m_TargetAssemblyTypeName: Script.Skill.Clone.Dash_Skill, Assembly-CSharp
+        m_MethodName: UnlockDashStartMirage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1217017608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22506,7 +22518,7 @@ MonoBehaviour:
   - {fileID: 1737579836}
   shouldBeLocked: []
   skillImage: {fileID: 0}
-  skillName: Dash mirage
+  skillName: Dash start mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
@@ -25945,10 +25957,10 @@ RectTransform:
   - {fileID: 1929112685}
   m_Father: {fileID: 1692804599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1200, y: -50}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1521062386
 MonoBehaviour:
@@ -26325,7 +26337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1556464971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27545,6 +27557,7 @@ MonoBehaviour:
   moveSpeed: 2
   idleTime: 1
   defaultMoveSpeed: 2
+  deathTime: 3
   speedMultiplier: 1.5
   lastTimeAttacked: 0
   minDetectedDistance: 2
@@ -28356,10 +28369,10 @@ RectTransform:
   - {fileID: 648903203}
   m_Father: {fileID: 1692804599}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -50}
-  m_SizeDelta: {x: 300, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1761024687
 MonoBehaviour:
@@ -30197,7 +30210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1868712321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32723,7 +32736,7 @@ GameObject:
   - component: {fileID: 2062245864}
   - component: {fileID: 2062245863}
   m_Layer: 5
-  m_Name: Skill - Dash -"Actually here I am"
+  m_Name: Skill - Dash arrive mirage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32791,7 +32804,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2062245865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 936336905}
+        m_TargetAssemblyTypeName: Script.Skill.Clone.Dash_Skill, Assembly-CSharp
+        m_MethodName: UnlockDashArriveMirage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2062245864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32809,7 +32834,7 @@ MonoBehaviour:
   - {fileID: 1217017608}
   shouldBeLocked: []
   skillImage: {fileID: 0}
-  skillName: Dash -"Actually here I am"
+  skillName: Dash arrive mirage
   skillDescription: 
   lockedColor: {r: 0, g: 0, b: 0, a: 0}
   unLockedColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}

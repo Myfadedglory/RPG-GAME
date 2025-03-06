@@ -3,12 +3,17 @@ namespace Script.Skill.Clone
     public class Dash_Skill : Skill
     {
         public bool dash = false;
-        public bool dashMirage = false;
+        public bool dashStartMirage = false;
         public bool dashArriveMirage = false;
-        
+
+        public override bool CanUseSkill()
+        {
+            return dash && base.CanUseSkill();
+        }
+
         protected override void UseSkill()
         {
-            if (dash)
+            if (dash) 
                 base.UseSkill();
         }
 
@@ -17,9 +22,9 @@ namespace Script.Skill.Clone
             dash = true;
         }
 
-        public void UnlockDashMirage()
+        public void UnlockDashStartMirage()
         {
-            dashMirage = true;
+            dashStartMirage = true;
         }
 
         public void UnlockDashArriveMirage()
