@@ -58,7 +58,7 @@ namespace Script.Entity.Player.State
             if(!Entity.Sword)
                 return true;
 
-            Entity.Sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+            Entity.Sword.GetComponent<SwordSkillController>().ReturnSword();
 
             return false;
         }

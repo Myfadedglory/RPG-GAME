@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Script.Skill.Crystal
 {
-    public class Crystal_Skill : Skill
+    public class CrystalSkill : Skill
     {
         [SerializeField] private GameObject crystalPrefab;
         [SerializeField] private float crystalDuration = 5;
@@ -40,7 +40,7 @@ namespace Script.Skill.Crystal
         {
             var newCrystal = Instantiate(prefab, Player.transform.position, Quaternion.identity);
 
-            newCrystal.GetComponent<Crystal_Skill_Controller>().SetUpCrystal(
+            newCrystal.GetComponent<CrystalSkillController>().SetUpCrystal(
                 canMove,
                 canExplode,
                 growSpeed,
@@ -87,7 +87,7 @@ namespace Script.Skill.Crystal
                 }
                 else
                 {
-                    currentCrystal.GetComponent<Crystal_Skill_Controller>()?.CrystalExitTimeOver();
+                    currentCrystal.GetComponent<CrystalSkillController>()?.CrystalExitTimeOver();
                 }
             }
         }

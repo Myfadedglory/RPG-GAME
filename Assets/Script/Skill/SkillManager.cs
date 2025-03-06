@@ -10,11 +10,11 @@ namespace Script.Skill
     {
         public static SkillManager instance;
 
-        public Dash_Skill Dash {get; private set;}
-        public Clone_Skill Clone {get; private set;}
-        public Sword_Skill Sword {get; private set;}
-        public Blackhole_Skill BlackHole {get; private set;}
-        public Crystal_Skill Crystal {get; private set;}
+        public DashSkill Dash {get; private set;}
+        public CloneSkill Clone {get; private set;}
+        public SwordSkill Sword {get; private set;}
+        public BlackholeSkill BlackHole {get; private set;}
+        public CrystalSkill Crystal {get; private set;}
 
 
         private void Awake()
@@ -27,11 +27,11 @@ namespace Script.Skill
 
         private void Start()
         {
-            Dash = GetComponent<Dash_Skill>();
-            Clone = GetComponent<Clone_Skill>();
-            Sword = GetComponent<Sword_Skill>();
-            BlackHole = GetComponent<Blackhole_Skill>();
-            Crystal = GetComponent<Crystal_Skill>();
+            Dash = GetComponent<DashSkill>();
+            Clone = GetComponent<CloneSkill>();
+            Sword = GetComponent<SwordSkill>();
+            BlackHole = GetComponent<BlackholeSkill>();
+            Crystal = GetComponent<CrystalSkill>();
         }
     }
 }

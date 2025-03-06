@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace Script.Skill.Sword
 {
-    public class Sword_Skill : Skill
+    public class SwordSkill : Skill
     {
         [Header("Skill info")]
         [SerializeField] private GameObject swordPrefab;
         [SerializeField] private Vector2 launchForce;
         [SerializeField] private SwordType swordType = SwordType.Regular;
+        [SerializeField] private SkillCondition throwSword;
 
         [Header("Regular Sword info")]
         [SerializeField] private float regularGravity = 3.5f;
@@ -20,10 +21,12 @@ namespace Script.Skill.Sword
         [SerializeField] private float bounceGravity = 3.5f;
         [SerializeField] private float maxBounceDistance = 20;
         [SerializeField] private float bounceSpeed = 20;
+        [SerializeField] private SkillCondition throwBounceSword;
 
         [Header("Pierce Sword info")]
         [SerializeField] private int pierceAmount = 2;
         [SerializeField] private float pierceGravity = 0.1f;
+        [SerializeField] private SkillCondition throwPierceSword;
 
         [Header("Spin Sword info")]
         [SerializeField] private float maxSpinDistance = 7f;
@@ -31,6 +34,7 @@ namespace Script.Skill.Sword
         [SerializeField] private float spinGravity = 0.1f;
         [SerializeField] private float spinMoveSpeed = 2f;
         [SerializeField] private float hitCoolDown = 0.35f;
+        [SerializeField] private SkillCondition throwSpinSword;
 
         [Header("Aim dots")]
         [SerializeField] private int numberOfDots;
@@ -62,26 +66,40 @@ namespace Script.Skill.Sword
 
         protected override void Update()
         {
-            SetUpGravity();
+            SetUpSword();
 
-            if (Input.GetKeyUp(KeyCode.Mouse1))
+            if (Input.GetKeyUp(KeyCode.Mouse1) && throwSword.GetSkillCondition())
                 finalDir = new Vector2(
                     AimDirection().normalized.x * launchForce.x,
                     AimDirection().normalized.y * launchForce.y
                 );
 
-            if (Input.GetKey(KeyCode.Mouse1))
+            if (Input.GetKey(KeyCode.Mouse1) && throwSword.GetSkillCondition())
             {
                 for (var i = 0; i < dots.Length; i++)
                     dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
             }
         }
 
+        private void SetUpSword()
+        {
+            if (throwBounceSword.GetSkillCondition())
+                swordType = SwordType.Bounce;
+            else if (throwPierceSword.GetSkillCondition())
+                swordType = SwordType.Pierce;
+            else if (throwSpinSword.GetSkillCondition())
+                swordType = SwordType.Spin;
+            else
+                swordType = SwordType.Regular;
+            
+            SetUpGravity();
+        }
+
         public void CreateSword()
         {
             var newSword = Instantiate(swordPrefab, Player.transform.position, transform.rotation);
 
-            var newSwordScript = newSword.GetComponent<Sword_Skill_Controller>();
+            var newSwordScript = newSword.GetComponent<SwordSkillController>();
 
             SwitchSword(newSwordScript);
 
@@ -92,7 +110,7 @@ namespace Script.Skill.Sword
             ActiveDots(false);
         }
 
-        private void SwitchSword(Sword_Skill_Controller newSwordScript)
+        private void SwitchSword(SwordSkillController newSwordScript)
         {
             switch (swordType)
             {

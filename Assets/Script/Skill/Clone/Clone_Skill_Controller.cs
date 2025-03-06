@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace Script.Skill.Clone
 {
-    public class Clone_Skill_Controller : MonoBehaviour
+    public class CloneSkillController : MonoBehaviour
     {
         private static readonly int AttackNumber = Animator.StringToHash("AttackNumber");
         private SpriteRenderer sr;

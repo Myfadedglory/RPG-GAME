@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Script.Skill.BlackHole
 {
-    public class Blackhole_Skill_Controller : MonoBehaviour
+    public class BlackholeSkillController : MonoBehaviour
     {
         [SerializeField] private GameObject hotKeyPrefab;
         [SerializeField] private List<KeyCode> keyCodeList;
@@ -21,11 +21,11 @@ namespace Script.Skill.BlackHole
         private bool canCreateHotkey;
         private int amountOfAttack;
         private float cloneAttackCoolDown;
-        private float cloneAttacktimer;
+        private float cloneAttackTimer;
         private float durationTimer;
         private bool cloneAttackReleased;
         private bool playerCanDisapear;
-        private Entity.Player.Player player;
+        private Player player;
 
         private List<Transform> targets;
         private List<GameObject> createdHotkeys;
@@ -48,7 +48,7 @@ namespace Script.Skill.BlackHole
         }
 
         public void SetUpBlackHole(
-            Entity.Player.Player player,
+            Player player,
             float maxSize,
             float maxDuration, 
             float growSpeed, 
@@ -71,7 +71,7 @@ namespace Script.Skill.BlackHole
         private void Update()
         {
 
-            cloneAttacktimer -= Time.deltaTime;
+            cloneAttackTimer -= Time.deltaTime;
             durationTimer -= Time.deltaTime;
 
             if (durationTimer < 0)
@@ -134,20 +134,20 @@ namespace Script.Skill.BlackHole
 
         private void CloneAttackLogic()
         {
-            if (cloneAttacktimer >= 0 || !cloneAttackReleased || amountOfAttack <= 0) return;
+            if (cloneAttackTimer >= 0 || !cloneAttackReleased || amountOfAttack <= 0) return;
 
-            cloneAttacktimer = cloneAttackCoolDown;
+            cloneAttackTimer = cloneAttackCoolDown;
 
-            float xoffset;
+            float xOffset;
 
             if (Random.Range(0, 100) > 50)
-                xoffset = 2;
+                xOffset = 2;
             else
-                xoffset = -2;
+                xOffset = -2;
 
             if(targets.Count > 0)
             {
-                SkillManager.instance.Clone.CreateClone(targets[Random.Range(0, targets.Count)], new Vector3(xoffset, 0));
+                SkillManager.instance.Clone.CreateClone(targets[Random.Range(0, targets.Count)], new Vector3(xOffset, 0));
             }
 
             amountOfAttack--;
@@ -204,13 +204,13 @@ namespace Script.Skill.BlackHole
                 return;
             }
 
-            var choosenKey = keyCodeList[Random.Range(0, keyCodeList.Count)];
+            var chosenKey = keyCodeList[Random.Range(0, keyCodeList.Count)];
 
-            keyCodeList.Remove(choosenKey);
+            keyCodeList.Remove(chosenKey);
 
-            var newHotKeyScript = newHotkey.GetComponent<Blackhole_HotKey_Controller>();
+            var newHotKeyScript = newHotkey.GetComponent<BlackholeHotKeyController>();
 
-            newHotKeyScript.SetUpHotKey(choosenKey, collision.transform, this);
+            newHotKeyScript.SetUpHotKey(chosenKey, collision.transform, this);
         }
 
         public void AddEnemyToTarget(Transform enemy)

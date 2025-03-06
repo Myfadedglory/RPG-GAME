@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Script.Skill.BlackHole
 {
-    public class Blackhole_Skill : Skill
+    public class BlackholeSkill : Skill
     {
         [SerializeField] private int amountOfAttack = 4;
         [SerializeField] private float cloneAttackCoolDown = 0.3f;
@@ -13,7 +13,7 @@ namespace Script.Skill.BlackHole
         [SerializeField] private float growSpeed = 1f;
         [SerializeField] private float shrinkSpeed = 3f;
 
-        private Blackhole_Skill_Controller currentBlackhole;
+        private BlackholeSkillController currentBlackhole;
 
         protected override void UseSkill()
         {
@@ -21,7 +21,7 @@ namespace Script.Skill.BlackHole
 
             GameObject newBlackhole = Instantiate(balckholePrefab, Player.transform.position, Quaternion.identity);
 
-            currentBlackhole = newBlackhole.GetComponent<Blackhole_Skill_Controller>();
+            currentBlackhole = newBlackhole.GetComponent<BlackholeSkillController>();
 
             currentBlackhole.SetUpBlackHole(
                 Player,

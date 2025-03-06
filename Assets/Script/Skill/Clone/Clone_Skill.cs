@@ -3,16 +3,13 @@ using UnityEngine.Serialization;
 
 namespace Script.Skill.Clone
 {
-    public class Clone_Skill : Skill
+    public class CloneSkill : Skill
     {
         [Header("Clone info")]
         [SerializeField] private GameObject clonePrefab;
         [SerializeField] private float cloneDuration;
         [SerializeField] private bool canAttack;
         [SerializeField] private float clonerDetectDistance = 10f;
-
-        [SerializeField] private bool createCloneOnDashStart;
-        [SerializeField] private bool createCloneOnDashOver;
 
         [Header("Duplicate clone info")]
         [SerializeField] private bool canDuplicateClone;
@@ -32,7 +29,7 @@ namespace Script.Skill.Clone
 
             var newClone = Instantiate(clonePrefab);
 
-            newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(
+            newClone.GetComponent<CloneSkillController>().SetUpClone(
                 newTransform,
                 cloneDuration,
                 clonerDetectDistance, 

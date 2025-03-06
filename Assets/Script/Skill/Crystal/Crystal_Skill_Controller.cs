@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Script.Skill.Crystal
 {
-    public class Crystal_Skill_Controller : MonoBehaviour
+    public class CrystalSkillController : MonoBehaviour
     {
         private static readonly int Explode = Animator.StringToHash("Explode");
         private Animator Anim => GetComponent<Animator>();

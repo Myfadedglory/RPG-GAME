@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Script.Skill.Sword
 {
-    public class Sword_Skill_Controller : MonoBehaviour
+    public class SwordSkillController : MonoBehaviour
     {
         private static readonly int Rotation = Animator.StringToHash("Rotation");
         [SerializeField] private float returnSpeed = 12f;
-        private float catchSwordDistance = 1f;
+        private const float CatchSwordDistance = 1f;
         private SwordType swordType;
 
         private Animator anim;
@@ -64,10 +64,7 @@ namespace Script.Skill.Sword
             rb.velocity = _dir;
             rb.gravityScale = _gravityScale;
 
-            if(peirceAmount > 0) 
-                anim.SetBool("Rotation" ,false);
-            else
-                anim.SetBool("Rotation" ,true);
+            anim.SetBool(Rotation, peirceAmount <= 0);
         }
 
         private void Update()
@@ -330,7 +327,7 @@ namespace Script.Skill.Sword
                     player.transform.position,
                     returnSpeed * Time.deltaTime);
 
-                if (Vector2.Distance(transform.position, player.transform.position) < catchSwordDistance)
+                if (Vector2.Distance(transform.position, player.transform.position) < CatchSwordDistance)
                     player.CatchTheSword();
             }
         }

@@ -1,10 +1,8 @@
-
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Script.Skill.Clone
 {
-    public class Dash_Skill : Skill
+    public class DashSkill : Skill
     {
         [SerializeField] private SkillCondition dash;
         [SerializeField] private SkillCondition dashStartMirage;

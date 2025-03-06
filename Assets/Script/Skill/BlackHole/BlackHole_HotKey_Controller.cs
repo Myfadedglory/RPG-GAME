@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Script.Skill.BlackHole
 {
-    public class Blackhole_HotKey_Controller : MonoBehaviour
+    public class BlackholeHotKeyController : MonoBehaviour
     {
         private SpriteRenderer sr;
         private KeyCode myHotKey;
         private TextMeshProUGUI myText;
 
         private Transform enemy;
-        private Blackhole_Skill_Controller blackholeAc;
+        private BlackholeSkillController blackholeAc;
 
-        public void SetUpHotKey(KeyCode myHotKey, Transform enemy, Blackhole_Skill_Controller blackholeAc)
+        public void SetUpHotKey(KeyCode myHotKey, Transform enemy, BlackholeSkillController blackholeAc)
         {
             sr = GetComponent<SpriteRenderer>();
 

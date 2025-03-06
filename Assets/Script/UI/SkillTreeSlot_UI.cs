@@ -20,9 +20,6 @@ namespace Script.UI
         [SerializeField] private string skillDescription;
         [SerializeField] private Color lockedColor;
         [SerializeField] private Color unLockedColor;
-        
-        [Header("Event")]
-        public UnityEvent<bool> onUnlockedChanged;
 
         private UI ui;
 
@@ -59,7 +56,6 @@ namespace Script.UI
             }
 
             unlocked = true;
-            onUnlockedChanged?.Invoke(unlocked);
             skillImage.color = Color.white;
         }
 
