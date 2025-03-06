@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Script.UI
@@ -9,13 +11,18 @@ namespace Script.UI
     public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public bool unlocked;
+        
         [SerializeField] private SkillTreeSlotUI[] shouldBeUnlocked;
         [SerializeField] private SkillTreeSlotUI[] shouldBeLocked;
+        
         [SerializeField] private Image skillImage;
         [SerializeField] private string skillName;
         [SerializeField] private string skillDescription;
         [SerializeField] private Color lockedColor;
         [SerializeField] private Color unLockedColor;
+        
+        [Header("Event")]
+        public UnityEvent<bool> onUnlockedChanged;
 
         private UI ui;
 
@@ -52,6 +59,7 @@ namespace Script.UI
             }
 
             unlocked = true;
+            onUnlockedChanged?.Invoke(unlocked);
             skillImage.color = Color.white;
         }
 

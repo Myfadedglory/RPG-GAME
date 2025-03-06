@@ -1,35 +1,34 @@
+
+using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace Script.Skill.Clone
 {
     public class Dash_Skill : Skill
     {
-        public bool dash = false;
-        public bool dashStartMirage = false;
-        public bool dashArriveMirage = false;
+        [SerializeField] private SkillCondition dash;
+        [SerializeField] private SkillCondition dashStartMirage;
+        [SerializeField] private SkillCondition dashArriveMirage;
 
         public override bool CanUseSkill()
         {
-            return dash && base.CanUseSkill();
+            return dash.GetSkillCondition() && base.CanUseSkill();
         }
 
-        protected override void UseSkill()
+        public void CreateCloneOnDashStart()
         {
-            if (dash) 
-                base.UseSkill();
+            if (dashStartMirage.GetSkillCondition())
+            {
+                SkillManager.instance.Clone.CreateClone(Player.transform);
+            }
         }
 
-        public void UnlockDash()
+        public void CreateCloneOnDashArrive()
         {
-            dash = true;
-        }
-
-        public void UnlockDashStartMirage()
-        {
-            dashStartMirage = true;
-        }
-
-        public void UnlockDashArriveMirage()
-        {
-            dashArriveMirage = true;
+            if (dashArriveMirage.GetSkillCondition())
+            {
+                SkillManager.instance.Clone.CreateClone(Player.transform);
+            }
         }
     }
 }

@@ -43,17 +43,5 @@ namespace Script.Skill.Clone
                 offset
             );
         }
-
-        public void CreateCloneOnDashStart()
-        {
-            if (createCloneOnDashStart)
-                CreateClone(Player.transform);
-        }
-
-        public void CreateCloneOnDashOver()
-        {
-            if (createCloneOnDashOver)
-                CreateClone(Player.transform);
-        }
     }
 }

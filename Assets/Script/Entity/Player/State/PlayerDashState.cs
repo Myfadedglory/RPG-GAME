@@ -12,7 +12,7 @@ namespace Script.Entity.Player.State
         {
             base.Enter(lastState);
 
-            Entity.Skill.Clone.CreateCloneOnDashStart();
+            Entity.Skill.Dash.CreateCloneOnDashStart();
 
             StateTimer = Entity.dashDuration;
         }
@@ -21,7 +21,7 @@ namespace Script.Entity.Player.State
         {
             base.Exit(newState);
 
-            Entity.Skill.Clone.CreateCloneOnDashOver();
+            Entity.Skill.Dash.CreateCloneOnDashArrive();
 
             Entity.SetZeroVelocity();
         }
