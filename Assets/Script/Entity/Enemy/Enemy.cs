@@ -12,7 +12,7 @@ namespace Script.Entity.Enemy
         [Header("Attack info")]
         public float battleTime = 6f;
         public float attackDistance = 1.5f;
-        public float hatredDistance = 15f;  //��޾���
+        public float hatredDistance = 15f;
         public float attackCoolDown = 1f;
 
         [Header("Stun info")]
@@ -25,6 +25,9 @@ namespace Script.Entity.Enemy
         [HideInInspector] public float moveSpeed;
         public float idleTime = 10f;
         [SerializeField] private float defaultMoveSpeed = 2.0f;
+        
+        [Header("Dead info")]
+        public float deathTime = 3f;
 
         protected override void Start()
         {
@@ -112,7 +115,6 @@ namespace Script.Entity.Enemy
             CloseCounterAttackWindow();
 
             return true;
-
         }
 
         public void AnimationTrigger() => Fsm.CurrentState.AnimationFinishTrigger();

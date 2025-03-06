@@ -57,7 +57,6 @@ namespace Script.Stats
         /// lightningMagic     lightning magic damage        type : double   range : (0, infinity)
         /// </summary>
         
-        
         [Header("Magic stats")] 
         public MagicStat fireMagic;
         public MagicStat iceMagic;

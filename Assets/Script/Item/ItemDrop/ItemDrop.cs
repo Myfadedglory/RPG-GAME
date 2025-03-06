@@ -13,7 +13,15 @@ namespace Script.Item.ItemDrop
 
         public virtual void GenerateDrop()
         {
-            foreach (var drop in possibleDrop.Where(drop => Random.Range(0, 100) <= drop.chance))
+            // 1. 收集所有符合条件的掉落项
+            var selectedDrops = possibleDrop.Where(drop => Random.Range(0, 100) <= drop.chance).ToList();
+
+            // 2. 如果没有掉落项且列表不为空，强制添加一个（默认选第一个）
+            if (selectedDrops.Count == 0 && possibleDrop.Count > 0)
+                selectedDrops.Add(possibleDrop[0]);
+
+            // 3. 处理最终选中的掉落项
+            foreach (var drop in selectedDrops)
             {
                 droppedItems.Add(drop.itemData);
                 var number = Random.Range(drop.minDropNumber, drop.maxDropNumber);

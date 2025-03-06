@@ -7,7 +7,8 @@ namespace Script.Entity.Enemy.Skeleton
 {
     public class Skeleton : Enemy
     {
-
+        #region SkeletonState
+        
         public IState IdleState {  get; private set; }
         public IState MoveState { get; private set; }
         public IState BattleState { get; private set; }
@@ -15,6 +16,8 @@ namespace Script.Entity.Enemy.Skeleton
         public IState HitState { get; private set; }
         public IState StunState { get; private set; }
         public IState DeadState { get; private set; }
+        
+        #endregion
         
         [Header("Move Info")]
         public float speedMultiplier = 1.5f;    //发现玩家后加速倍率

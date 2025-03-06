@@ -1,3 +1,4 @@
+using System.Collections;
 using Script.Utilities;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace Script.Entity.Enemy.Skeleton.State
         public override void Enter(IState lastState)
         {
             base.Enter(lastState);
+            Entity.StartCoroutine(DestroyAfterAnimation(Entity.deathTime));
         }
 
         public override void Exit(IState newState)
@@ -29,6 +31,12 @@ namespace Script.Entity.Enemy.Skeleton.State
             base.Update();
 
             Enemy.SetZeroVelocity();
+        }
+        
+        private IEnumerator DestroyAfterAnimation(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Object.Destroy(Entity.gameObject);
         }
     }
 }
