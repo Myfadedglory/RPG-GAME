@@ -1,39 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Script.Skill.Crystal
 {
     public class CrystalSkill : Skill
     {
-        [SerializeField] private GameObject crystalPrefab;
-        [SerializeField] private float crystalDuration = 5;
-        [SerializeField] private Vector2 maxSize;
-        [SerializeField] private float growSpeed = 5;
-
-        [Header("Crystal Mirage")]
-        [SerializeField] private bool cloneInsteadOfCrystal;
-
-        [Header("Explosive Crystal")]
-        [SerializeField] private bool canExplode;
-
-        [Header("Moveable Crystal")]
-        [SerializeField] private bool canMove;
-        [SerializeField] private float moveSpeed = 3;
-        [SerializeField] private float crystalDetectDistance = 25;
-
-        [Header("Multi Stacking Crystal")]
-        [SerializeField] private bool canUseMultiStacks;
-        [SerializeField] private int amountOfStacks = 3;
-        [SerializeField] private float multiStackCooldown = 5;
-        [SerializeField] private float useTimeWindow;
+        [SerializeField] private CrystalConfig crystalConfig;
         [SerializeField] private List<GameObject> crystalLeft;
 
         private GameObject currentCrystal;
-        private bool chooseRandomtarget;
+        private bool chooseRandomTarget;
+
+        public override bool CanUseSkill()
+        {
+            return crystalConfig.crystal.GetSkillCondition() && base.CanUseSkill();
+        }
 
         public void CreateCrystal()
         {
-            currentCrystal = CreateCrystal(crystalPrefab);
+            currentCrystal = CreateCrystal(crystalConfig.prefab);
         }
 
         private GameObject CreateCrystal(GameObject prefab)
@@ -41,14 +27,8 @@ namespace Script.Skill.Crystal
             var newCrystal = Instantiate(prefab, Player.transform.position, Quaternion.identity);
 
             newCrystal.GetComponent<CrystalSkillController>().SetUpCrystal(
-                canMove,
-                canExplode,
-                growSpeed,
-                moveSpeed,
-                maxSize,
-                chooseRandomtarget,
-                crystalDuration,
-                crystalDetectDistance,
+                crystalConfig,
+                chooseRandomTarget,
                 ChooseClosestEnemy,
                 ChooseRandomEnemy
             );
@@ -58,74 +38,104 @@ namespace Script.Skill.Crystal
 
         public void ChooseRandomTarget()
         {
-            chooseRandomtarget = true;
+            chooseRandomTarget = true;
         }
 
         protected override void UseSkill()
         {
             base.UseSkill();
 
-            if(CanUseMultiCrystal())
+            if (TryUseMultiCrystal())
                 return;
 
-            if(currentCrystal == null)
-            {
-                CreateCrystal();
-            }
+            if (TryCreateCrystal())
+                return;
+
+            if (ShouldBlockCrystalMove())
+                return;
+
+            SwapPlayerAndCrystalPositions();
+
+            HandleCrystalEffect();
+        }
+
+        private bool TryUseMultiCrystal()
+        {
+            if (!crystalConfig.multipleCrystal.GetSkillCondition() || crystalLeft.Count <= 0)
+                return false;
+
+            if (IsFullCrystalStack())
+                ScheduleResetAbility();
+
+            ConsumeCrystal();
+
+            return true;
+        }
+
+        private bool TryCreateCrystal()
+        {
+            if (currentCrystal) 
+                return false;
+
+            CreateCrystal();
+            return true;
+        }
+
+        private bool ShouldBlockCrystalMove() => crystalConfig.crystalMove.GetSkillCondition();
+
+        private void SwapPlayerAndCrystalPositions()
+        {
+            var crystalTransform = currentCrystal.transform;
+            var playerTransform = Player.transform;
+    
+            (crystalTransform.position, playerTransform.position) = 
+                (playerTransform.position, crystalTransform.position);
+        }
+
+        private void HandleCrystalEffect()
+        {
+            if (crystalConfig.crystalMirage.GetSkillCondition())
+                CreateMirageAndDestroyCrystal();
             else
-            {
-                if(canMove)
-                    return;
-
-                (currentCrystal.transform.position, Player.transform.position) = 
-                    (Player.transform.position, currentCrystal.transform.position);
-
-                if (cloneInsteadOfCrystal)
-                {
-                    SkillManager.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
-                    Destroy(currentCrystal);
-                }
-                else
-                {
-                    currentCrystal.GetComponent<CrystalSkillController>()?.CrystalExitTimeOver();
-                }
-            }
+                TriggerCrystalExit();
         }
 
-        private bool CanUseMultiCrystal()
+        private bool IsFullCrystalStack() => crystalLeft.Count == crystalConfig.crystalStackAmount;
+
+        private void ScheduleResetAbility() => Invoke(nameof(ResetAbility), crystalConfig.useMultipleWindow);
+
+        private void ConsumeCrystal()
         {
-            if (canUseMultiStacks)
-            {
-                if(crystalLeft.Count > 0)
-                {
-                    if (crystalLeft.Count == amountOfStacks)
-                        Invoke(nameof(ResetAbility), useTimeWindow);
+            cooldown = 0;
+            var crystalToSpawn = crystalLeft.Last();
+    
+            CreateCrystal(crystalToSpawn);
+            crystalLeft.RemoveAt(crystalLeft.Count - 1);
 
-                    cooldown = 0;
-
-                    var crystalToSpawn = crystalLeft[^1];   //get the lasest one
-
-                    CreateCrystal(crystalToSpawn);
-
-                    crystalLeft.Remove(crystalToSpawn);
-
-                    if(crystalLeft.Count <= 0)
-                    {
-                        cooldown = multiStackCooldown;
-
-                        RefilCrystal();
-                    }
-                }
-                return true;
-            }
-            return false;
+            if (crystalLeft.Count == 0)
+                ResetMultiCrystalCooldown();
         }
 
-        private void RefilCrystal()
+        private void ResetMultiCrystalCooldown()
         {
-            for(int i=0; i< amountOfStacks; i++)
+            cooldown = crystalConfig.multipleCooldown;
+            RefillCrystal();
+        }
+
+        private void CreateMirageAndDestroyCrystal()
+        {
+            SkillManager.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
+            Destroy(currentCrystal);
+            currentCrystal = null;
+        }
+
+        private void TriggerCrystalExit() => currentCrystal.GetComponent<CrystalSkillController>()?.CrystalExitTimeOver();
+
+        private void RefillCrystal()
+        {
+            for(var i=0; i< crystalConfig.crystalStackAmount; i++)
             {
-                crystalLeft.Add(crystalPrefab);
+                crystalLeft.Add(crystalConfig.prefab);
             }
         }
 
@@ -133,9 +143,9 @@ namespace Script.Skill.Crystal
         {
             if (CooldownTimer >= 0) return;
 
-            CooldownTimer = multiStackCooldown;
+            CooldownTimer = crystalConfig.multipleCooldown;
         
-            RefilCrystal();
+            RefillCrystal();
         }
     }
 }

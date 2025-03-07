@@ -97,6 +97,7 @@
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonDeadState.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonState.cs" />
     <Compile Include="Assets\Script\Item\ItemDrop\ItemDrop.cs" />
+    <Compile Include="Assets\Script\Skill\Crystal\CrystalConfig.cs" />
     <Compile Include="Assets\Script\Skill\Crystal\Crystal_Skill.cs" />
     <Compile Include="Assets\Script\Entity\Player\PlayerStats.cs" />
     <Compile Include="Assets\Script\Entity\Player\PlayerManager.cs" />

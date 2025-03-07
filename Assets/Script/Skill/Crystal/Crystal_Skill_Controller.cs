@@ -12,40 +12,27 @@ namespace Script.Skill.Crystal
         private CircleCollider2D Cd => GetComponent<CircleCollider2D>();
 
         private float crystalExitTimer;
-
-        private bool canExplode;
+        
+        private CrystalConfig config;
         private bool canMove;
         private bool canGrow;
-
-        private float moveSpeed;
-        private Vector2 maxSize;
-        private float growSpeed;
-
-        private const float CrystalExplodeDistance = 0.5f;
-
+        
         private Transform followTarget;
 
         public void SetUpCrystal(
-            bool canMove, 
-            bool canExplode, 
-            float growSpeed,
-            float moveSpeed,
-            Vector2 maxSize,
+            CrystalConfig crystalConfig,
             bool chooseRandomTarget,
-            float crystalDuration,
-            float crystalDetectDistance,
-            Func<Transform, float, Transform> ChooseClosestEnemy,
-            Func<Transform, float, Transform> ChooseRandomEnemy
+            Func<Transform, float, Transform> chooseClosestEnemy,
+            Func<Transform, float, Transform> chooseRandomEnemy
         )
         {
-            crystalExitTimer = crystalDuration;
-            this.canExplode = canExplode;
-            this.canMove = canMove;
-            this.growSpeed = growSpeed;
-            this.moveSpeed = moveSpeed;
-            this.maxSize = maxSize;
+            config = crystalConfig;
+            canMove = crystalConfig.crystalMove.GetSkillCondition();
+            crystalExitTimer = crystalConfig.duration;
    
-            followTarget = chooseRandomTarget ? ChooseRandomEnemy(transform, crystalDetectDistance) : ChooseClosestEnemy(transform, crystalDetectDistance);
+            followTarget = chooseRandomTarget ? 
+                chooseRandomEnemy(transform, crystalConfig.detectDistance) : 
+                chooseClosestEnemy(transform, crystalConfig.detectDistance);
         }
 
         private void Update()
@@ -56,17 +43,17 @@ namespace Script.Skill.Crystal
                 CrystalExitTimeOver();
 
             if (canGrow)
-                transform.localScale = Vector2.Lerp(transform.localScale, maxSize, growSpeed * Time.deltaTime);
+                transform.localScale = Vector2.Lerp(transform.localScale, config.maxSize, config.growSpeed * Time.deltaTime);
             
             if (!canMove || !followTarget) return;
             
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 followTarget.position,
-                moveSpeed * Time.deltaTime
+                config.moveSpeed * Time.deltaTime
             );
 
-            if (Vector2.Distance(transform.position, followTarget.position) < CrystalExplodeDistance)
+            if (Vector2.Distance(transform.position, followTarget.position) < config.explodeDistance)
                 CrystalExitTimeOver();
         }
 
@@ -88,7 +75,7 @@ namespace Script.Skill.Crystal
 
         public void CrystalExitTimeOver()
         {
-            if (canExplode)
+            if (config.crystalExplode.GetSkillCondition())
             {
                 canMove = false;
                 canGrow = true;

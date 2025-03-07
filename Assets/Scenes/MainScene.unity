@@ -19107,19 +19107,27 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  crystalPrefab: {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
-  crystalDuration: 5
-  maxSize: {x: 3, y: 3}
-  growSpeed: 5
-  cloneInsteadOfCrystal: 0
-  canExplode: 1
-  canMove: 1
-  moveSpeed: 5
-  crystalDetectDistance: 25
-  canUseMultiStacks: 1
-  amountOfStacks: 3
-  multiStackCooldown: 5
-  useTimeWindow: 2
+  crystalConfig:
+    prefab: {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
+    duration: 5
+    maxSize: {x: 3, y: 3}
+    growSpeed: 5
+    moveSpeed: 3
+    detectDistance: 25
+    crystalStackAmount: 3
+    multipleCooldown: 5
+    explodeDistance: 1
+    useMultipleWindow: 3
+    crystal:
+      skillTreeSlotUI: {fileID: 1459429403}
+    crystalMove:
+      skillTreeSlotUI: {fileID: 1563050129}
+    crystalExplode:
+      skillTreeSlotUI: {fileID: 1668957426}
+    multipleCrystal:
+      skillTreeSlotUI: {fileID: 941755126}
+    crystalMirage:
+      skillTreeSlotUI: {fileID: 1498906133}
   crystalLeft:
   - {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
   - {fileID: 3902432093081737849, guid: f1993298d8e2ccb4db5fa455c2e9d394, type: 3}
