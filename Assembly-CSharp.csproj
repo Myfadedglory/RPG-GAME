@@ -90,6 +90,7 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerDeadState.cs" />
     <Compile Include="Assets\Script\Item\ItemTrigger.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Skeleton\State\SkeletonAttackState.cs" />
+    <Compile Include="Assets\Script\Skill\Clone\CloneConfig.cs" />
     <Compile Include="Assets\Script\Utilities\EntityState.cs" />
     <Compile Include="Assets\Script\Skill\SkillCondition.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerAttackState.cs" />

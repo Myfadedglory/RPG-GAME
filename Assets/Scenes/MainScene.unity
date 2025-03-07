@@ -19016,13 +19016,19 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  clonePrefab: {fileID: 7874165236137370167, guid: 549b8e9259447b143ab665ef6f3a5b9b, type: 3}
-  cloneDuration: 1.5
-  canAttack: 1
-  clonerDetectDistance: 10
-  canDuplicateClone: 1
-  chanceToDuplicate: 0
-  crystalInsteadOfClone: 0
+  config:
+    prefab: {fileID: 7874165236137370167, guid: 549b8e9259447b143ab665ef6f3a5b9b, type: 3}
+    duration: 5
+    detectDistance: 10
+    chanceToDuplicate: 0.5
+    clone:
+      skillTreeSlotUI: {fileID: 1339992358}
+    cloneAttack:
+      skillTreeSlotUI: {fileID: 81129949}
+    cloneCrystal:
+      skillTreeSlotUI: {fileID: 119756252}
+    duplicateClone:
+      skillTreeSlotUI: {fileID: 1430503550}
 --- !u!114 &936336909
 MonoBehaviour:
   m_ObjectHideFlags: 0

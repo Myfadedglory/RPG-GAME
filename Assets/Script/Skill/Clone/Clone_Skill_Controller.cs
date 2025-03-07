@@ -13,9 +13,6 @@ namespace Script.Skill.Clone
 
         [SerializeField] private float colorLosingSpeed;
 
-        private float clonerDetectDistance;
-        private float cloneTimer;
-
         [SerializeField] private Transform attackCheck; 
         [SerializeField] private float attackCheckRadius = 0.8f;
 
@@ -23,8 +20,8 @@ namespace Script.Skill.Clone
         private Transform closestEnemy;
         private Func<Transform, float, Transform> findClosestEnemy;
 
-        private bool canDuplicateClone;
-        private float chanceToDuplicate;
+        private CloneConfig config;
+        private float cloneTimer;
 
         private void Awake()
         {
@@ -40,35 +37,26 @@ namespace Script.Skill.Clone
             
             sr.color = new Color(1,1,1,sr.color.a - (Time.deltaTime * colorLosingSpeed));
 
-            if(sr.color.a <= 0)
-                Destroy(gameObject);
+            if(sr.color.a <= 0) Destroy(gameObject);
         }
 
         public void SetUpClone(
             Transform newTransform,
-            float cloneDuration,
-            float clonerDetectDistance,
-            bool canAttack,
+            CloneConfig cloneConfig,
             Func<Transform, float, Transform> findClosestEnemy,
-            bool canDuplicateClone,
-            float chanceToDuplicate,
             Vector3 offset   
         )  
         {
             transform.position = newTransform.position + offset;
 
-            cloneTimer = cloneDuration;
+            config = cloneConfig;
 
             this.findClosestEnemy = findClosestEnemy;
+            
+            cloneTimer = config.duration;
 
-            this.canDuplicateClone = canDuplicateClone;
-
-            this.chanceToDuplicate = chanceToDuplicate;
-
-            if (canAttack)
+            if (config.cloneAttack.GetSkillCondition())
                 anim.SetInteger(AttackNumber, Random.Range(1, 4));
-
-            this.clonerDetectDistance = clonerDetectDistance;
 
             FacingToClosestTarget();
         }
@@ -89,9 +77,9 @@ namespace Script.Skill.Clone
                 
                 hit.GetComponent<Entity.Enemy.Enemy>().Damage(PlayerManager.instance.player.Stats,cloneFacingDir);
 
-                if (!canDuplicateClone) continue;
+                if (!config.duplicateClone.GetSkillCondition()) continue;
                 
-                if(Random.Range(0,100) < chanceToDuplicate * 100)
+                if(Random.Range(0,100) < config.chanceToDuplicate * 100)
                 {
                     SkillManager.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
                 }
@@ -100,7 +88,7 @@ namespace Script.Skill.Clone
 
         private void FacingToClosestTarget()
         {
-            closestEnemy = findClosestEnemy(transform, clonerDetectDistance);
+            closestEnemy = findClosestEnemy(transform, config.detectDistance);
 
             if (!closestEnemy || closestEnemy.position.x >= transform.position.x) return;
             

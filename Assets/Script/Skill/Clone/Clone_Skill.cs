@@ -1,42 +1,31 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Script.Skill.Clone
 {
     public class CloneSkill : Skill
     {
-        [Header("Clone info")]
-        [SerializeField] private GameObject clonePrefab;
-        [SerializeField] private float cloneDuration;
-        [SerializeField] private bool canAttack;
-        [SerializeField] private float clonerDetectDistance = 10f;
+        [SerializeField] private CloneConfig config;
 
-        [Header("Duplicate clone info")]
-        [SerializeField] private bool canDuplicateClone;
-        [SerializeField] private float chanceToDuplicate;
-
-        [Header("Crystal instead of clone")]
-        public bool crystalInsteadOfClone;
+        public override bool CanUseSkill()
+        {
+            return config.clone.GetSkillCondition() && base.CanUseSkill();
+        }
 
         public void CreateClone(Transform newTransform, Vector3 offset = default)
         {
-            if(crystalInsteadOfClone)
+            if(config.cloneCrystal.GetSkillCondition())
             {
                 SkillManager.instance.Crystal.CreateCrystal();
                 SkillManager.instance.Crystal.ChooseRandomTarget();
                 return;
             }
 
-            var newClone = Instantiate(clonePrefab);
+            var newClone = Instantiate(config.prefab);
 
             newClone.GetComponent<CloneSkillController>().SetUpClone(
                 newTransform,
-                cloneDuration,
-                clonerDetectDistance, 
-                canAttack, 
+                config,
                 ChooseClosestEnemy, 
-                canDuplicateClone,
-                chanceToDuplicate,
                 offset
             );
         }
