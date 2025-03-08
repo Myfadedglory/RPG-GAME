@@ -124,7 +124,7 @@ namespace Script.Skill.Sword
             if (!(Vector2.Distance(transform.position, targetPosition) < hitDistance)) return;
             
             var enemy = enemyTarget[targetIndex].GetComponent<Entity.Enemy.Enemy>();
-            enemy.Damage(player.Stats, swordAttackDir);
+            enemy.Damage(player.Stats, new Vector2(swordAttackDir,0));
             enemy.FreezeTimeFor(freezeDuration);
 
             bounceAmount--;
@@ -365,7 +365,7 @@ namespace Script.Skill.Sword
             
             var enemy = collision.GetComponent<Entity.Enemy.Enemy>();
 
-            enemy.Damage(player.Stats,swordAttackDir);
+            enemy.Damage(player.Stats,new Vector2(swordAttackDir, 0));
             
             enemy.FreezeTimeFor(freezeDuration);
         }

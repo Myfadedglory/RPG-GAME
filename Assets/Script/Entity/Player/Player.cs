@@ -134,7 +134,7 @@ namespace Script.Entity.Player
             Destroy(Sword);
         }
 
-        public override void Damage(CharacterStats from, int attackedDir)
+        public override void Damage(CharacterStats from, Vector2 attackedDir)
         {
             Fsm.SwitchState(HitState);
 

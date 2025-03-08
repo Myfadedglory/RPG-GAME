@@ -16,7 +16,7 @@ namespace Script.Skill.Clone
         [SerializeField] private Transform attackCheck; 
         [SerializeField] private float attackCheckRadius = 0.8f;
 
-        private int cloneFacingDir = 1;
+        private Vector2 cloneFacingDir = new (1,0);
         private Transform closestEnemy;
         private Func<Transform, float, Transform> findClosestEnemy;
 
@@ -81,7 +81,7 @@ namespace Script.Skill.Clone
                 
                 if(Random.Range(0,100) < config.chanceToDuplicate * 100)
                 {
-                    SkillManager.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir, 0));
+                    SkillManager.instance.Clone.CreateClone(hit.transform, new Vector3(1.5f * cloneFacingDir.x, 0));
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace Script.Skill.Clone
 
             if (!closestEnemy || closestEnemy.position.x >= transform.position.x) return;
             
-            cloneFacingDir = -1;
+            cloneFacingDir = new Vector2(-1, 0);
 
             transform.Rotate(0, 180, 0);
         }

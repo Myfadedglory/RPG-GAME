@@ -67,9 +67,9 @@ namespace Script.Skill.Crystal
                 
                 var enemy = hit.GetComponent<Entity.Enemy.Enemy>();
                 if (enemy.transform.position.x <= transform.position.x)
-                    enemy.MagicDamage(PlayerManager.instance.player.Stats, (int)enemy.left.x, MagicType.Lightning);
+                    enemy.MagicDamage(PlayerManager.instance.player.Stats, enemy.Left, MagicType.Lightning);
                 else if (enemy.transform.position.x > transform.position.x)
-                    enemy.MagicDamage(PlayerManager.instance.player.Stats, (int)enemy.right.x, MagicType.Lightning);
+                    enemy.MagicDamage(PlayerManager.instance.player.Stats, enemy.Right, MagicType.Lightning);
             }
         }
 

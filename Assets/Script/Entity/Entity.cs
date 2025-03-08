@@ -24,6 +24,9 @@ namespace Script.Entity
         public Vector2 left = new(-1,0);
         public Vector2 up = new(0,1);
         public Vector2 down = new(0,-1);
+        
+        public readonly Vector2 Right = Vector2.right;
+        public readonly Vector2 Left = Vector2.left;
 
         [Header("Attack info")]
         public Transform attackCheck;
@@ -68,7 +71,7 @@ namespace Script.Entity
 
         #region Damage
         
-        public virtual void Damage(CharacterStats from, int attackDir)
+        public virtual void Damage(CharacterStats from, Vector2 attackDir)
         {
             Fx.StartCoroutine("FlashFX");
 
@@ -81,12 +84,12 @@ namespace Script.Entity
         {
             Fx.StartCoroutine("FlashFX");
 
-            StartCoroutine(nameof(HitKnockback), -FacingDir);
+            StartCoroutine(nameof(HitKnockback), new Vector2(-FacingDir, 0));
 
             from.DoPhysicsDamage(Stats);
         }
 
-        public virtual void MagicDamage(CharacterStats from, int attackDir, MagicType magicType)
+        public virtual void MagicDamage(CharacterStats from, Vector2 attackDir, MagicType magicType)
         {
             StartCoroutine(nameof(HitKnockback), attackDir);            
             
@@ -95,18 +98,18 @@ namespace Script.Entity
 
         public virtual void MagicDamage(CharacterStats from, MagicType magicType)
         {
-            StartCoroutine(nameof(HitKnockback), -FacingDir);
+            StartCoroutine(nameof(HitKnockback), new Vector2(-FacingDir, 0));
 
             from.DoMagicDamage(Stats, magicType);
         }
         
         #endregion
 
-        protected virtual IEnumerator HitKnockback(int attackDir)
+        protected virtual IEnumerator HitKnockback(Vector2 attackDir)
         {
             isKnocked = true;
 
-            Rb.velocity = new Vector2(knockbackDirection.x * attackDir, knockbackDirection.y);
+            Rb.velocity = new Vector2(knockbackDirection.x * attackDir.x, knockbackDirection.y);
 
             yield return new WaitForSeconds(knockbackDuration);
 

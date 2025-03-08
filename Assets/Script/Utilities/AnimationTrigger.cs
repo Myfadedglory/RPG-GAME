@@ -25,11 +25,11 @@ namespace Script.Utilities
             {
                 if (typeof(T) == typeof(Entity.Player.Player) && hit.GetComponent<Entity.Enemy.Enemy>() is { } enemy)
                 {
-                    enemy.Damage(Entity.Stats, attackedDir);
+                    enemy.Damage(Entity.Stats, new Vector2(attackedDir, 0));
                 }
                 else if (typeof(T) == typeof(Entity.Enemy.Enemy) && hit.GetComponent<Entity.Player.Player>() is { } player)
                 {
-                    player.Damage(Entity.Stats, attackedDir);
+                    player.Damage(Entity.Stats, new Vector2(attackedDir, 0));
                 }
             }
         }

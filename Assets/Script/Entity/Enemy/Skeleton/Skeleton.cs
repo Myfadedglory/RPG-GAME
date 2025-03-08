@@ -49,7 +49,7 @@ namespace Script.Entity.Enemy.Skeleton
             Fsm.CurrentState.Update();
         }
 
-        public override void Damage(CharacterStats from, int attackDir)
+        public override void Damage(CharacterStats from, Vector2 attackDir)
         {
             Fsm.SwitchState(HitState);
 
