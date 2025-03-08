@@ -10,25 +10,21 @@ namespace Script.Skill.BlackHole
         [SerializeField] private List<KeyCode> keyCodeList;
 
         public bool PlayerCanExitState { get; private set; }
-
-        private float maxSize;
-        private float maxDuration;
-        private float growSpeed;
-        private float shrinkSpeed;
+        
         private bool canGrow;
         private bool canShrink;
 
         private bool canCreateHotkey;
+
         private int amountOfAttack;
-        private float cloneAttackCoolDown;
         private float cloneAttackTimer;
         private float durationTimer;
         private bool cloneAttackReleased;
         private bool playerCanDisappear;
-        private Player player;
 
         private List<Transform> targets;
         private List<GameObject> createdHotkeys;
+        private BlackholeConfig config;
 
         private void Awake()
         {
@@ -48,24 +44,12 @@ namespace Script.Skill.BlackHole
         }
 
         public void SetUpBlackHole(
-            Player player,
-            float maxSize,
-            float maxDuration, 
-            float growSpeed, 
-            float shrinkSpeed, 
-            int amountOfAttack, 
-            float cloneAttackCoolDown
+            BlackholeConfig config
         )
         {
-            this.player = player;
-            this.maxSize = maxSize;
-            this.maxDuration = maxDuration;
-            this.growSpeed = growSpeed;
-            this.shrinkSpeed = shrinkSpeed;
-            this.amountOfAttack = amountOfAttack;
-            this.cloneAttackCoolDown = cloneAttackCoolDown;
-
-            durationTimer = maxDuration;
+            this.config = config;
+            amountOfAttack = this.config.amountOfAttack;
+            durationTimer = this.config.duration;
         }
 
         private void Update()
@@ -91,21 +75,31 @@ namespace Script.Skill.BlackHole
 
             CloneAttackLogic();
 
+            GrowLogic();
+
+            if (!canShrink) return;
+            
+            ShrinkLogic();
+        }
+
+        private void GrowLogic()
+        {
             if (canGrow && !canShrink)
             {
                 transform.localScale = Vector2.Lerp(
                     transform.localScale,
-                    new Vector2(maxSize, maxSize),
-                    growSpeed * Time.deltaTime
+                    config.maxSize,
+                    config.growSpeed * Time.deltaTime
                 );
             }
+        }
 
-            if (!canShrink) return;
-            
+        private void ShrinkLogic()
+        {
             transform.localScale = Vector2.Lerp(
                 transform.localScale,
                 new Vector2(-1, -1),
-                shrinkSpeed * Time.deltaTime
+                config.shrinkSpeed * Time.deltaTime
             );
 
             if (transform.localScale.x < 0)
@@ -136,7 +130,7 @@ namespace Script.Skill.BlackHole
         {
             if (cloneAttackTimer >= 0 || !cloneAttackReleased || amountOfAttack <= 0) return;
 
-            cloneAttackTimer = cloneAttackCoolDown;
+            cloneAttackTimer = config.cloneAttackCoolDown;
 
             float xOffset;
 

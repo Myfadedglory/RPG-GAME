@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Script.Skill.Crystal
@@ -45,91 +44,65 @@ namespace Script.Skill.Crystal
         {
             base.UseSkill();
 
-            if (TryUseMultiCrystal())
+            // 多重水晶使用逻辑
+            if (crystalConfig.multipleCrystal.GetSkillCondition() && crystalLeft.Count > 0)
+            {
+                MultipleCrystal();
+                return;
+            }
+
+            // 水晶创建逻辑
+            if (!currentCrystal)
+            {
+                CreateCrystal();
+                return;
+            }
+
+            // 移动限制检查
+            if (crystalConfig.crystalMove.GetSkillCondition())
                 return;
 
-            if (TryCreateCrystal())
-                return;
+            // 位置交换
+            (currentCrystal.transform.position, Player.transform.position) = 
+                (Player.transform.position, currentCrystal.transform.position);
 
-            if (ShouldBlockCrystalMove())
-                return;
-
-            SwapPlayerAndCrystalPositions();
-
-            HandleCrystalEffect();
+            CloneInsteadOfCrystal();
         }
 
-        private bool TryUseMultiCrystal()
+        private void CloneInsteadOfCrystal()
         {
-            if (!crystalConfig.multipleCrystal.GetSkillCondition() || crystalLeft.Count <= 0)
-                return false;
-
-            if (IsFullCrystalStack())
-                ScheduleResetAbility();
-
-            ConsumeCrystal();
-
-            return true;
-        }
-
-        private bool TryCreateCrystal()
-        {
-            if (currentCrystal) 
-                return false;
-
-            CreateCrystal();
-            return true;
-        }
-
-        private bool ShouldBlockCrystalMove() => crystalConfig.crystalMove.GetSkillCondition();
-
-        private void SwapPlayerAndCrystalPositions()
-        {
-            var crystalTransform = currentCrystal.transform;
-            var playerTransform = Player.transform;
-    
-            (crystalTransform.position, playerTransform.position) = 
-                (playerTransform.position, crystalTransform.position);
-        }
-
-        private void HandleCrystalEffect()
-        {
+            // 水晶效果处理
             if (crystalConfig.crystalMirage.GetSkillCondition())
-                CreateMirageAndDestroyCrystal();
+            {
+                SkillManager.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
+                Destroy(currentCrystal);
+                currentCrystal = null; // 显式清除引用
+            }
             else
-                TriggerCrystalExit();
+            {
+                currentCrystal.GetComponent<CrystalSkillController>()?.CrystalExitTimeOver();
+            }
         }
 
-        private bool IsFullCrystalStack() => crystalLeft.Count == crystalConfig.crystalStackAmount;
-
-        private void ScheduleResetAbility() => Invoke(nameof(ResetAbility), crystalConfig.useMultipleWindow);
-
-        private void ConsumeCrystal()
+        private void MultipleCrystal()
         {
+            // 处理满栈重置
+            if (crystalLeft.Count == crystalConfig.crystalStackAmount)
+                Invoke(nameof(ResetAbility), crystalConfig.useMultipleWindow);
+
+            // 消耗水晶
             cooldown = 0;
-            var crystalToSpawn = crystalLeft.Last();
-    
+            var crystalToSpawn = crystalLeft[^1];
             CreateCrystal(crystalToSpawn);
             crystalLeft.RemoveAt(crystalLeft.Count - 1);
 
+            // 重置冷却
             if (crystalLeft.Count == 0)
-                ResetMultiCrystalCooldown();
+            {
+                cooldown = crystalConfig.multipleCooldown;
+                RefillCrystal();
+            }
         }
-
-        private void ResetMultiCrystalCooldown()
-        {
-            cooldown = crystalConfig.multipleCooldown;
-            RefillCrystal();
-        }
-
-        private void CreateMirageAndDestroyCrystal()
-        {
-            SkillManager.instance.Clone.CreateClone(currentCrystal.transform, Vector3.zero);
-            Destroy(currentCrystal);
-            currentCrystal = null;
-        }
-
-        private void TriggerCrystalExit() => currentCrystal.GetComponent<CrystalSkillController>()?.CrystalExitTimeOver();
 
         private void RefillCrystal()
         {

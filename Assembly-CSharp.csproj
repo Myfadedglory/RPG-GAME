@@ -128,6 +128,7 @@
     <Compile Include="Assets\Script\Entity\Player\State\PlayerAimSwordState.cs" />
     <Compile Include="Assets\Script\UI\CraftSlot_UI.cs" />
     <Compile Include="Assets\Script\UI\ItemSlot_UI.cs" />
+    <Compile Include="Assets\Script\Skill\BlackHole\BlackholeConfig.cs" />
     <Compile Include="Assets\Script\Entity\Player\State\PlayerJumpState.cs" />
     <Compile Include="Assets\Script\UI\EquipmentSlot_UI.cs" />
     <Compile Include="Assets\Script\Entity\Enemy\Enemy.cs" />
