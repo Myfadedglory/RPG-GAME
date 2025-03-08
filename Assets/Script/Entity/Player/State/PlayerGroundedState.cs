@@ -7,7 +7,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerGroundedState : PlayerState
     {
-        protected PlayerGroundedState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        protected PlayerGroundedState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 

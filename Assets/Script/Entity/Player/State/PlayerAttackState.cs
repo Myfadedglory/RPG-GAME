@@ -10,7 +10,7 @@ namespace Script.Entity.Player.State
 
         private float lastTimeAttacked;
 
-        public PlayerAttackState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerAttackState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 
@@ -20,14 +20,14 @@ namespace Script.Entity.Player.State
 
             StateTimer = .1f;
 
-            if (comboCounter > 2 || Time.time >= lastTimeAttacked + Entity.comboWindow)
+            if (comboCounter > 2 || Time.time >= lastTimeAttacked + Entity.playerConfig.comboWindow)
                 comboCounter = 0;
 
-            Entity.SetVelocity(Entity.attackMovement[comboCounter].x * Entity.FacingDir, Entity.attackMovement[comboCounter].y);
+            Entity.SetVelocity(Entity.playerConfig.attackMovement[comboCounter].x * Entity.FacingDir, Entity.playerConfig.attackMovement[comboCounter].y);
 
             Anim.SetInteger(ComboCounter, comboCounter);
 
-            Anim.speed = Entity.attackSpeed;
+            Anim.speed = Entity.playerConfig.attackSpeed;
         }
 
         public override void Exit(IState newState)

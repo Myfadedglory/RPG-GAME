@@ -5,7 +5,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerWallSlideState : PlayerState
     {
-        public PlayerWallSlideState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerWallSlideState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 

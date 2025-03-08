@@ -78,19 +78,19 @@ namespace Script.UI
             
             if (CanUnlockSkill())
             {
-                ui.skillTooltip.ShowToolTip(skillDescription, skillName);
+                ui.skillTooltip.ShowTooltip(skillDescription, skillName);
                 ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
             }
             else
             {
-                ui.skillTooltip.ShowToolTip("you need to unlock preview skill before see the description", "Unknown");
+                ui.skillTooltip.ShowTooltip("you need to unlock preview skill before see the description", "Unknown");
                 ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
             }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            ui.skillTooltip.HideToolTip();
+            ui.skillTooltip.HideTooltip();
         }
 
         private bool CanUnlockSkill()

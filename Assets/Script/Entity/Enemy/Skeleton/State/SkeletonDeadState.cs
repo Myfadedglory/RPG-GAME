@@ -10,20 +10,10 @@ namespace Script.Entity.Enemy.Skeleton.State
         {
         }
 
-        public override void AnimationFinishTrigger()
-        {
-            base.AnimationFinishTrigger();
-        }
-
         public override void Enter(IState lastState)
         {
             base.Enter(lastState);
             Entity.StartCoroutine(DestroyAfterAnimation(Entity.deathTime));
-        }
-
-        public override void Exit(IState newState)
-        {
-            base.Exit(newState);
         }
 
         public override void Update()

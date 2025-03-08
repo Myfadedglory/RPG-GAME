@@ -4,7 +4,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerDashState : PlayerState
     {
-        public PlayerDashState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerDashState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 
@@ -14,7 +14,7 @@ namespace Script.Entity.Player.State
 
             Entity.Skill.Dash.CreateCloneOnDashStart();
 
-            StateTimer = Entity.dashDuration;
+            StateTimer = Entity.playerConfig.dashDuration;
         }
 
         public override void Exit(IState newState)

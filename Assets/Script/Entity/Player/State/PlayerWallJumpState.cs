@@ -4,7 +4,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerWallJumpState : PlayerState
     {
-        public PlayerWallJumpState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerWallJumpState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 

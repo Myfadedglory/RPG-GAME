@@ -5,12 +5,12 @@ namespace Script.Entity.Player.State
 {
     public class PlayerBlackholeState : PlayerState
     {
-        private float flyTime = 0.3f;
+        private const float FlyTime = 0.3f;
         private bool skillUsed;
 
         private float defaultGravity;
 
-        public PlayerBlackholeState(Script.Entity.Player.Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        public PlayerBlackholeState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
         {
         }
 
@@ -20,7 +20,7 @@ namespace Script.Entity.Player.State
 
             skillUsed = false;
 
-            StateTimer = flyTime;
+            StateTimer = FlyTime;
 
             defaultGravity = Rb.gravityScale;
 

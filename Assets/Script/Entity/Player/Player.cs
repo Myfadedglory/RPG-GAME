@@ -4,35 +4,18 @@ using Script.Skill;
 using Script.Stats;
 using Script.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Script.Entity.Player
 {
     public class Player : Entity
     {
-        [Header("Attack info")]
-        public Vector2[] attackMovement;
-        public float attackSpeed = 1f;
-        public float comboWindow = 1f;
-
-        [Header("Move info")]
+        
         [HideInInspector] public float moveSpeed;
         [HideInInspector] public Vector2 jumpForce;
-        public float defaultMoveSpeed = 3.80f;
-        public Vector2 defaultJumpForce = new (4, 8);
-
-        [Header("Dash info")]
         [HideInInspector] public float dashSpeed;
-        public float defaultDashSpeed = 40;
-        public float dashDuration = .2f;
         public float DashDir { get; private set; }
-
-        [Header("Hit info")]
-        public float hitDuration = 0.2f;
-
-        [Header("Counter Attack info")]
-        public float counterAttackDuration = 0.1f;
-        public float swordReturnForce = 7f;
-
+        public PlayerConfig playerConfig;
         public GameObject totalMenu;
 
         public SkillManager Skill {  get; private set; }
@@ -69,9 +52,9 @@ namespace Script.Entity.Player
         {
             base.Start();
             
-            moveSpeed = defaultMoveSpeed;
-            jumpForce = defaultJumpForce;
-            dashSpeed = defaultDashSpeed;
+            moveSpeed = playerConfig.defaultMoveSpeed;
+            jumpForce = playerConfig.defaultJumpForce;
+            dashSpeed = playerConfig.defaultDashSpeed;
 
             IdleState = new PlayerIdleState(this, Fsm, "Idle");
             MoveState = new PlayerMoveState(this, Fsm, "Move");
@@ -101,6 +84,9 @@ namespace Script.Entity.Player
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
+                totalMenu.GetComponent<UI.UI>()?.skillTooltip.HideTooltip();
+                totalMenu.GetComponent<UI.UI>()?.tooltip.HideTooltip();
+                totalMenu.GetComponent<UI.UI>()?.craftTooltip.HideTooltip();
                 totalMenu.GetComponent<UI.UI>()?.ShowOrHideUI();
             }
             
@@ -128,9 +114,9 @@ namespace Script.Entity.Player
             
                 yield return new WaitForSeconds(duration);
             
-                moveSpeed = defaultMoveSpeed;
-                jumpForce = defaultJumpForce;
-                dashSpeed = defaultDashSpeed;
+                moveSpeed = playerConfig.defaultMoveSpeed;
+                jumpForce = playerConfig.defaultJumpForce;
+                dashSpeed = playerConfig.defaultDashSpeed;
                 Anim.speed = 1;
             }
         }

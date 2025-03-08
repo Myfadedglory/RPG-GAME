@@ -5,7 +5,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerIdleState : PlayerGroundedState
     {
-        public PlayerIdleState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerIdleState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
         

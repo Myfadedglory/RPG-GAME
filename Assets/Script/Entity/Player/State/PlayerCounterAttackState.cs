@@ -7,7 +7,7 @@ namespace Script.Entity.Player.State
     {
         private static readonly int CounterSuccess = Animator.StringToHash("CounterSuccess");
 
-        public PlayerCounterAttackState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerCounterAttackState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 
@@ -15,7 +15,7 @@ namespace Script.Entity.Player.State
         {
             base.Enter(lastState);
 
-            StateTimer = Entity.counterAttackDuration;
+            StateTimer = Entity.playerConfig.counterAttackDuration;
 
             Entity.Anim.SetBool(CounterSuccess, false);
         }

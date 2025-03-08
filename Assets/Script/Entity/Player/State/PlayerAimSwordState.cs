@@ -5,7 +5,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerAimSwordState : PlayerState
     {
-        public PlayerAimSwordState(Script.Entity.Player.Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        public PlayerAimSwordState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
         {
         }
 

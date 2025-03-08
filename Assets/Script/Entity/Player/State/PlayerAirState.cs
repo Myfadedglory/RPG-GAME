@@ -4,7 +4,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerAirState : PlayerState
     {
-        public PlayerAirState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerAirState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
         

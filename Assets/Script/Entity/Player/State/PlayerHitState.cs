@@ -4,7 +4,7 @@ namespace Script.Entity.Player.State
 {
     public class PlayerHitState : PlayerState
     {
-        public PlayerHitState(Script.Entity.Player.Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
+        public PlayerHitState(Player entity, Fsm fsm, string animBoolName) : base(entity, fsm, animBoolName)
         {
         }
 
@@ -12,7 +12,7 @@ namespace Script.Entity.Player.State
         {
             base.Enter(lastState);
 
-            StateTimer = Entity.hitDuration;
+            StateTimer = Entity.playerConfig.hitDuration;
         }
 
         public override void Exit(IState newState)

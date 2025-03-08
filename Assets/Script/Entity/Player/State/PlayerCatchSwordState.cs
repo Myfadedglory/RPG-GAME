@@ -7,7 +7,7 @@ namespace Script.Entity.Player.State
     {
         private Transform sword;
 
-        public PlayerCatchSwordState(Script.Entity.Player.Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
+        public PlayerCatchSwordState(Player player, Fsm fsm, string animBoolName) : base(player, fsm, animBoolName)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Script.Entity.Player.State
             else if (sword.position.x > Entity.transform.position.x && Entity.FacingDir == -1)
                 Entity.Flip();
 
-            Entity.SetVelocity(Entity.swordReturnForce * -Entity.FacingDir ,Rb.velocity.y  , false);
+            Entity.SetVelocity(Entity.playerConfig.swordReturnForce * -Entity.FacingDir ,Rb.velocity.y  , false);
         }
 
         public override void Update()
