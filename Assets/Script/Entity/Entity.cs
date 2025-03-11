@@ -19,11 +19,6 @@ namespace Script.Entity
         [SerializeField] protected Vector2 knockbackDirection;
         [SerializeField] protected float knockbackDuration = 0.07f;
         private bool isKnocked;
-
-        public Vector2 right = new(1,0);
-        public Vector2 left = new(-1,0);
-        public Vector2 up = new(0,1);
-        public Vector2 down = new(0,-1);
         
         public readonly Vector2 Right = Vector2.right;
         public readonly Vector2 Left = Vector2.left;

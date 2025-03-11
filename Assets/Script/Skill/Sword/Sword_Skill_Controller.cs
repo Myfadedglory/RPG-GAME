@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,8 @@ namespace Script.Skill.Sword
     public class SwordSkillController : MonoBehaviour
     {
         private static readonly int Rotation = Animator.StringToHash("Rotation");
-        [SerializeField] private float returnSpeed = 12f;
-        private const float CatchSwordDistance = 1f;
         private SwordType swordType;
+        private SwordConfig config;
 
         private Animator anim;
         private Rigidbody2D rb;
@@ -18,26 +18,21 @@ namespace Script.Skill.Sword
         private bool canRotate = true;
         private bool isReturning;
         private int swordAttackDir;
-        private float freezeDuration;
-
-        private float maxBounceDistance;
-        private float bounceSpeed;
-        private List<Transform> enemyTarget;
+       
+        
+        
+        
+        private readonly List<Transform> enemyTarget = new ();
         private bool isBouncing;
         private int bounceAmount;
         private int targetIndex = 0;
 
         private int peirceAmount;
-
-        private float maxSpinDistance;
-        private float spinDuration;
+        
         private float spinTimer;
         private bool wasStopped;
         private bool isSpinning;
-        private float spinMoveSpeed;
-
-        private float hitDistance;
-        private float hitCoolDown;
+        
         private float hitTimer;
 
         private void Awake()
@@ -48,23 +43,44 @@ namespace Script.Skill.Sword
         }
 
         public void SetUpSword(
-            SwordType _swordType,
-            Vector2 _dir ,
-            float _gravityScale ,
-            float _hitDistance,
-            float _freezeDuration,
-            Entity.Player.Player _player)
+            SwordType swordType,
+            Vector2 dir ,
+            float gravityScale ,
+            SwordConfig config,
+            Entity.Player.Player player)
         {
-            swordType = _swordType;
-            player = _player;
+            this.swordType = swordType;
+            this.player = player;
+            this.config = config;
 
-            hitDistance = _hitDistance;
-            freezeDuration = _freezeDuration;
-
-            rb.velocity = _dir;
-            rb.gravityScale = _gravityScale;
+            rb.velocity = dir;
+            rb.gravityScale = gravityScale;
 
             anim.SetBool(Rotation, peirceAmount <= 0);
+            
+            InitializeSword();
+        }
+
+        private void InitializeSword()
+        {
+            switch (swordType)
+            {
+                case SwordType.Bounce:
+                    isBouncing = true;
+                    bounceAmount = config.bounceAmount;
+                    break;
+                case SwordType.Spin:
+                    isSpinning = true;
+                    break;
+                case SwordType.Pierce:
+                    peirceAmount = config.pierceAmount;
+                    canRotate = false;
+                    break;
+                case SwordType.Regular:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void Update()
@@ -94,20 +110,6 @@ namespace Script.Skill.Sword
 
         #region Bounce
 
-        public void BounceAttribute(
-            bool _isBouncing ,
-            int _bounceAmount ,
-            float _maxBounceDistance ,
-            float _bounceSpeed
-        )
-        {
-            isBouncing= _isBouncing;
-            bounceAmount = _bounceAmount;
-            maxBounceDistance = _maxBounceDistance;
-            bounceSpeed = _bounceSpeed;
-            enemyTarget = new List<Transform>();
-        }
-
         private void BounceLogic()
         {
             if (!isBouncing || enemyTarget.Count <= 0) return;
@@ -119,13 +121,13 @@ namespace Script.Skill.Sword
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 targetPosition,
-                bounceSpeed * Time.deltaTime);
+                config.bounceSpeed * Time.deltaTime);
 
-            if (!(Vector2.Distance(transform.position, targetPosition) < hitDistance)) return;
+            if (!(Vector2.Distance(transform.position, targetPosition) < config.rotationSwordHitDistance)) return;
             
             var enemy = enemyTarget[targetIndex].GetComponent<Entity.Enemy.Enemy>();
             enemy.Damage(player.Stats, new Vector2(swordAttackDir,0));
-            enemy.FreezeTimeFor(freezeDuration);
+            enemy.FreezeTimeFor(config.freezeDuration);
 
             bounceAmount--;
 
@@ -160,9 +162,9 @@ namespace Script.Skill.Sword
 
         private void SetUpBounceTarget(Collider2D collision)
         {
-            if (collision.GetComponent<Entity.Enemy.Enemy>() == null || (!isBouncing || enemyTarget.Count > 0)) return;
+            if (collision.GetComponent<Entity.Enemy.Enemy>() == null || !isBouncing || enemyTarget.Count > 0) return;
             
-            var colliders = Physics2D.OverlapCircleAll(transform.position, maxBounceDistance);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, config.maxBounceDistance);
 
             foreach (var hit in colliders)
             {
@@ -198,11 +200,6 @@ namespace Script.Skill.Sword
 
         #region Pierce
 
-        public void PeirceAttribute(int _peirceAmount)
-        {
-            peirceAmount = _peirceAmount;
-        }
-
         private void HandlePierce(Collider2D collision)
         {
             AttackEnemy(collision);
@@ -224,27 +221,11 @@ namespace Script.Skill.Sword
 
         #region Spin
 
-        public void SpinAttribute(
-            bool _isSpinning ,
-            float _maxSpinDistance , 
-            float _spinDuration , 
-            float _hitCoolDown , 
-            float _spinMoveSpeed
-        )
-        {
-            isSpinning = _isSpinning;
-            maxSpinDistance = _maxSpinDistance;
-            spinDuration = _spinDuration;
-            hitCoolDown = _hitCoolDown;
-            spinMoveSpeed = _spinMoveSpeed;
-        }
-
-
         private void SpinLogic()
         {
             if (!isSpinning) return;
             
-            if (Vector2.Distance(transform.position, player.transform.position) > maxSpinDistance && !wasStopped)
+            if (Vector2.Distance(transform.position, player.transform.position) > config.maxSpinDistance && !wasStopped)
             {
                 StopWhenSpinning();
             }
@@ -256,7 +237,7 @@ namespace Script.Skill.Sword
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 new Vector2(transform.position.x + swordAttackDir, transform.position.y),
-                spinMoveSpeed * Time.deltaTime);
+                config.spinMoveSpeed * Time.deltaTime);
 
             if (spinTimer < 0)
             {
@@ -267,9 +248,9 @@ namespace Script.Skill.Sword
             hitTimer -= Time.deltaTime;
 
             if (hitTimer < 0)
-                hitTimer = hitCoolDown;
+                hitTimer = config.hitCoolDown;
 
-            var colliders = Physics2D.OverlapCircleAll(transform.position, hitDistance);
+            var colliders = Physics2D.OverlapCircleAll(transform.position, config.rotationSwordHitDistance);
 
             foreach (var hit in colliders)
             {
@@ -302,7 +283,7 @@ namespace Script.Skill.Sword
 
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
 
-            spinTimer = spinDuration;
+            spinTimer = config.spinDuration;
         }
 
         #endregion
@@ -325,9 +306,9 @@ namespace Script.Skill.Sword
                 transform.position = Vector2.MoveTowards(
                     transform.position,
                     player.transform.position,
-                    returnSpeed * Time.deltaTime);
+                    config.returnSpeed * Time.deltaTime);
 
-                if (Vector2.Distance(transform.position, player.transform.position) < CatchSwordDistance)
+                if (Vector2.Distance(transform.position, player.transform.position) < config.catchSwordDistance)
                     player.CatchTheSword();
             }
         }
@@ -367,7 +348,7 @@ namespace Script.Skill.Sword
 
             enemy.Damage(player.Stats,new Vector2(swordAttackDir, 0));
             
-            enemy.FreezeTimeFor(freezeDuration);
+            enemy.FreezeTimeFor(config.freezeDuration);
         }
 
         private void PhysicAttribute()

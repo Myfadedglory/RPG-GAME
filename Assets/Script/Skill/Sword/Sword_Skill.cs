@@ -1,46 +1,17 @@
-using System;
 using UnityEngine;
 
 namespace Script.Skill.Sword
 {
     public class SwordSkill : Skill
     {
-        [Header("Skill info")]
-        [SerializeField] private GameObject swordPrefab;
-        [SerializeField] private Vector2 launchForce;
+        [SerializeField] private SwordConfig swordConfig;
         [SerializeField] private SwordType swordType = SwordType.Regular;
+        
+        [Header("Skill Condition")]
         [SerializeField] private SkillCondition throwSword;
-
-        [Header("Regular Sword info")]
-        [SerializeField] private float regularGravity = 3.5f;
-        [SerializeField] private float rotationSwordHitDistance = 0.15f;
-        [SerializeField] private float freezeDuration = 1f;
-
-        [Header("Bounce Sword info")]
-        [SerializeField] private int bounceAmount = 4;
-        [SerializeField] private float bounceGravity = 3.5f;
-        [SerializeField] private float maxBounceDistance = 20;
-        [SerializeField] private float bounceSpeed = 20;
         [SerializeField] private SkillCondition throwBounceSword;
-
-        [Header("Pierce Sword info")]
-        [SerializeField] private int pierceAmount = 2;
-        [SerializeField] private float pierceGravity = 0.1f;
         [SerializeField] private SkillCondition throwPierceSword;
-
-        [Header("Spin Sword info")]
-        [SerializeField] private float maxSpinDistance = 7f;
-        [SerializeField] private float spinDuration = 1.5f;
-        [SerializeField] private float spinGravity = 0.1f;
-        [SerializeField] private float spinMoveSpeed = 2f;
-        [SerializeField] private float hitCoolDown = 0.35f;
         [SerializeField] private SkillCondition throwSpinSword;
-
-        [Header("Aim dots")]
-        [SerializeField] private int numberOfDots;
-        [SerializeField] private float spaceBetweenDots;
-        [SerializeField] private GameObject dotPrefab;
-        [SerializeField] private Transform dotsParent;
 
         private GameObject[] dots;
         private float swordGravity;
@@ -53,36 +24,33 @@ namespace Script.Skill.Sword
             SetUpGravity();
         }
 
-        public override bool CanUseSkill()
-        {
-            return throwSword.GetSkillCondition() && base.CanUseSkill();
-        }
-
         private void SetUpGravity()
         {
             swordGravity = swordType switch
             {
-                SwordType.Bounce => bounceGravity,
-                SwordType.Pierce => pierceGravity,
-                SwordType.Spin => spinGravity,
-                _ => regularGravity
+                SwordType.Bounce => swordConfig.bounceGravity,
+                SwordType.Pierce => swordConfig.pierceGravity,
+                SwordType.Spin => swordConfig.spinGravity,
+                _ => swordConfig.regularGravity
             };
         }
 
         protected override void Update()
         {
+            base.Update();
+            
             SetUpSword();
 
-            if (Input.GetKeyUp(KeyCode.Mouse1) && throwSword.GetSkillCondition())
+            if (Input.GetKeyUp(KeyCode.Mouse1))
                 finalDir = new Vector2(
-                    AimDirection().normalized.x * launchForce.x,
-                    AimDirection().normalized.y * launchForce.y
+                    AimDirection().normalized.x * swordConfig.launchForce.x,
+                    AimDirection().normalized.y * swordConfig.launchForce.y
                 );
 
-            if (Input.GetKey(KeyCode.Mouse1) && throwSword.GetSkillCondition())
+            if (Input.GetKey(KeyCode.Mouse1))
             {
                 for (var i = 0; i < dots.Length; i++)
-                    dots[i].transform.position = DotsPosition(i * spaceBetweenDots);
+                    dots[i].transform.position = DotsPosition(i * swordConfig.spaceBetweenDots);
             }
         }
 
@@ -102,37 +70,15 @@ namespace Script.Skill.Sword
 
         public void CreateSword()
         {
-            var newSword = Instantiate(swordPrefab, Player.transform.position, transform.rotation);
+            var newSword = Instantiate(swordConfig.swordPrefab, Player.transform.position, transform.rotation);
 
             var newSwordScript = newSword.GetComponent<SwordSkillController>();
 
-            SwitchSword(newSwordScript);
-
-            newSwordScript.SetUpSword(swordType, finalDir, swordGravity, rotationSwordHitDistance, freezeDuration, Player);
+            newSwordScript.SetUpSword(swordType, finalDir, swordGravity, swordConfig, Player);
 
             Player.AssignNewSword(newSword);
 
             ActiveDots(false);
-        }
-
-        private void SwitchSword(SwordSkillController newSwordScript)
-        {
-            switch (swordType)
-            {
-                case SwordType.Bounce:
-                    newSwordScript.BounceAttribute(true, bounceAmount, maxBounceDistance, bounceSpeed);
-                    break;
-                case SwordType.Pierce:
-                    newSwordScript.PeirceAttribute(pierceAmount);
-                    break;
-                case SwordType.Spin:
-                    newSwordScript.SpinAttribute(true, maxSpinDistance, spinDuration, hitCoolDown, spinMoveSpeed);
-                    break;
-                case SwordType.Regular:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         #region Aim
@@ -160,11 +106,11 @@ namespace Script.Skill.Sword
 
         private void GenerateDots()
         {
-            dots = new GameObject[numberOfDots];
+            dots = new GameObject[swordConfig.numberOfDots];
 
-            for (var i = 0; i < numberOfDots; i++)
+            for (var i = 0; i < swordConfig.numberOfDots; i++)
             {
-                dots[i] = Instantiate(dotPrefab, Player.transform.position, Quaternion.identity, dotsParent);
+                dots[i] = Instantiate(swordConfig.dotPrefab, Player.transform.position, Quaternion.identity, swordConfig.dotsParent);
                 dots[i].SetActive(false);
             }
         }
@@ -172,8 +118,8 @@ namespace Script.Skill.Sword
         private Vector2 DotsPosition(float t)
         {
             var position = (Vector2)Player.transform.position + new Vector2(
-                AimDirection().normalized.x * launchForce.x,
-                AimDirection().normalized.y * launchForce.y) * t + Physics2D.gravity * (0.5f * swordGravity * (t * t));
+                AimDirection().normalized.x * swordConfig.launchForce.x,
+                AimDirection().normalized.y * swordConfig.launchForce.y) * t + Physics2D.gravity * (0.5f * swordGravity * (t * t));
 
             return position;
         }

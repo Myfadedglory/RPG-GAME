@@ -10,10 +10,10 @@ namespace Script.Item.Craft
     public class Craft : MonoBehaviour
     {
         [Header("Equipment Data Lists")]
-        [SerializeField] private List<EquipmentData> weapons = new List<EquipmentData>();
-        [SerializeField] private List<EquipmentData> armors = new List<EquipmentData>();
-        [SerializeField] private List<EquipmentData> amulets = new List<EquipmentData>();
-        [SerializeField] private List<EquipmentData> flasks = new List<EquipmentData>();
+        [SerializeField] private List<EquipmentData> weapons = new ();
+        [SerializeField] private List<EquipmentData> armors = new ();
+        [SerializeField] private List<EquipmentData> amulets = new ();
+        [SerializeField] private List<EquipmentData> flasks = new ();
 
         [Header("UI References")]
         [SerializeField] private GameObject itemPrefab; // 物品预制体
