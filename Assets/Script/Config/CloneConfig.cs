@@ -1,7 +1,8 @@
 ﻿using System;
+using Script.Skill;
 using UnityEngine;
 
-namespace Script.Skill.Clone
+namespace Script.Config
 {
     [Serializable]
     public class CloneConfig

@@ -1,7 +1,8 @@
 ﻿using System;
+using Script.Skill;
 using UnityEngine;
 
-namespace Script.Skill.Sword
+namespace Script.Config
 {
     [Serializable]
     public class SwordConfig
@@ -40,5 +41,11 @@ namespace Script.Skill.Sword
         public float spaceBetweenDots = 1;
         public GameObject dotPrefab;
         public Transform dotsParent;
+        
+        [Header("Skill Condition")]
+        public SkillCondition throwSword;
+        public SkillCondition throwBounceSword;
+        public SkillCondition throwPierceSword;
+        public SkillCondition throwSpinSword;
     }
 }

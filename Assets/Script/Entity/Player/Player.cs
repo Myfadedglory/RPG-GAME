@@ -1,4 +1,5 @@
 using System.Collections;
+using Script.Config;
 using Script.Entity.Player.State;
 using Script.Skill;
 using Script.Stats;
@@ -51,10 +52,11 @@ namespace Script.Entity.Player
         protected override void Start()
         {
             base.Start();
+            Skill = SkillManager.instance; 
             
             moveSpeed = playerConfig.defaultMoveSpeed;
             jumpForce = playerConfig.defaultJumpForce;
-            dashSpeed = playerConfig.defaultDashSpeed;
+            dashSpeed = Skill.Dash.daskConfig.defaultDashSpeed;
 
             IdleState = new PlayerIdleState(this, Fsm, "Idle");
             MoveState = new PlayerMoveState(this, Fsm, "Move");
@@ -70,8 +72,6 @@ namespace Script.Entity.Player
             AimSword = new PlayerAimSwordState(this, Fsm, "AimSword");
             CatchSword = new PlayerCatchSwordState(this, Fsm, "CatchSword");
             BlackHole = new PlayerBlackholeState(this, Fsm, "Jump");
-
-            Skill = SkillManager.instance; 
 
             Fsm.SwitchState(IdleState);
         }
@@ -116,7 +116,7 @@ namespace Script.Entity.Player
             
                 moveSpeed = playerConfig.defaultMoveSpeed;
                 jumpForce = playerConfig.defaultJumpForce;
-                dashSpeed = playerConfig.defaultDashSpeed;
+                dashSpeed = Skill.Dash.daskConfig.defaultDashSpeed;
                 Anim.speed = 1;
             }
         }

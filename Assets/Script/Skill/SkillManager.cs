@@ -1,6 +1,7 @@
 using Script.Skill.BlackHole;
 using Script.Skill.Clone;
 using Script.Skill.Crystal;
+using Script.Skill.Dash;
 using Script.Skill.Sword;
 using UnityEngine;
 

@@ -1,8 +1,8 @@
 ﻿using System;
+using Script.Skill;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Script.Skill.BlackHole
+namespace Script.Config
 {
     [Serializable]
     public class BlackholeConfig
@@ -15,7 +15,8 @@ namespace Script.Skill.BlackHole
         public float duration = 20;
         public float growSpeed = 1f;
         public float shrinkSpeed = 3f;
-
-        [Header("Skill Condition")] public SkillCondition blackhole;
+        
+        [Header("Skill Condition")] 
+        public SkillCondition blackhole;
     }
 }

@@ -14,7 +14,7 @@ namespace Script.Entity.Player.State
 
             Entity.Skill.Dash.CreateCloneOnDashStart();
 
-            StateTimer = Entity.playerConfig.dashDuration;
+            StateTimer = Entity.Skill.Dash.daskConfig.dashDuration;
         }
 
         public override void Exit(IState newState)
@@ -33,7 +33,7 @@ namespace Script.Entity.Player.State
             if(!Entity.IsGroundDetected() && Entity.IsWallDetected())
                 Fsm.SwitchState(Entity.WallSlide);
 
-            Entity.SetVelocity(Entity.dashSpeed * Entity.DashDir , 0 );
+            Entity.SetVelocity(Entity.Skill.Dash.daskConfig.defaultDashSpeed * Entity.DashDir , 0 );
 
             if (StateTimer < 0) 
                 Fsm.SwitchState(Entity.IdleState);

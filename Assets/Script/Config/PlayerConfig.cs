@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Script.Entity.Player
+namespace Script.Config
 {
     [Serializable]
     public class PlayerConfig
@@ -14,10 +14,6 @@ namespace Script.Entity.Player
         [Header("Move info")]
         public float defaultMoveSpeed = 3.80f;
         public Vector2 defaultJumpForce = new (4, 8);
-
-        [Header("Dash info")]
-        public float defaultDashSpeed = 40;
-        public float dashDuration = .2f;
 
         [Header("Hit info")]
         public float hitDuration = 0.2f;

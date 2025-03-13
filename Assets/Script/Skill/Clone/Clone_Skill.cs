@@ -1,3 +1,4 @@
+using Script.Config;
 using UnityEngine;
 
 namespace Script.Skill.Clone

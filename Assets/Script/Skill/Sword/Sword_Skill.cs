@@ -1,3 +1,4 @@
+using Script.Config;
 using UnityEngine;
 
 namespace Script.Skill.Sword
@@ -6,12 +7,6 @@ namespace Script.Skill.Sword
     {
         [SerializeField] private SwordConfig swordConfig;
         [SerializeField] private SwordType swordType = SwordType.Regular;
-        
-        [Header("Skill Condition")]
-        [SerializeField] private SkillCondition throwSword;
-        [SerializeField] private SkillCondition throwBounceSword;
-        [SerializeField] private SkillCondition throwPierceSword;
-        [SerializeField] private SkillCondition throwSpinSword;
 
         private GameObject[] dots;
         private float swordGravity;
@@ -22,6 +17,11 @@ namespace Script.Skill.Sword
             base.Start();
             GenerateDots();
             SetUpGravity();
+        }
+
+        public override bool CanUseSkill()
+        {
+            return swordConfig.throwSword.GetSkillCondition() && base.CanUseSkill();
         }
 
         private void SetUpGravity()
@@ -56,11 +56,11 @@ namespace Script.Skill.Sword
 
         private void SetUpSword()
         {
-            if (throwBounceSword.GetSkillCondition())
+            if (swordConfig.throwBounceSword.GetSkillCondition())
                 swordType = SwordType.Bounce;
-            else if (throwPierceSword.GetSkillCondition())
+            else if (swordConfig.throwPierceSword.GetSkillCondition())
                 swordType = SwordType.Pierce;
-            else if (throwSpinSword.GetSkillCondition())
+            else if (swordConfig.throwSpinSword.GetSkillCondition())
                 swordType = SwordType.Spin;
             else
                 swordType = SwordType.Regular;

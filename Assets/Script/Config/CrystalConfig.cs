@@ -1,7 +1,8 @@
 ﻿using System;
+using Script.Skill;
 using UnityEngine;
 
-namespace Script.Skill.Crystal
+namespace Script.Config
 {
     [Serializable]
     public class CrystalConfig

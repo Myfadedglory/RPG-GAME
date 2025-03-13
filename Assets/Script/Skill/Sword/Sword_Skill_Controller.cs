@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Script.Config;
 using Script.Utilities;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Script.Skill.Sword
         private CircleCollider2D cd;
         private Entity.Player.Player player;
 
-        private bool canRotate = false;
+        private bool canRotate = true;
         private bool isReturning;
         private int swordAttackDir;
 
@@ -37,7 +38,7 @@ namespace Script.Skill.Sword
         private int currentPathIndex;
         [SerializeField] private float gridSize = 1f; // 网格大小
         private float lastPathUpdateTime;
-        [SerializeField] private float pathUpdateInterval = 0.5f; // 每0.5秒更新一次路径
+        [SerializeField] private float pathUpdateInterval = 0.2f;
 
         private void Awake()
         {
@@ -60,7 +61,7 @@ namespace Script.Skill.Sword
             rb.velocity = dir;
             rb.gravityScale = gravityScale;
             
-            anim.SetBool(Rotation, peirceAmount <= 0);
+            anim.SetBool(Rotation, canRotate);
 
             InitializeSword();
         }
@@ -347,7 +348,7 @@ namespace Script.Skill.Sword
                 // 移动到下一个路径点
                 var targetPosition = returnPath[currentPathIndex];
                 transform.position = Vector2.MoveTowards(transform.position, targetPosition, config.returnSpeed * Time.deltaTime);
-                transform.right =new Vector2( -rb.velocity.x, -rb.velocity.y);    
+                //transform.right =new Vector2( -rb.velocity.x, -rb.velocity.y);    
                 
                 // 更新旋转方向
                 var dir = (targetPosition - (Vector2)transform.position).normalized;

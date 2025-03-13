@@ -1,4 +1,5 @@
 using System;
+using Script.Config;
 using Script.Entity.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;

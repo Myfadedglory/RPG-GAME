@@ -5,7 +5,6 @@ namespace Script.Utilities
 {
     public static class AStar
     {
-        // 节点类，表示网格中的一个点
         private class Node
         {
             public readonly Vector2Int Position; // 网格坐标

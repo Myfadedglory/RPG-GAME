@@ -1,9 +1,13 @@
+using Script.Config;
+using Script.Skill.Clone;
 using UnityEngine;
 
-namespace Script.Skill.Clone
+namespace Script.Skill.Dash
 {
     public class DashSkill : Skill
     {
+        public DaskConfig daskConfig;
+        
         [SerializeField] private SkillCondition dash;
         [SerializeField] private SkillCondition dashStartMirage;
         [SerializeField] private SkillCondition dashArriveMirage;

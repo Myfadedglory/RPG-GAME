@@ -1,3 +1,4 @@
+using Script.Config;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;

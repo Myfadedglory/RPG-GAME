@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Script.Config;
 using UnityEngine;
 
 namespace Script.Skill.Crystal
