@@ -9,6 +9,7 @@ namespace Script.Skill.Sword
         [Header("Skill info")]
         public GameObject swordPrefab;
         public Vector2 launchForce;
+        public LayerMask whatIsObstacle;
 
         [Header("Regular Sword info")]
         public float regularGravity = 3.5f;

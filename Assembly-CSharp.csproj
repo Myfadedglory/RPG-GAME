@@ -141,6 +141,7 @@
     <Compile Include="Assets\Script\Skill\Sword\Sword_Skill.cs" />
     <Compile Include="Assets\Script\ParallaxBackground.cs" />
     <Compile Include="Assets\Script\Element\effect\ShockedEffect.cs" />
+    <Compile Include="Assets\Script\Utilities\AStar.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
